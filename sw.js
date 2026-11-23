@@ -1,5 +1,5 @@
 // Service Worker for ReadPick (리드픽) PWA
-const CACHE_NAME = 'readpick-v4';
+const CACHE_NAME = 'readpick-v5';
 const STATIC_ASSETS = [
   './',
   './index.html',
