@@ -28,9 +28,10 @@
       --book-paper: #FBF9F5;
     }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
+      font-size: 15px; /* 기본 폰트 크기 2pt 상향 조정 */
     }
     .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -40,7 +41,7 @@
       scrollbar-width: none;
     }
     .phone-container {
-      max-width: 420px;
+      max-width: 440px;
       margin: 0 auto;
       min-height: 100vh;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -56,29 +57,32 @@
       border: none !important;
       border-radius: 0 !important;
     }
+    /* Real Book Cover Styling with 3D spine and depth */
     .book-cover {
       position: relative;
       border-radius: 6px 10px 10px 6px;
       overflow: hidden;
-      box-shadow: 4px 6px 14px rgba(0,0,0,0.18), 1px 2px 4px rgba(0,0,0,0.12);
+      box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.22), 0 2px 6px -1px rgba(0, 0, 0, 0.12);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background-color: #E2E8F0;
     }
-    .book-cover::before {
+    .book-cover::after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       bottom: 0;
-      width: 5px;
-      background: linear-gradient(to right, rgba(0,0,0,0.35), rgba(255,255,255,0.2) 50%, rgba(0,0,0,0.2));
-      z-index: 5;
+      width: 6px;
+      background: linear-gradient(to right, rgba(0,0,0,0.4), rgba(255,255,255,0.25) 50%, rgba(0,0,0,0.25));
+      pointer-events: none;
+      z-index: 10;
     }
     .book-cover:active {
       transform: scale(0.97);
     }
     .modal-backdrop {
-      background-color: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
+      background-color: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
       transition: opacity 0.25s ease-out;
     }
     .bottom-sheet {
@@ -89,103 +93,103 @@
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col justify-center items-center p-0 md:py-6">
 
   <!-- Desktop Floating Control: Frame Toggle & Quick Guide -->
-  <div id="desktopFrameBar" class="hidden md:flex items-center justify-between w-full max-w-[420px] mb-3 px-2 text-xs text-slate-600">
-    <div class="flex items-center gap-1.5 font-medium">
-      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-      <span>모바일 스마트폰 뷰포트 시뮬레이션</span>
+  <div id="desktopFrameBar" class="hidden md:flex items-center justify-between w-full max-w-[440px] mb-3 px-2 text-sm text-slate-600">
+    <div class="flex items-center gap-1.5 font-semibold">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span>모바일 스마트폰 뷰포트</span>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="installPWA()" class="px-2.5 py-1 bg-rose-50 border border-rose-200 text-rose-600 rounded-lg shadow-xs hover:bg-rose-100 transition font-bold flex items-center gap-1">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      <button onclick="installPWA()" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-lg shadow-xs hover:bg-rose-100 transition font-bold flex items-center gap-1.5 text-xs">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
         <span>앱 설치</span>
       </button>
-      <button id="toggleFrameBtn" onclick="toggleScreenMode()" class="px-2.5 py-1 bg-white border border-slate-200 rounded-lg shadow-sm hover:bg-slate-50 transition flex items-center gap-1">
-        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+      <button id="toggleFrameBtn" onclick="toggleScreenMode()" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg shadow-sm hover:bg-slate-50 transition flex items-center gap-1.5 text-xs font-semibold">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
         <span id="frameToggleText">전체 화면으로 보기</span>
       </button>
     </div>
   </div>
 
   <!-- Mobile Smartphone Shell Container -->
-  <div id="phoneShell" class="phone-container md:rounded-[40px] md:border-[8px] md:border-slate-800 md:shadow-2xl">
+  <div id="phoneShell" class="phone-container md:rounded-[44px] md:border-[10px] md:border-slate-800 md:shadow-2xl">
     
     <!-- PWA Install Prompt Banner (Visible on mobile/browser when installable) -->
-    <div id="pwaInstallBanner" class="hidden bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-700 text-white px-3.5 py-2.5 flex items-center justify-between text-xs sticky top-0 z-50 shadow-md">
-      <div class="flex items-center gap-2.5">
-        <img src="./icon-192.png" alt="ReadPick Icon" class="w-7 h-7 rounded-lg shadow-sm border border-white/20">
+    <div id="pwaInstallBanner" class="hidden bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-700 text-white px-4 py-3 flex items-center justify-between text-sm sticky top-0 z-50 shadow-md">
+      <div class="flex items-center gap-3">
+        <img src="./icon-192.png" alt="ReadPick Icon" class="w-8 h-8 rounded-xl shadow-sm border border-white/20">
         <div>
-          <div class="font-extrabold leading-tight">리드픽 앱 설치하기</div>
-          <div class="text-[10px] text-pink-100">홈 화면에 추가해 앱처럼 바로 실행하세요</div>
+          <div class="font-extrabold leading-tight text-sm">리드픽 앱 설치하기</div>
+          <div class="text-xs text-pink-100">홈 화면에 추가해 앱처럼 바로 실행하세요</div>
         </div>
       </div>
-      <div class="flex items-center gap-1.5">
-        <button onclick="installPWA()" class="px-2.5 py-1 bg-white text-slate-900 font-bold rounded-lg text-xs shadow-sm hover:bg-slate-100 transition active:scale-95">설치</button>
+      <div class="flex items-center gap-2">
+        <button onclick="installPWA()" class="px-3 py-1.5 bg-white text-slate-900 font-extrabold rounded-lg text-xs shadow-sm hover:bg-slate-100 transition active:scale-95">설치</button>
         <button onclick="dismissInstallBanner()" class="p-1 text-white/80 hover:text-white" title="닫기">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
     </div>
 
     <!-- Phone Top Status Bar (Clock, Island & Battery) -->
     <div id="phoneStatusBar" class="bg-white/95 backdrop-blur sticky top-0 z-40 px-5 pt-3 pb-2 flex items-center justify-between text-xs font-semibold text-slate-800 border-b border-slate-100">
-      <span id="currentTime">09:41</span>
+      <span id="currentTime" class="font-bold">09:41</span>
       <!-- Dynamic Island Mockup -->
-      <div class="w-20 h-4 bg-slate-900 rounded-full mx-auto hidden md:block"></div>
-      <div class="flex items-center gap-1.5 text-slate-700">
-        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.37 19.64 10.64 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
-        <span class="text-[10px]">5G</span>
+      <div class="w-24 h-4 bg-slate-900 rounded-full mx-auto hidden md:block"></div>
+      <div class="flex items-center gap-2 text-slate-700">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.37 19.64 10.64 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+        <span class="text-xs font-bold">5G</span>
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 4h-3V2h-4v2H7v18h10V4z"/></svg>
       </div>
     </div>
 
     <!-- App Top Bar (Brand, Search & Filter & PWA Button) -->
-    <header class="bg-white px-4 py-3 sticky top-[37px] z-30 border-b border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+    <header class="bg-white px-4 py-3 sticky top-[37px] z-30 border-b border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
       <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-500 via-pink-500 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-pink-200">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-500 via-pink-500 to-emerald-600 flex items-center justify-center text-white font-black text-base shadow-md shadow-pink-200">
             RP
           </div>
           <div>
-            <h1 class="font-extrabold text-base tracking-tight text-slate-900 leading-none">리드픽 <span class="text-xs font-semibold text-rose-500">ReadPick</span></h1>
-            <p class="text-[10px] text-slate-400 mt-0.5 font-medium">왓챠피디아 × 교보문고 통합 큐레이션</p>
+            <h1 class="font-black text-lg tracking-tight text-slate-900 leading-none">리드픽 <span class="text-xs font-bold text-rose-500">ReadPick</span></h1>
+            <p class="text-xs text-slate-500 mt-0.5 font-medium">교보문고 × 왓챠피디아 더블 체크 큐레이션</p>
           </div>
         </div>
         <div class="flex items-center gap-1.5">
-          <button onclick="installPWA()" id="headerInstallBtn" class="px-2 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200 text-[10px] font-bold flex items-center gap-1 hover:bg-rose-100 transition" title="앱으로 설치">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <button onclick="installPWA()" id="headerInstallBtn" class="px-2.5 py-1.5 rounded-full bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold flex items-center gap-1 hover:bg-rose-100 transition" title="앱으로 설치">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             <span>앱 설치</span>
           </button>
-          <button onclick="openSearchModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition" title="도서 검색">
+          <button onclick="openSearchModal()" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition" title="도서 검색">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </button>
-          <button onclick="toggleQuickFilter()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition" title="평점 필터">
+          <button onclick="toggleQuickFilter()" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition" title="평점 필터">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
           </button>
         </div>
       </div>
 
       <!-- Quick Filter Dropdown Bar (Collapsible) -->
-      <div id="quickFilterPanel" class="hidden mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-        <span class="text-slate-500 font-medium">최소 별점 필터:</span>
+      <div id="quickFilterPanel" class="hidden mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+        <span class="text-slate-600 font-bold">빠른 평점 필터:</span>
         <div class="flex items-center gap-1.5">
-          <button onclick="applyScoreFilter('all')" class="score-filter-btn px-2 py-0.5 rounded-full text-[11px] bg-slate-800 text-white font-medium" data-filter="all">전체</button>
-          <button onclick="applyScoreFilter('watcha4')" class="score-filter-btn px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-600 hover:bg-rose-50" data-filter="watcha4">왓챠 4.2★↑</button>
-          <button onclick="applyScoreFilter('kyobo97')" class="score-filter-btn px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-600 hover:bg-emerald-50" data-filter="kyobo97">교보 9.7★↑</button>
-          <button onclick="applyScoreFilter('ebook')" class="score-filter-btn px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-600" data-filter="ebook">eBook</button>
+          <button onclick="applyScoreFilter('all')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-800 text-white font-bold" data-filter="all">전체</button>
+          <button onclick="applyScoreFilter('watcha4')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 hover:bg-rose-50 font-medium" data-filter="watcha4">왓챠 4.2★↑</button>
+          <button onclick="applyScoreFilter('kyobo97')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 hover:bg-emerald-50 font-medium" data-filter="kyobo97">교보 9.7★↑</button>
+          <button onclick="applyScoreFilter('ebook')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 font-medium" data-filter="ebook">eBook</button>
         </div>
       </div>
     </header>
 
     <!-- Genre & Category Scrollable Chip Bar -->
-    <nav class="bg-white/80 backdrop-blur px-3 py-2 border-b border-slate-100 overflow-x-auto no-scrollbar flex items-center gap-1.5 sticky top-[87px] z-20">
-      <button onclick="setCategoryFilter('all')" class="category-chip px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-900 text-white" data-cat="all">전체보기</button>
-      <button onclick="setCategoryFilter('bestseller')" class="category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-cat="bestseller">🔥 화제 베스트</button>
-      <button onclick="setCategoryFilter('steady')" class="category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-cat="steady">🏛️ 스테디셀러</button>
-      <button onclick="setCategoryFilter('소설')" class="category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-cat="소설">소설</button>
-      <button onclick="setCategoryFilter('인문')" class="category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-cat="인문">인문/사회</button>
-      <button onclick="setCategoryFilter('과학')" class="category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-cat="과학">과학/교양</button>
-      <button onclick="setCategoryFilter('에세이')" class="category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-cat="에세이">에세이/심리</button>
-      <button onclick="setCategoryFilter('경제경영')" class="category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-cat="경제경영">경제/경영</button>
+    <nav class="bg-white/90 backdrop-blur px-3 py-2.5 border-b border-slate-100 overflow-x-auto no-scrollbar flex items-center gap-2 sticky top-[91px] z-20">
+      <button onclick="setCategoryFilter('all')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition bg-slate-900 text-white" data-cat="all">전체보기</button>
+      <button onclick="setCategoryFilter('bestseller')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="bestseller">🔥 교보 베스트</button>
+      <button onclick="setCategoryFilter('steady')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="steady">🏛️ 스테디셀러</button>
+      <button onclick="setCategoryFilter('소설')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="소설">소설</button>
+      <button onclick="setCategoryFilter('인문')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="인문">인문/사회</button>
+      <button onclick="setCategoryFilter('과학')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="과학">과학/교양</button>
+      <button onclick="setCategoryFilter('에세이')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="에세이">에세이/심리</button>
+      <button onclick="setCategoryFilter('경제경영')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="경제경영">경제/경영</button>
     </nav>
 
     <!-- Main Content Area: Tab Views -->
@@ -198,29 +202,28 @@
         <div class="p-4">
           <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-4 shadow-lg">
             <div class="relative z-10">
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-500/80 text-[10px] font-bold tracking-wider uppercase mb-1.5">
-                🏆 한국인 최초 노벨문학상 특집
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-rose-500 text-xs font-bold tracking-wider uppercase mb-2">
+                🏆 한강 노벨문학상 & 교보문고 종합 1위
               </span>
-              <h2 class="text-base font-extrabold leading-tight text-white mb-1">
-                지금 전 세계가 주목하는<br/>한강 작가의 기념비적 대표작
+              <h2 class="text-lg font-black leading-snug text-white mb-1.5">
+                지금 전 세계가 감동하는<br/>한강 작가의 대표작 《소년이 온다》
               </h2>
-              <p class="text-[11px] text-slate-300 line-clamp-2 mb-3">
-                왓챠피디아 4.5점 & 교보문고 9.9점! 독서인들이 만장일치로 꼽은 이 시대의 필독서.
+              <p class="text-xs text-slate-300 line-clamp-2 mb-3.5 leading-relaxed font-normal">
+                교보문고 평점 9.9점(3,400+ 리뷰) & 왓챠피디아 4.5점! 양대 플랫폼에서 만장일치로 입증된 필독 도서입니다.
               </p>
-              <div class="flex items-center gap-2">
-                <button onclick="openBookModal(1)" class="px-3 py-1.5 bg-white text-slate-900 text-xs font-bold rounded-lg shadow-sm hover:bg-slate-100 transition flex items-center gap-1">
-                  <span>작품 자세히 보기</span>
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              <div class="flex items-center gap-2.5">
+                <button onclick="openBookModal(1)" class="px-3.5 py-2 bg-white text-slate-900 text-xs font-extrabold rounded-xl shadow-sm hover:bg-slate-100 transition flex items-center gap-1.5">
+                  <span>작품 상세 & 별점 보기</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                 </button>
-                <a href="https://search.kyobobook.co.kr/search?keyword=%EC%86%8C%EB%85%84%EC%9D%B4%20%EC%98%A8%EB%8B%A4%20%ED%95%9C%EA%B0%95" target="_blank" rel="noopener" class="px-3 py-1.5 bg-emerald-600/90 text-white text-xs font-semibold rounded-lg hover:bg-emerald-600 transition flex items-center gap-1">
+                <a href="https://search.kyobobook.co.kr/search?keyword=%EC%86%8C%EB%85%84%EC%9D%B4%20%EC%98%A8%EB%8B%A4%20%ED%95%9C%EA%B0%95" target="_blank" rel="noopener" class="px-3.5 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl hover:bg-emerald-700 transition flex items-center gap-1.5">
                   <span>교보문고 바로가기</span>
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
               </div>
             </div>
-            <!-- Decorative Background Graphic -->
-            <div class="absolute -right-6 -bottom-8 w-32 h-32 bg-rose-500/20 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="absolute right-3 top-3 opacity-20 pointer-events-none text-white font-serif text-6xl font-black">
+            <div class="absolute -right-6 -bottom-8 w-36 h-36 bg-rose-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute right-3 top-3 opacity-15 pointer-events-none text-white font-serif text-7xl font-black">
               漢
             </div>
           </div>
@@ -228,38 +231,38 @@
 
         <!-- Section: 화제의 베스트셀러 순위 (가로 캐러셀) -->
         <section class="mt-2">
-          <div class="px-4 flex items-center justify-between mb-2.5">
+          <div class="px-4 flex items-center justify-between mb-3">
             <div>
-              <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
-                <span class="text-rose-500">🔥</span> 요즘 화제의 베스트셀러 TOP
+              <h3 class="text-base font-black text-slate-900 flex items-center gap-1.5">
+                <span class="text-rose-500">🔥</span> 교보문고 베스트셀러 TOP 순위
               </h3>
-              <p class="text-[11px] text-slate-400">서점가 판매 1위부터 평점까지 한눈에 비교</p>
+              <p class="text-xs text-slate-500 mt-0.5">교보문고 최신 판매 순위 및 실시간 별점 대조</p>
             </div>
-            <button onclick="switchTab('tabRanking')" class="text-xs font-semibold text-rose-500 hover:text-rose-600 flex items-center">
+            <button onclick="switchTab('tabRanking')" class="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-0.5">
               전체순위
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
 
-          <div id="bestsellerCarousel" class="flex gap-3 overflow-x-auto px-4 pb-3 no-scrollbar snap-x snap-mandatory">
-            <!-- Injected by JavaScript -->
+          <div id="bestsellerCarousel" class="flex gap-3.5 overflow-x-auto px-4 pb-3.5 no-scrollbar snap-x snap-mandatory">
+            <!-- Injected by JavaScript with Real Book Covers -->
           </div>
         </section>
 
         <!-- Section: 왓챠피디아 vs 교보문고 평점 대결 큐레이션 -->
         <section class="mt-5 px-4">
-          <div class="bg-gradient-to-r from-rose-50 via-white to-emerald-50 border border-slate-200/80 rounded-2xl p-4 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
+          <div class="bg-gradient-to-r from-rose-50 via-white to-emerald-50 border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
               <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                <span class="text-xs font-bold text-slate-800">왓챠 4.2+ & 교보 9.7+ 만장일치 명작</span>
+                <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></span>
+                <span class="text-sm font-extrabold text-slate-900">교보 9.7+ & 왓챠 4.2+ 더블 골든 추천</span>
               </div>
-              <span class="text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-full text-slate-500 font-medium">더블 크라운</span>
+              <span class="text-xs bg-white border border-slate-200 px-2.5 py-0.5 rounded-full text-slate-600 font-bold">만장일치</span>
             </div>
-            <p class="text-[11px] text-slate-600 mb-3 leading-relaxed">
-              왓챠피디아의 엄격한 씨네필·독서광 별점과 교보문고 실구매 독자의 신뢰도 높은 평점을 모두 석권한 보증된 도서들입니다.
+            <p class="text-xs text-slate-600 mb-3.5 leading-relaxed font-normal">
+              교보문고 실구매 독자의 높은 만족도와 왓챠피디아 독서광들의 엄격한 별점을 모두 석권한 보증된 명작 컬렉션입니다.
             </p>
-            <div id="doubleCrownList" class="space-y-2.5">
+            <div id="doubleCrownList" class="space-y-3">
               <!-- Injected by JS -->
             </div>
           </div>
@@ -267,37 +270,37 @@
 
         <!-- Section: 장르별 평점 높은 추천 (소설, 인문, 과학, 에세이) -->
         <section class="mt-6 px-4">
-          <div class="flex items-center justify-between mb-2.5">
+          <div class="flex items-center justify-between mb-3">
             <div>
-              <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+              <h3 class="text-base font-black text-slate-900 flex items-center gap-1.5">
                 <span class="text-amber-500">⭐</span> 장르별 최고 평점작
               </h3>
-              <p class="text-[11px] text-slate-400">장르별로 가장 높은 지지를 받은 책</p>
+              <p class="text-xs text-slate-500 mt-0.5">분야별로 가장 높은 평점 지지를 받은 책</p>
             </div>
-            <div class="flex bg-slate-200/80 p-0.5 rounded-lg text-[10px] font-semibold text-slate-600">
-              <button onclick="filterGenreTop('소설')" class="genre-top-btn px-2 py-0.5 rounded bg-white text-slate-900 shadow-xs font-bold" data-g="소설">소설</button>
-              <button onclick="filterGenreTop('인문')" class="genre-top-btn px-2 py-0.5 rounded" data-g="인문">인문</button>
-              <button onclick="filterGenreTop('과학')" class="genre-top-btn px-2 py-0.5 rounded" data-g="과학">과학</button>
-              <button onclick="filterGenreTop('에세이')" class="genre-top-btn px-2 py-0.5 rounded" data-g="에세이">에세이</button>
+            <div class="flex bg-slate-200/90 p-0.5 rounded-xl text-xs font-bold text-slate-600">
+              <button onclick="filterGenreTop('소설')" class="genre-top-btn px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-xs" data-g="소설">소설</button>
+              <button onclick="filterGenreTop('인문')" class="genre-top-btn px-2.5 py-1 rounded-lg" data-g="인문">인문</button>
+              <button onclick="filterGenreTop('과학')" class="genre-top-btn px-2.5 py-1 rounded-lg" data-g="과학">과학</button>
+              <button onclick="filterGenreTop('에세이')" class="genre-top-btn px-2.5 py-1 rounded-lg" data-g="에세이">에세이</button>
             </div>
           </div>
 
-          <div id="genreTopContainer" class="space-y-2.5">
+          <div id="genreTopContainer" class="space-y-3">
             <!-- Injected by JS -->
           </div>
         </section>
 
         <!-- Section: 영원한 스테디셀러 컬렉션 -->
         <section class="mt-6 px-4 pb-4">
-          <div class="flex items-center justify-between mb-2.5">
+          <div class="flex items-center justify-between mb-3">
             <div>
-              <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+              <h3 class="text-base font-black text-slate-900 flex items-center gap-1.5">
                 <span class="text-blue-500">🏛️</span> 믿고 읽는 스테디셀러
               </h3>
-              <p class="text-[11px] text-slate-400">오랜 세월 수많은 독자가 증명한 인생 책</p>
+              <p class="text-xs text-slate-500 mt-0.5">오랜 세월 수많은 독자가 증명한 인생 책</p>
             </div>
           </div>
-          <div id="steadysellerGrid" class="grid grid-cols-2 gap-3">
+          <div id="steadysellerGrid" class="grid grid-cols-2 gap-3.5">
             <!-- Injected by JS -->
           </div>
         </section>
@@ -307,19 +310,25 @@
       <!-- ================= TAB 2: RANKING ================= -->
       <section id="tabRanking" class="tab-pane hidden p-4">
         <div class="mb-3">
-          <h2 class="text-base font-extrabold text-slate-900">화제의 도서 랭킹 종합</h2>
-          <p class="text-xs text-slate-500 mt-0.5">베스트셀러 순위와 왓챠 & 교보 실시간 평점 비교</p>
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-black text-slate-900">교보문고 종합 랭킹</h2>
+            <a href="https://product.kyobobook.co.kr/bestseller/online/weekly" target="_blank" rel="noopener" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1 hover:bg-emerald-100 transition">
+              <span>교보 공식 순위</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">최신 베스트셀러 순위와 왓챠 & 교보 실시간 평점 비교</p>
         </div>
 
         <!-- Ranking Filter Pills -->
-        <div class="flex gap-1.5 mb-3.5 bg-slate-200/70 p-1 rounded-xl text-xs font-semibold">
-          <button onclick="renderRankingList('bestseller')" id="rankBtn-bestseller" class="flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-sm text-center font-bold">종합 베스트</button>
-          <button onclick="renderRankingList('steady')" id="rankBtn-steady" class="flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 text-center">스테디셀러</button>
-          <button onclick="renderRankingList('watcha')" id="rankBtn-watcha" class="flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 text-center">왓챠 TOP</button>
-          <button onclick="renderRankingList('kyobo')" id="rankBtn-kyobo" class="flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 text-center">교보 TOP</button>
+        <div class="flex gap-1.5 mb-4 bg-slate-200/80 p-1 rounded-xl text-xs font-bold">
+          <button onclick="renderRankingList('bestseller')" id="rankBtn-bestseller" class="flex-1 py-2 rounded-lg bg-white text-slate-900 shadow-sm text-center">종합 베스트</button>
+          <button onclick="renderRankingList('steady')" id="rankBtn-steady" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 text-center">스테디셀러</button>
+          <button onclick="renderRankingList('watcha')" id="rankBtn-watcha" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 text-center">왓챠 TOP</button>
+          <button onclick="renderRankingList('kyobo')" id="rankBtn-kyobo" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 text-center">교보 TOP</button>
         </div>
 
-        <div id="fullRankingList" class="space-y-3">
+        <div id="fullRankingList" class="space-y-3.5">
           <!-- Injected by JS -->
         </div>
       </section>
@@ -327,27 +336,27 @@
       <!-- ================= TAB 3: GENRE EXPLORER ================= -->
       <section id="tabGenre" class="tab-pane hidden p-4">
         <div class="mb-3">
-          <h2 class="text-base font-extrabold text-slate-900">장르별 탐색 & 큐레이션</h2>
-          <p class="text-xs text-slate-500 mt-0.5">선호하는 분야와 맞춤 평점으로 책을 찾아보세요</p>
+          <h2 class="text-lg font-black text-slate-900">장르별 탐색 & 큐레이션</h2>
+          <p class="text-xs text-slate-500 mt-0.5">선호하는 분야와 맞춤 평점으로 최적의 책을 찾아보세요</p>
         </div>
 
         <!-- Genre Selector Tabs -->
-        <div class="flex flex-wrap gap-1.5 mb-3">
-          <button onclick="selectGenreTab('all')" class="genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-900 text-white" data-target="all">전체 장르</button>
-          <button onclick="selectGenreTab('소설')" class="genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600" data-target="소설">소설</button>
-          <button onclick="selectGenreTab('인문')" class="genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600" data-target="인문">인문/철학</button>
-          <button onclick="selectGenreTab('과학')" class="genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600" data-target="과학">자연과학</button>
-          <button onclick="selectGenreTab('에세이')" class="genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600" data-target="에세이">에세이/심리</button>
-          <button onclick="selectGenreTab('경제경영')" class="genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600" data-target="경제경영">경제/경영</button>
-          <button onclick="selectGenreTab('자기계발')" class="genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600" data-target="자기계발">자기계발</button>
+        <div class="flex flex-wrap gap-1.5 mb-3.5">
+          <button onclick="selectGenreTab('all')" class="genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white" data-target="all">전체 장르</button>
+          <button onclick="selectGenreTab('소설')" class="genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700" data-target="소설">소설</button>
+          <button onclick="selectGenreTab('인문')" class="genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700" data-target="인문">인문/철학</button>
+          <button onclick="selectGenreTab('과학')" class="genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700" data-target="과학">자연과학</button>
+          <button onclick="selectGenreTab('에세이')" class="genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700" data-target="에세이">에세이/심리</button>
+          <button onclick="selectGenreTab('경제경영')" class="genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700" data-target="경제경영">경제/경영</button>
+          <button onclick="selectGenreTab('자기계발')" class="genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700" data-target="자기계발">자기계발</button>
         </div>
 
         <!-- Sort Control -->
-        <div class="flex items-center justify-between text-xs text-slate-500 mb-3 px-1">
-          <span id="genreBookCount">총 12권 도서</span>
+        <div class="flex items-center justify-between text-xs text-slate-600 mb-3 px-1 font-medium">
+          <span id="genreBookCount" class="font-bold">총 14권 도서</span>
           <div class="flex items-center gap-2">
             <span>정렬:</span>
-            <select id="genreSortSelect" onchange="applyGenreSort()" class="bg-white border border-slate-200 rounded px-2 py-0.5 text-xs text-slate-700 focus:outline-none">
+            <select id="genreSortSelect" onchange="applyGenreSort()" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-semibold focus:outline-none shadow-2xs">
               <option value="score">통합 평점 높은순</option>
               <option value="watcha">왓챠피디아 별점순</option>
               <option value="kyobo">교보문고 별점순</option>
@@ -356,7 +365,7 @@
           </div>
         </div>
 
-        <div id="genreBookGrid" class="grid grid-cols-1 gap-3">
+        <div id="genreBookGrid" class="grid grid-cols-1 gap-3.5">
           <!-- Injected by JS -->
         </div>
       </section>
@@ -364,41 +373,53 @@
       <!-- ================= TAB 4: MY LIBRARY ================= -->
       <section id="tabLibrary" class="tab-pane hidden p-4">
         <div class="mb-4">
-          <h2 class="text-base font-extrabold text-slate-900">내 서재</h2>
-          <p class="text-xs text-slate-500 mt-0.5">찜한 도서와 읽고 싶은 전자책 목록</p>
+          <h2 class="text-lg font-black text-slate-900">내 서재</h2>
+          <p class="text-xs text-slate-500 mt-0.5">내가 찜한 도서와 읽고 있는 전자책 목록</p>
         </div>
 
-        <!-- Reading Stats Card -->
-        <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-4 shadow-sm mb-4">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-bold text-slate-300">나의 독서 대시보드</span>
-            <span class="text-[10px] bg-rose-500/80 px-2 py-0.5 rounded-full font-medium">취향 분석 중</span>
+        <!-- Interactive Reading Stats Dashboard (Clickable Large Numbers) -->
+        <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 text-white rounded-2xl p-4 shadow-md mb-4">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-sm font-extrabold text-slate-200">나의 독서 대시보드</span>
+            <span class="text-xs bg-rose-500/90 text-white px-2.5 py-0.5 rounded-full font-bold">숫자 터치 시 필터 전환</span>
           </div>
+          <p class="text-xs text-slate-400 mb-3">각 상태의 숫자를 터치하면 아래 목록이 즉시 변경됩니다.</p>
+          
+          <!-- Large Number Buttons -->
           <div class="grid grid-cols-3 gap-2 text-center border-t border-slate-800 pt-3">
-            <div>
-              <div id="statWishCount" class="text-lg font-black text-rose-400">0</div>
-              <div class="text-[10px] text-slate-400">읽고 싶어요</div>
-            </div>
-            <div>
-              <div id="statReadingCount" class="text-lg font-black text-amber-400">0</div>
-              <div class="text-[10px] text-slate-400">읽는 중</div>
-            </div>
-            <div>
-              <div id="statDoneCount" class="text-lg font-black text-emerald-400">0</div>
-              <div class="text-[10px] text-slate-400">완독 도서</div>
-            </div>
+            <button onclick="filterLibraryView('wish')" id="statBox-wish" class="stat-click-box p-2.5 rounded-xl bg-slate-800 border-2 border-rose-400 shadow-md text-center flex flex-col items-center transition cursor-pointer active:scale-95">
+              <div id="statWishCount" class="text-2xl font-black text-rose-400 leading-none mb-1">0</div>
+              <div class="text-xs text-slate-200 font-bold flex items-center gap-1">
+                <span>읽고 싶어요</span>
+                <svg class="w-3.5 h-3.5 text-rose-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18l-1.45-1.32C3.4 12.36 0 9.28 0 5.5 0 2.42 2.42 0 5.5 0 7.24 0 8.91.81 10 2.09 11.09.81 12.74 0 14.5 0 17.58 0 20 2.42 20 5.5c0 3.78-3.4 6.86-8.55 11.18L10 18z"/></svg>
+              </div>
+            </button>
+            <button onclick="filterLibraryView('reading')" id="statBox-reading" class="stat-click-box p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-center flex flex-col items-center transition cursor-pointer active:scale-95">
+              <div id="statReadingCount" class="text-2xl font-black text-amber-400 leading-none mb-1">0</div>
+              <div class="text-xs text-slate-300 font-bold flex items-center gap-1">
+                <span>읽는 중</span>
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              </div>
+            </button>
+            <button onclick="filterLibraryView('done')" id="statBox-done" class="stat-click-box p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-center flex flex-col items-center transition cursor-pointer active:scale-95">
+              <div id="statDoneCount" class="text-2xl font-black text-emerald-400 leading-none mb-1">0</div>
+              <div class="text-xs text-slate-300 font-bold flex items-center gap-1">
+                <span>완독 도서</span>
+                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              </div>
+            </button>
           </div>
         </div>
 
         <!-- Library Filter Tabs -->
-        <div class="flex gap-2 border-b border-slate-200 pb-2 mb-3 text-xs font-semibold">
-          <button onclick="filterLibraryView('wish')" class="lib-tab-btn active text-rose-600 border-b-2 border-rose-500 pb-1 font-bold" data-lib="wish">읽고 싶은 책 (찜)</button>
-          <button onclick="filterLibraryView('reading')" class="lib-tab-btn text-slate-500 pb-1" data-lib="reading">읽는 중</button>
-          <button onclick="filterLibraryView('done')" class="lib-tab-btn text-slate-500 pb-1" data-lib="done">완독한 책</button>
+        <div class="flex gap-3 border-b border-slate-200 pb-2 mb-3.5 text-sm font-bold">
+          <button onclick="filterLibraryView('wish')" class="lib-tab-btn active text-rose-600 border-b-2 border-rose-500 pb-1.5" data-lib="wish">읽고 싶은 책 (찜)</button>
+          <button onclick="filterLibraryView('reading')" class="lib-tab-btn text-slate-500 pb-1.5 hover:text-slate-800" data-lib="reading">읽는 중</button>
+          <button onclick="filterLibraryView('done')" class="lib-tab-btn text-slate-500 pb-1.5 hover:text-slate-800" data-lib="done">완독한 책</button>
         </div>
 
         <!-- Library Books List -->
-        <div id="libraryBookList" class="space-y-2.5">
+        <div id="libraryBookList" class="space-y-3">
           <!-- Injected by JS -->
         </div>
       </section>
@@ -406,41 +427,41 @@
     </main>
 
     <!-- Bottom Navigation Bar (Mobile Native Style) -->
-    <nav class="bg-white/95 backdrop-blur border-t border-slate-200 fixed bottom-0 left-0 right-0 max-w-[420px] mx-auto z-40 px-3 py-1.5 flex items-center justify-around text-slate-500">
-      <button onclick="switchTab('tabHome')" class="nav-tab-item active flex flex-col items-center gap-0.5 py-1 px-3 text-rose-500" data-target="tabHome">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-        <span class="text-[10px] font-semibold">홈</span>
+    <nav class="bg-white/95 backdrop-blur border-t border-slate-200 fixed bottom-0 left-0 right-0 max-w-[440px] mx-auto z-40 px-3 py-2 flex items-center justify-around text-slate-500">
+      <button onclick="switchTab('tabHome')" class="nav-tab-item active flex flex-col items-center gap-1 py-1 px-3 text-rose-500" data-target="tabHome">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-xs font-bold">홈</span>
       </button>
 
-      <button onclick="switchTab('tabRanking')" class="nav-tab-item flex flex-col items-center gap-0.5 py-1 px-3 text-slate-400 hover:text-slate-600" data-target="tabRanking">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        <span class="text-[10px] font-medium">베스트셀러</span>
+      <button onclick="switchTab('tabRanking')" class="nav-tab-item flex flex-col items-center gap-1 py-1 px-3 text-slate-400 hover:text-slate-600" data-target="tabRanking">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span class="text-xs font-semibold">베스트셀러</span>
       </button>
 
-      <button onclick="switchTab('tabGenre')" class="nav-tab-item flex flex-col items-center gap-0.5 py-1 px-3 text-slate-400 hover:text-slate-600" data-target="tabGenre">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-        <span class="text-[10px] font-medium">장르탐색</span>
+      <button onclick="switchTab('tabGenre')" class="nav-tab-item flex flex-col items-center gap-1 py-1 px-3 text-slate-400 hover:text-slate-600" data-target="tabGenre">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        <span class="text-xs font-semibold">장르탐색</span>
       </button>
 
-      <button onclick="switchTab('tabLibrary')" class="nav-tab-item flex flex-col items-center gap-0.5 py-1 px-3 text-slate-400 hover:text-slate-600" data-target="tabLibrary">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        <span class="text-[10px] font-medium">내 서재</span>
+      <button onclick="switchTab('tabLibrary')" class="nav-tab-item flex flex-col items-center gap-1 py-1 px-3 text-slate-400 hover:text-slate-600" data-target="tabLibrary">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span class="text-xs font-semibold">내 서재</span>
       </button>
     </nav>
 
     <!-- Home Bar Indicator for Smartphone Simulator -->
-    <div class="fixed bottom-0.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-300 rounded-full z-50 pointer-events-none md:block hidden"></div>
+    <div class="fixed bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-300 rounded-full z-50 pointer-events-none md:block hidden"></div>
   </div>
 
   <!-- ================= BOOK DETAIL MODAL / BOTTOM SHEET ================= -->
   <div id="bookModalBackdrop" class="modal-backdrop fixed inset-0 z-50 flex items-end justify-center hidden" onclick="closeBookModal(event)">
-    <div id="bookBottomSheet" class="bottom-sheet bg-white w-full max-w-[420px] rounded-t-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+    <div id="bookBottomSheet" class="bottom-sheet bg-white w-full max-w-[440px] rounded-t-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
       
       <!-- Drawer Grabber Header -->
-      <div class="pt-3 pb-2 px-5 flex items-center justify-between border-b border-slate-100">
-        <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto"></div>
+      <div class="pt-3.5 pb-2 px-5 flex items-center justify-between border-b border-slate-100">
+        <div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto"></div>
         <button onclick="closeBookModalDirect()" class="text-slate-400 hover:text-slate-600 p-1">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
@@ -450,12 +471,12 @@
       </div>
 
       <!-- Modal Bottom Actions (Always Accessible) -->
-      <div class="p-3 bg-white border-t border-slate-100 flex items-center gap-2">
-        <button id="modalWishBtn" onclick="toggleCurrentBookWish()" class="flex-1 py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95">
+      <div class="p-3.5 bg-white border-t border-slate-100 flex items-center gap-2.5">
+        <button id="modalWishBtn" onclick="toggleCurrentBookWish()" class="flex-1 py-3 px-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-sm font-bold flex items-center justify-center gap-1.5 transition active:scale-95">
           <svg id="modalWishIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
           <span id="modalWishText">읽고 싶어요</span>
         </button>
-        <a id="modalKyoboLink" href="#" target="_blank" rel="noopener" class="flex-1 py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition active:scale-95">
+        <a id="modalKyoboLink" href="#" target="_blank" rel="noopener" class="flex-1 py-3 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-extrabold flex items-center justify-center gap-1.5 shadow-sm transition active:scale-95">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           <span>교보문고에서 확인</span>
         </a>
@@ -466,14 +487,14 @@
 
   <!-- ================= SEARCH MODAL ================= -->
   <div id="searchModal" class="modal-backdrop fixed inset-0 z-50 flex items-start justify-center pt-8 px-4 hidden" onclick="closeSearchModal(event)">
-    <div class="bg-white w-full max-w-[400px] rounded-2xl shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <div class="p-3 border-b border-slate-100 flex items-center gap-2">
-        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="책 제목, 작가, 키워드 검색..." class="flex-1 text-xs text-slate-800 placeholder-slate-400 focus:outline-none" autofocus />
-        <button onclick="closeSearchModalDirect()" class="text-xs text-slate-400 hover:text-slate-600 px-1">닫기</button>
+    <div class="bg-white w-full max-w-[420px] rounded-2xl shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-3.5 border-b border-slate-100 flex items-center gap-2.5">
+        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="책 제목, 저자, 키워드 검색..." class="flex-1 text-sm text-slate-800 placeholder-slate-400 focus:outline-none" autofocus />
+        <button onclick="closeSearchModalDirect()" class="text-sm text-slate-500 hover:text-slate-800 font-bold px-1.5">닫기</button>
       </div>
-      <div id="searchResults" class="max-h-72 overflow-y-auto p-3 space-y-2 text-xs no-scrollbar">
-        <p class="text-slate-400 text-center py-4">검색어를 입력하면 실시간으로 도서를 찾아드립니다.</p>
+      <div id="searchResults" class="max-h-80 overflow-y-auto p-3 space-y-2 text-sm no-scrollbar">
+        <p class="text-slate-400 text-center py-6">검색어를 입력하시면 교보문고 및 왓챠 추천 도서를 찾아드립니다.</p>
       </div>
     </div>
   </div>
@@ -482,28 +503,28 @@
   <div id="installGuideModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden" onclick="closeInstallGuideModal(event)">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+        <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2">
           <span>📱</span> 앱 설치 방법 안내
         </h3>
         <button onclick="closeInstallGuideModalDirect()" class="text-slate-400 hover:text-slate-600 p-1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="space-y-3 text-xs text-slate-600">
+      <div class="space-y-3 text-sm text-slate-600">
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-          <p class="font-bold text-slate-800 mb-1 flex items-center gap-1">
-            <span class="text-emerald-600">●</span> 크롬(Chrome) 브라우저:
+          <p class="font-bold text-slate-900 mb-1 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span> 크롬(Chrome) 브라우저:
           </p>
-          <p class="leading-relaxed">주소창 오른쪽 상단의 <b>[설치 아이콘(💻↓)]</b>을 클릭하시거나, 우측 상단 메뉴(⋮)에서 <b>[앱 설치]</b>를 선택하시면 홈 화면에 바로 설치됩니다.</p>
+          <p class="leading-relaxed">주소창 오른쪽 상단의 <b>[설치 아이콘(💻↓)]</b>을 클릭하시거나, 브라우저 메뉴(⋮)에서 <b>[앱 설치]</b>를 선택하시면 즉시 홈 화면에 설치됩니다.</p>
         </div>
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-          <p class="font-bold text-slate-800 mb-1 flex items-center gap-1">
-            <span class="text-blue-600">●</span> 아이폰 사파리(Safari):
+          <p class="font-bold text-slate-900 mb-1 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span> 아이폰 사파리(Safari):
           </p>
-          <p class="leading-relaxed">화면 하단 도구 모음의 <b>[공유 버튼(□↑)]</b>을 누른 뒤, 아래로 스크롤하여 <b>[홈 화면에 추가]</b>를 눌러주세요.</p>
+          <p class="leading-relaxed">하단 도구 모음의 <b>[공유 버튼(□↑)]</b>을 누른 뒤, 스크롤하여 <b>[홈 화면에 추가]</b>를 선택해주세요.</p>
         </div>
       </div>
-      <button onclick="closeInstallGuideModalDirect()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition">
+      <button onclick="closeInstallGuideModalDirect()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-bold transition">
         확인했습니다
       </button>
     </div>
@@ -529,7 +550,6 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      // Show install banners
       const banner = document.getElementById('pwaInstallBanner');
       if (banner && !sessionStorage.getItem('dismiss_install_banner')) {
         banner.classList.remove('hidden');
@@ -549,8 +569,6 @@
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
             console.log('[PWA] User accepted the install prompt');
-          } else {
-            console.log('[PWA] User dismissed the install prompt');
           }
           deferredPrompt = null;
           dismissInstallBanner();
@@ -593,13 +611,14 @@
       });
     }
 
-    // 1. Comprehensive Book Dataset with Authentic Korean Metadata
+    // 1. Comprehensive Book Dataset with Real Kyobo ISBNs, Real Book Covers, and Dual Watcha Ratings
     const BOOKS_DATABASE = [
       {
         id: 1,
         title: "소년이 온다",
         author: "한강",
         publisher: "창비",
+        isbn: "9788936434120",
         pubYear: "2014",
         pages: 216,
         genre: "소설",
@@ -631,6 +650,7 @@
         title: "작별하지 않는다",
         author: "한강",
         publisher: "문학동네",
+        isbn: "9788954682152",
         pubYear: "2021",
         pages: 332,
         genre: "소설",
@@ -659,16 +679,81 @@
       },
       {
         id: 3,
+        title: "채식주의자",
+        author: "한강",
+        publisher: "창비",
+        isbn: "9788936434595",
+        pubYear: "2022 (개정판)",
+        pages: 248,
+        genre: "소설",
+        isBestseller: true,
+        isSteady: true,
+        rank: 3,
+        rankDiff: "▲1",
+        hasEbook: true,
+        coverGradient: "from-emerald-950 via-teal-900 to-slate-900",
+        coverTextColor: "text-emerald-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%B1%84%EC%8B%9D%EC%A3%BC%EC%9D%98%EC%9E%90%20%ED%95%9C%EA%B0%95",
+        watcha: {
+          score: 4.3,
+          raters: 58000,
+          keyword: "인간 폭력성에 대한 전율 돋는 고발",
+          tags: ["#부커상수상작", "#강렬한서사", "#인간본성", "#한국문학"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 4300,
+          recommendRate: 98,
+          keyword: "한국인 최초 부커상 수상에 빛나는 전설적 소설"
+        },
+        summary: "어느 날 갑자기 육식을 거부하고 스스로 나무가 되어간다고 믿는 영혜와 그녀를 둘러싼 가족들의 시선을 통해, 인간의 본원적 폭력성과 억압된 욕망을 탐구한 세계적 걸작.",
+        quote: "내가 믿는 건 내 가슴뿐이야. 난 내 젖가슴이 좋아. 아무것도 죽일 수 없는 가슴이니까."
+      },
+      {
+        id: 4,
+        title: "트렌드 코리아 2025",
+        author: "김난도 외",
+        publisher: "미래의창",
+        isbn: "9788959897223",
+        pubYear: "2024",
+        pages: 448,
+        genre: "경제경영",
+        isBestseller: true,
+        isSteady: false,
+        rank: 4,
+        rankDiff: "NEW",
+        hasEbook: true,
+        coverGradient: "from-blue-900 via-indigo-900 to-slate-900",
+        coverTextColor: "text-blue-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%8A%B8%EB%A0%8C%EB%93%9C%20%EC%BD%94%EB%A6%AC%EC%95%84%202025",
+        watcha: {
+          score: 3.8,
+          raters: 9200,
+          keyword: "급변하는 대한민국의 소비 트렌드 전망",
+          tags: ["#트렌드분석", "#2025전망", "#소비패턴", "#비즈니스"]
+        },
+        kyobo: {
+          score: 9.6,
+          reviews: 2800,
+          recommendRate: 96,
+          keyword: "미래를 대비하는 현대인의 연례 필수 지침서"
+        },
+        summary: "매년 대한민국 소비사회와 문화의 흐름을 날카롭게 예측하는 트렌드 코리아 시리즈. 옴니보어, 토핑경제, 기후감수성 등 2025년을 관통할 10대 키워드를 명쾌하게 제시합니다.",
+        quote: "변화의 속도가 빨라질수록 트렌드의 맥락을 짚는 안목이 성공을 가른다."
+      },
+      {
+        id: 5,
         title: "사피엔스",
         author: "유발 하라리",
         publisher: "김영사",
+        isbn: "9788934972464",
         pubYear: "2015",
         pages: 636,
         genre: "인문",
         isBestseller: true,
         isSteady: true,
-        rank: 3,
-        rankDiff: "▲1",
+        rank: 5,
+        rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-amber-900 via-stone-800 to-neutral-900",
         coverTextColor: "text-amber-200",
@@ -689,17 +774,18 @@
         quote: "허구를 믿는 능력이 바로 사피엔스가 세상을 정복하게 만든 결정적 무기였다."
       },
       {
-        id: 4,
+        id: 6,
         title: "마흔에 읽는 쇼펜하우어",
         author: "강용수",
         publisher: "유노북스",
+        isbn: "9791192300818",
         pubYear: "2023",
         pages: 288,
         genre: "인문",
         isBestseller: true,
         isSteady: false,
-        rank: 4,
-        rankDiff: "NEW",
+        rank: 6,
+        rankDiff: "▲1",
         hasEbook: true,
         coverGradient: "from-slate-800 via-slate-900 to-indigo-900",
         coverTextColor: "text-slate-100",
@@ -720,17 +806,18 @@
         quote: "인생은 고통과 무료함 사이를 오가는 시계추와 같다. 그렇기에 혼자 있는 법을 배워야 한다."
       },
       {
-        id: 5,
+        id: 7,
         title: "불편한 편의점",
         author: "김호연",
         publisher: "나무옆의자",
+        isbn: "9791161571188",
         pubYear: "2021",
         pages: 268,
         genre: "소설",
         isBestseller: true,
         isSteady: true,
-        rank: 5,
-        rankDiff: "▼1",
+        rank: 7,
+        rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-amber-700 via-orange-800 to-stone-900",
         coverTextColor: "text-amber-100",
@@ -751,17 +838,18 @@
         quote: "결국 삶이란 관계였고 관계는 소통이었다. 행복은 멀리 있지 않다."
       },
       {
-        id: 6,
+        id: 8,
         title: "모순",
         author: "양귀자",
         publisher: "쓰다",
+        isbn: "9788998441012",
         pubYear: "1998",
         pages: 308,
         genre: "소설",
         isBestseller: true,
         isSteady: true,
-        rank: 6,
-        rankDiff: "▲2",
+        rank: 8,
+        rankDiff: "▲1",
         hasEbook: true,
         coverGradient: "from-emerald-900 via-teal-900 to-slate-900",
         coverTextColor: "text-emerald-100",
@@ -782,16 +870,17 @@
         quote: "인생은 탐구하면서 살아가는 것이 아니라, 살아가면서 탐구하는 것이다."
       },
       {
-        id: 7,
+        id: 9,
         title: "도둑맞은 집중력",
         author: "요한 하리",
         publisher: "어크로스",
+        isbn: "9791167740984",
         pubYear: "2023",
         pages: 456,
         genre: "인문",
         isBestseller: false,
         isSteady: true,
-        rank: 7,
+        rank: 9,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-blue-900 via-indigo-950 to-slate-900",
@@ -813,16 +902,17 @@
         quote: "우리의 집중력은 고장 난 것이 아니라, 철저하게 도둑맞은 것이다."
       },
       {
-        id: 8,
+        id: 10,
         title: "물고기는 존재하지 않는다",
         author: "룰루 밀러",
         publisher: "곰출판",
+        isbn: "9791189327156",
         pubYear: "2021",
         pages: 300,
         genre: "과학",
         isBestseller: false,
         isSteady: true,
-        rank: 8,
+        rank: 10,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-teal-800 via-cyan-900 to-slate-900",
@@ -844,16 +934,17 @@
         quote: "우리는 중요하지 않다. 하지만 바로 그렇기 때문에 우리는 자유롭다."
       },
       {
-        id: 9,
+        id: 11,
         title: "코스모스",
         author: "칼 세이건",
         publisher: "사이언스북스",
+        isbn: "9788983711892",
         pubYear: "2006",
         pages: 712,
         genre: "과학",
         isBestseller: false,
         isSteady: true,
-        rank: 9,
+        rank: 11,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-indigo-950 via-purple-950 to-slate-950",
@@ -875,47 +966,17 @@
         quote: "우리는 모두 별에서 만들어진 먼지이며, 우주가 스스로를 이해하기 위해 만들어낸 존재다."
       },
       {
-        id: 10,
-        title: "원씽 (The ONE Thing)",
-        author: "게리 켈러",
-        publisher: "비즈니스북스",
-        pubYear: "2013",
-        pages: 280,
-        genre: "자기계발",
-        isBestseller: false,
-        isSteady: true,
-        rank: 10,
-        rankDiff: "-",
-        hasEbook: true,
-        coverGradient: "from-rose-900 via-stone-900 to-black",
-        coverTextColor: "text-rose-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9B%90%EC%84%B1%20%EA%B2%8C%EB%A6%AC%20%EC%BC%88%EB%9F%AC",
-        watcha: {
-          score: 4.0,
-          raters: 23000,
-          keyword: "단순함이 만들어내는 압도적인 성과",
-          tags: ["#생산성", "#선택과집중", "#자기계발", "#시간관리"]
-        },
-        kyobo: {
-          score: 9.6,
-          reviews: 6800,
-          recommendRate: 96,
-          keyword: "매일 아침 우선순위를 다시 세우게 만드는 책"
-        },
-        summary: "넘쳐나는 일에 치여 핵심을 놓치는 현대인들에게 가장 중요한 단 하나의 목표에 모든 에너지를 쏟아붓는 '원씽의 법칙'을 제시하는 자기계발의 스테디셀러.",
-        quote: "성공의 핵심은 모든 일을 다 잘하는 것이 아니라, 오직 단 하나를 제대로 해내는 것이다."
-      },
-      {
-        id: 11,
+        id: 12,
         title: "생각이 너무 많은 어른들을 위한 심리학",
         author: "김혜남",
         publisher: "메이븐",
+        isbn: "9791190538510",
         pubYear: "2023",
         pages: 272,
         genre: "에세이",
         isBestseller: true,
         isSteady: false,
-        rank: 11,
+        rank: 12,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-stone-700 via-rose-900/60 to-stone-900",
@@ -937,16 +998,49 @@
         quote: "삶은 정답을 맞히는 시험이 아니다. 그저 오늘을 온전히 살아내면 된다."
       },
       {
-        id: 12,
+        id: 13,
+        title: "원씽 (The ONE Thing)",
+        author: "게리 켈러",
+        publisher: "비즈니스북스",
+        isbn: "9788901159393",
+        pubYear: "2013",
+        pages: 280,
+        genre: "자기계발",
+        isBestseller: false,
+        isSteady: true,
+        rank: 13,
+        rankDiff: "-",
+        hasEbook: true,
+        coverGradient: "from-rose-900 via-stone-900 to-black",
+        coverTextColor: "text-rose-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9B%90%EC%84%B1%20%EA%B2%8C%EB%A6%AC%20%EC%BC%88%EB%9F%AC",
+        watcha: {
+          score: 4.0,
+          raters: 23000,
+          keyword: "단순함이 만들어내는 압도적인 성과",
+          tags: ["#생산성", "#선택과집중", "#자기계발", "#시간관리"]
+        },
+        kyobo: {
+          score: 9.6,
+          reviews: 6800,
+          recommendRate: 96,
+          keyword: "매일 아침 우선순위를 다시 세우게 만드는 책"
+        },
+        summary: "넘쳐나는 일에 치여 핵심을 놓치는 현대인들에게 가장 중요한 단 하나의 목표에 모든 에너지를 쏟아붓는 '원씽의 법칙'을 제시하는 자기계발의 스테디셀러.",
+        quote: "성공의 핵심은 모든 일을 다 잘하는 것이 아니라, 오직 단 하나를 제대로 해내는 것이다."
+      },
+      {
+        id: 14,
         title: "돈의 속성",
         author: "김승호",
         publisher: "스노우폭스북스",
+        isbn: "9791188331796",
         pubYear: "2020",
         pages: 392,
         genre: "경제경영",
         isBestseller: false,
         isSteady: true,
-        rank: 12,
+        rank: 14,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-amber-950 via-yellow-950 to-neutral-900",
@@ -969,29 +1063,39 @@
       }
     ];
 
-    let userLibrary = JSON.parse(localStorage.getItem('readpick_library') || '{"wish":[1, 3], "reading":[5], "done":[6]}');
+    let userLibrary = JSON.parse(localStorage.getItem('readpick_library') || '{"wish":[1, 3, 5], "reading":[7], "done":[8]}');
     let currentActiveBookId = 1;
     let currentFilterCategory = 'all';
     let currentScoreFilter = 'all';
+    let currentLibFilter = 'wish';
 
     function saveLibrary() {
       localStorage.setItem('readpick_library', JSON.stringify(userLibrary));
       updateLibraryCounts();
     }
 
+    // Real Kyobo Book Cover with fallback
     function renderBookCoverHTML(book, sizeClass = "w-20 h-28") {
+      const coverUrl = book.isbn ? `https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/${book.isbn}.jpg` : '';
       return `
-        <div class="book-cover ${sizeClass} bg-gradient-to-br ${book.coverGradient} flex flex-col justify-between p-2 flex-shrink-0 cursor-pointer shadow-md">
-          <div class="flex justify-between items-start">
-            <span class="text-[8px] font-black uppercase tracking-wider px-1 py-0.5 rounded bg-black/40 ${book.coverTextColor}">${book.genre}</span>
-            ${book.hasEbook ? '<span class="text-[8px] bg-white/20 text-white px-1 rounded font-semibold">eBook</span>' : ''}
+        <div class="book-cover ${sizeClass} relative flex-shrink-0 cursor-pointer shadow-md overflow-hidden rounded-md bg-slate-200">
+          <img src="${coverUrl}" alt="${book.title} 표지" 
+               loading="lazy"
+               onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+               class="w-full h-full object-cover rounded-md block transition-transform duration-300 hover:scale-105" />
+          <div class="fallback-cover w-full h-full bg-gradient-to-br ${book.coverGradient} flex flex-col justify-between p-2 rounded-md hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-black/40 ${book.coverTextColor}">${book.genre}</span>
+              ${book.hasEbook ? '<span class="text-xs bg-white/20 text-white px-1.5 py-0.5 rounded font-semibold">eBook</span>' : ''}
+            </div>
+            <div class="my-auto text-center px-1">
+              <h4 class="font-extrabold text-sm leading-tight text-white drop-shadow-sm line-clamp-2">${book.title}</h4>
+            </div>
+            <div class="text-xs text-slate-300 font-medium truncate text-center">
+              ${book.author}
+            </div>
           </div>
-          <div class="my-auto text-center px-1">
-            <h4 class="font-extrabold text-[11px] leading-tight text-white drop-shadow-sm line-clamp-2">${book.title}</h4>
-          </div>
-          <div class="text-[9px] text-slate-300 font-medium truncate text-center">
-            ${book.author}
-          </div>
+          ${book.hasEbook ? '<span class="absolute top-1 right-1 text-[11px] font-bold bg-slate-900/80 text-white px-1.5 py-0.5 rounded shadow z-10">eBook</span>' : ''}
         </div>
       `;
     }
@@ -1003,7 +1107,7 @@
       renderSteadysellerGrid();
       renderRankingList('bestseller');
       renderGenreExplorer();
-      renderLibraryList();
+      filterLibraryView('wish');
       updateLibraryCounts();
       updateClock();
       setInterval(updateClock, 30000);
@@ -1017,31 +1121,32 @@
       if (timeElem) timeElem.innerText = `${hours}:${minutes}`;
     }
 
+    // 5. Render: Home Bestseller Carousel with Real Covers
     function renderBestsellerCarousel() {
       const container = document.getElementById('bestsellerCarousel');
       const bestsellers = BOOKS_DATABASE.filter(b => b.isBestseller).sort((a,b) => a.rank - b.rank);
       
       container.innerHTML = bestsellers.map(book => `
-        <div onclick="openBookModal(${book.id})" class="snap-start flex-shrink-0 w-36 bg-white border border-slate-200/90 rounded-2xl p-2.5 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between">
-          <div class="relative mb-2">
-            ${renderBookCoverHTML(book, "w-full h-36")}
-            <div class="absolute -top-1.5 -left-1.5 w-6 h-6 rounded-full bg-slate-900 text-amber-300 text-xs font-black flex items-center justify-center shadow-md">
+        <div onclick="openBookModal(${book.id})" class="snap-start flex-shrink-0 w-40 bg-white border border-slate-200 rounded-2xl p-3 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between">
+          <div class="relative mb-2.5">
+            ${renderBookCoverHTML(book, "w-full h-44")}
+            <div class="absolute -top-1.5 -left-1.5 w-7 h-7 rounded-full bg-slate-900 text-amber-300 text-xs font-black flex items-center justify-center shadow-md border-2 border-white">
               ${book.rank}
             </div>
-            ${book.rankDiff === 'NEW' ? '<span class="absolute top-1 right-1 text-[9px] font-bold bg-rose-500 text-white px-1.5 py-0.5 rounded-full shadow">NEW</span>' : ''}
+            ${book.rankDiff === 'NEW' ? '<span class="absolute top-1 right-1 text-xs font-black bg-rose-500 text-white px-2 py-0.5 rounded-full shadow">NEW</span>' : ''}
           </div>
           <div>
-            <h4 class="font-bold text-xs text-slate-900 truncate leading-tight">${book.title}</h4>
-            <p class="text-[10px] text-slate-400 truncate mb-1.5">${book.author}</p>
+            <h4 class="font-extrabold text-sm text-slate-900 truncate leading-snug">${book.title}</h4>
+            <p class="text-xs text-slate-500 truncate mb-2">${book.author}</p>
             
             <div class="space-y-1">
-              <div class="flex items-center justify-between text-[10px] bg-rose-50 px-1.5 py-0.5 rounded border border-rose-100">
-                <span class="text-rose-600 font-bold">왓챠</span>
-                <span class="font-black text-rose-600">★ ${book.watcha.score}</span>
-              </div>
-              <div class="flex items-center justify-between text-[10px] bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
-                <span class="text-emerald-700 font-bold">교보</span>
+              <div class="flex items-center justify-between text-xs bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100">
+                <span class="text-emerald-700 font-bold">교보문고</span>
                 <span class="font-black text-emerald-800">★ ${book.kyobo.score}</span>
+              </div>
+              <div class="flex items-center justify-between text-xs bg-rose-50 px-2 py-1 rounded-md border border-rose-100">
+                <span class="text-rose-600 font-bold">왓챠피디아</span>
+                <span class="font-black text-rose-600">★ ${book.watcha.score}</span>
               </div>
             </div>
           </div>
@@ -1049,31 +1154,31 @@
       `).join('');
     }
 
+    // 6. Render: Double Crown Books (Both platforms highly rated)
     function renderDoubleCrownList() {
       const container = document.getElementById('doubleCrownList');
       const topBooks = BOOKS_DATABASE.filter(b => b.watcha.score >= 4.3 && b.kyobo.score >= 9.7).slice(0, 3);
       
       container.innerHTML = topBooks.map(book => `
-        <div onclick="openBookModal(${book.id})" class="bg-white rounded-xl p-2.5 border border-slate-200/90 shadow-2xs hover:border-slate-300 transition flex items-center gap-3 cursor-pointer">
-          ${renderBookCoverHTML(book, "w-14 h-20")}
+        <div onclick="openBookModal(${book.id})" class="bg-white rounded-xl p-3 border border-slate-200 shadow-2xs hover:border-slate-300 transition flex items-center gap-3.5 cursor-pointer">
+          ${renderBookCoverHTML(book, "w-16 h-24")}
           <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1.5 mb-0.5">
-              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">${book.genre}</span>
-              <h4 class="text-xs font-bold text-slate-900 truncate">${book.title}</h4>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">${book.genre}</span>
+              <h4 class="text-sm font-extrabold text-slate-900 truncate">${book.title}</h4>
             </div>
-            <p class="text-[10px] text-slate-400 truncate mb-1.5">${book.author} · ${book.publisher}</p>
+            <p class="text-xs text-slate-500 truncate mb-2">${book.author} · ${book.publisher}</p>
             
-            <div class="flex items-center gap-2">
-              <span class="inline-flex items-center text-[10px] font-bold text-rose-600">
-                왓챠 ★ ${book.watcha.score}
-              </span>
-              <span class="text-slate-300 text-xs">|</span>
-              <span class="inline-flex items-center text-[10px] font-bold text-emerald-700">
+            <div class="flex items-center gap-2.5">
+              <span class="inline-flex items-center text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
                 교보 ★ ${book.kyobo.score}
               </span>
-              <span class="ml-auto text-[10px] text-slate-400 flex items-center">
+              <span class="inline-flex items-center text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded">
+                왓챠 ★ ${book.watcha.score}
+              </span>
+              <span class="ml-auto text-xs text-slate-400 font-bold flex items-center">
                 상세보기
-                <svg class="w-3 h-3 text-slate-300 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                <svg class="w-3.5 h-3.5 text-slate-400 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
               </span>
             </div>
           </div>
@@ -1081,12 +1186,13 @@
       `).join('');
     }
 
+    // 7. Filter: Genre Top Books in Home
     function filterGenreTop(genre) {
       document.querySelectorAll('.genre-top-btn').forEach(btn => {
         if (btn.dataset.g === genre) {
-          btn.className = "genre-top-btn px-2 py-0.5 rounded bg-white text-slate-900 shadow-xs font-bold";
+          btn.className = "genre-top-btn px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-xs font-extrabold";
         } else {
-          btn.className = "genre-top-btn px-2 py-0.5 rounded text-slate-600 hover:text-slate-900";
+          btn.className = "genre-top-btn px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 font-semibold";
         }
       });
 
@@ -1096,60 +1202,62 @@
         .slice(0, 2);
 
       container.innerHTML = booksInGenre.map(book => `
-        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200/90 rounded-xl p-3 shadow-sm hover:shadow transition flex gap-3 cursor-pointer">
-          ${renderBookCoverHTML(book, "w-16 h-24")}
+        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-2xl p-3.5 shadow-sm hover:shadow transition flex gap-3.5 cursor-pointer">
+          ${renderBookCoverHTML(book, "w-20 h-28")}
           <div class="flex-1 flex flex-col justify-between min-w-0">
             <div>
-              <div class="flex items-center justify-between mb-0.5">
-                <span class="text-[10px] font-semibold text-rose-600">#${genre} 평점 TOP</span>
-                <span class="text-[10px] text-slate-400">${book.pubYear}년작</span>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">#${genre} 1위 추천</span>
+                <span class="text-xs text-slate-400 font-medium">${book.pubYear}</span>
               </div>
-              <h4 class="font-bold text-xs text-slate-900 leading-snug truncate">${book.title}</h4>
-              <p class="text-[10px] text-slate-400 mb-1">${book.author}</p>
-              <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">${book.summary}</p>
+              <h4 class="font-extrabold text-sm text-slate-900 leading-snug truncate">${book.title}</h4>
+              <p class="text-xs text-slate-500 mb-1.5">${book.author}</p>
+              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${book.summary}</p>
             </div>
             
-            <div class="flex items-center gap-2 pt-1 border-t border-slate-100">
-              <span class="text-[10px] font-bold text-rose-600">왓챠 ★ ${book.watcha.score}</span>
-              <span class="text-slate-200">|</span>
-              <span class="text-[10px] font-bold text-emerald-700">교보 ★ ${book.kyobo.score}</span>
-              <span class="text-slate-200">|</span>
-              <span class="text-[10px] text-slate-400">${book.kyobo.recommendRate}% 추천</span>
+            <div class="flex items-center gap-2 pt-2 border-t border-slate-100 mt-1.5">
+              <span class="text-xs font-black text-emerald-700">교보 ★ ${book.kyobo.score}</span>
+              <span class="text-slate-300">|</span>
+              <span class="text-xs font-black text-rose-600">왓챠 ★ ${book.watcha.score}</span>
+              <span class="text-slate-300">|</span>
+              <span class="text-xs text-slate-500 font-medium">${book.kyobo.recommendRate}% 추천</span>
             </div>
           </div>
         </div>
       `).join('');
     }
 
+    // 8. Render: Steadysellers Grid
     function renderSteadysellerGrid() {
       const container = document.getElementById('steadysellerGrid');
       const steadies = BOOKS_DATABASE.filter(b => b.isSteady).slice(0, 4);
 
       container.innerHTML = steadies.map(book => `
-        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-xl p-2.5 shadow-2xs hover:shadow transition flex flex-col cursor-pointer">
-          <div class="flex gap-2 mb-2">
-            ${renderBookCoverHTML(book, "w-14 h-20")}
+        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-xl p-3 shadow-2xs hover:shadow transition flex flex-col cursor-pointer justify-between">
+          <div class="flex gap-2.5 mb-2">
+            ${renderBookCoverHTML(book, "w-16 h-22")}
             <div class="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-              <span class="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded self-start truncate">스테디셀러</span>
-              <h4 class="font-bold text-xs text-slate-900 line-clamp-2 leading-tight">${book.title}</h4>
-              <p class="text-[10px] text-slate-400 truncate">${book.author}</p>
+              <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded self-start truncate">스테디셀러</span>
+              <h4 class="font-extrabold text-xs text-slate-900 line-clamp-2 leading-tight">${book.title}</h4>
+              <p class="text-xs text-slate-500 truncate">${book.author}</p>
             </div>
           </div>
-          <div class="mt-auto pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
-            <span class="text-rose-500 font-bold">★ ${book.watcha.score}</span>
-            <span class="text-emerald-700 font-bold">교보 ${book.kyobo.score}</span>
+          <div class="mt-auto pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
+            <span class="text-emerald-700">교보 ${book.kyobo.score}</span>
+            <span class="text-rose-500">왓챠 ★ ${book.watcha.score}</span>
           </div>
         </div>
       `).join('');
     }
 
+    // 9. Tab 2: Ranking View
     function renderRankingList(filterType = 'bestseller') {
       ['bestseller', 'steady', 'watcha', 'kyobo'].forEach(type => {
         const btn = document.getElementById(`rankBtn-${type}`);
         if (type === filterType) {
-          btn.className = "flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-sm font-bold text-center";
+          btn.className = "flex-1 py-2 rounded-lg bg-white text-slate-900 shadow-sm font-extrabold text-center text-xs";
         } else {
-          btn.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 text-center";
+          btn.className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 font-semibold text-center text-xs";
         }
       });
 
@@ -1166,47 +1274,48 @@
 
       const container = document.getElementById('fullRankingList');
       container.innerHTML = list.map((book, idx) => `
-        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200/90 rounded-2xl p-3 shadow-2xs hover:shadow-md transition flex items-center gap-3 cursor-pointer">
-          <div class="flex flex-col items-center justify-center w-7 flex-shrink-0">
-            <span class="text-base font-black ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">${idx + 1}</span>
-            <span class="text-[9px] font-bold ${book.rankDiff === 'NEW' ? 'text-rose-500' : book.rankDiff.startsWith('▲') ? 'text-emerald-600' : 'text-slate-300'}">
+        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-2xl p-3.5 shadow-2xs hover:shadow-md transition flex items-center gap-3.5 cursor-pointer">
+          <div class="flex flex-col items-center justify-center w-8 flex-shrink-0">
+            <span class="text-lg font-black ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">${idx + 1}</span>
+            <span class="text-xs font-bold ${book.rankDiff === 'NEW' ? 'text-rose-500' : book.rankDiff.startsWith('▲') ? 'text-emerald-600' : 'text-slate-400'}">
               ${book.rankDiff}
             </span>
           </div>
 
-          ${renderBookCoverHTML(book, "w-16 h-22")}
+          ${renderBookCoverHTML(book, "w-18 h-26")}
 
           <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1.5 mb-0.5">
-              <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">${book.genre}</span>
-              ${book.hasEbook ? '<span class="text-[9px] text-blue-600 font-semibold bg-blue-50 px-1 rounded">eBook</span>' : ''}
-              <h4 class="font-bold text-xs text-slate-900 truncate">${book.title}</h4>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">${book.genre}</span>
+              ${book.hasEbook ? '<span class="text-xs text-blue-700 font-bold bg-blue-50 px-1.5 py-0.5 rounded">eBook</span>' : ''}
+              <h4 class="font-extrabold text-sm text-slate-900 truncate">${book.title}</h4>
             </div>
-            <p class="text-[10px] text-slate-400 truncate mb-1.5">${book.author} · ${book.publisher}</p>
+            <p class="text-xs text-slate-500 truncate mb-2">${book.author} · ${book.publisher}</p>
             
-            <div class="flex items-center gap-2 mb-1.5">
-              <div class="flex items-center gap-1 text-[10px] bg-rose-50 border border-rose-100 px-1.5 py-0.5 rounded font-bold text-rose-600">
-                <span>왓챠</span>
-                <span>★ ${book.watcha.score}</span>
-              </div>
-              <div class="flex items-center gap-1 text-[10px] bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded font-bold text-emerald-800">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="flex items-center gap-1 text-xs bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md font-black text-emerald-800">
                 <span>교보</span>
                 <span>★ ${book.kyobo.score}</span>
               </div>
+              <div class="flex items-center gap-1 text-xs bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-md font-black text-rose-600">
+                <span>왓챠</span>
+                <span>★ ${book.watcha.score}</span>
+              </div>
             </div>
 
-            <p class="text-[10px] text-slate-500 truncate italic">"${book.quote}"</p>
+            <p class="text-xs text-slate-600 truncate italic">"${book.quote}"</p>
           </div>
         </div>
       `).join('');
     }
 
+    // 10. Tab 3: Genre Explorer View
     function selectGenreTab(genre) {
       document.querySelectorAll('.genre-sel-chip').forEach(chip => {
         if (chip.dataset.target === genre) {
-          chip.className = "genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-900 text-white";
+          chip.className = "genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white";
         } else {
-          chip.className = "genre-sel-chip px-2.5 py-1 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600";
+          chip.className = "genre-sel-chip px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700";
         }
       });
       currentFilterCategory = genre;
@@ -1248,36 +1357,36 @@
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-12 text-slate-400">
-            <p class="text-xs">조건에 맞는 도서가 없습니다.</p>
-            <button onclick="applyScoreFilter('all')" class="mt-2 px-3 py-1 bg-slate-200 rounded text-slate-700 text-xs font-semibold">필터 초기화</button>
+          <div class="text-center py-12 text-slate-500">
+            <p class="text-sm">조건에 맞는 도서가 없습니다.</p>
+            <button onclick="applyScoreFilter('all')" class="mt-3 px-3.5 py-1.5 bg-slate-200 rounded-xl text-slate-800 text-xs font-bold">필터 초기화</button>
           </div>
         `;
         return;
       }
 
       container.innerHTML = filtered.map(book => `
-        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-2xl p-3 shadow-2xs hover:shadow transition flex gap-3 cursor-pointer">
-          ${renderBookCoverHTML(book, "w-18 h-26")}
+        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-2xl p-3.5 shadow-2xs hover:shadow transition flex gap-3.5 cursor-pointer">
+          ${renderBookCoverHTML(book, "w-20 h-28")}
           <div class="flex-1 min-w-0 flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-0.5">
-                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">${book.genre}</span>
-                <span class="text-[10px] text-slate-400">${book.publisher}</span>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">${book.genre}</span>
+                <span class="text-xs text-slate-400 font-medium">${book.publisher}</span>
               </div>
-              <h4 class="font-bold text-xs text-slate-900 truncate leading-snug">${book.title}</h4>
-              <p class="text-[10px] text-slate-400 truncate mb-1">${book.author}</p>
-              <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed mb-2">${book.summary}</p>
+              <h4 class="font-extrabold text-sm text-slate-900 truncate leading-snug">${book.title}</h4>
+              <p class="text-xs text-slate-500 truncate mb-1.5">${book.author}</p>
+              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-2">${book.summary}</p>
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-100">
               <div class="flex items-center gap-2">
-                <span class="text-[10px] font-bold text-rose-600">왓챠 ★ ${book.watcha.score}</span>
-                <span class="text-[10px] font-bold text-emerald-700">교보 ★ ${book.kyobo.score}</span>
+                <span class="text-xs font-black text-emerald-700">교보 ★ ${book.kyobo.score}</span>
+                <span class="text-xs font-black text-rose-600">왓챠 ★ ${book.watcha.score}</span>
               </div>
-              <a href="${book.kyoboUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-[10px] font-bold text-emerald-700 hover:underline flex items-center gap-0.5">
+              <a href="${book.kyoboUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="text-xs font-extrabold text-emerald-700 hover:underline flex items-center gap-0.5">
                 교보문고
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
             </div>
           </div>
@@ -1285,17 +1394,31 @@
       `).join('');
     }
 
-    let currentLibFilter = 'wish';
-
+    // 11. Tab 4: Interactive My Library Dashboard & Clickable Stat Numbers
     function filterLibraryView(status) {
       currentLibFilter = status;
+      
+      // Update Tab Bar Active State
       document.querySelectorAll('.lib-tab-btn').forEach(btn => {
         if (btn.dataset.lib === status) {
-          btn.className = "lib-tab-btn active text-rose-600 border-b-2 border-rose-500 pb-1 font-bold";
+          btn.className = "lib-tab-btn active text-rose-600 border-b-2 border-rose-500 pb-1.5 font-bold";
         } else {
-          btn.className = "lib-tab-btn text-slate-500 pb-1";
+          btn.className = "lib-tab-btn text-slate-500 pb-1.5 hover:text-slate-800 font-semibold";
         }
       });
+
+      // Update Dashboard Box Active Styling
+      ['wish', 'reading', 'done'].forEach(s => {
+        const box = document.getElementById(`statBox-${s}`);
+        if (box) {
+          if (s === status) {
+            box.className = "stat-click-box p-2.5 rounded-xl bg-slate-800 border-2 border-rose-400 shadow-md text-center flex flex-col items-center transition cursor-pointer active:scale-95 ring-2 ring-rose-400/30";
+          } else {
+            box.className = "stat-click-box p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-center flex flex-col items-center transition cursor-pointer active:scale-95";
+          }
+        }
+      });
+
       renderLibraryList();
     }
 
@@ -1304,32 +1427,38 @@
       const bookIds = userLibrary[currentLibFilter] || [];
       const books = BOOKS_DATABASE.filter(b => bookIds.includes(b.id));
 
+      const statusLabels = {
+        'wish': '읽고 싶은 책 (찜 목록)',
+        'reading': '현재 읽고 있는 책',
+        'done': '완독한 책 목록'
+      };
+
       if (books.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-12 bg-white rounded-2xl border border-dashed border-slate-200">
-            <p class="text-xs text-slate-400 mb-2">서재에 등록된 도서가 없습니다.</p>
-            <p class="text-[11px] text-slate-400">책 상세 페이지에서 '읽고 싶어요'를 눌러 담아보세요!</p>
+          <div class="text-center py-14 bg-white rounded-2xl border border-dashed border-slate-200 p-4">
+            <p class="text-sm font-bold text-slate-600 mb-1.5">${statusLabels[currentLibFilter]}에 도서가 없습니다.</p>
+            <p class="text-xs text-slate-400 leading-relaxed">책 상세 창에서 상태 버튼을 터치하여 내 서재에 추가해보세요!</p>
           </div>
         `;
         return;
       }
 
       container.innerHTML = books.map(book => `
-        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-xl p-3 shadow-2xs hover:shadow transition flex items-center justify-between cursor-pointer">
-          <div class="flex items-center gap-3 min-w-0">
-            ${renderBookCoverHTML(book, "w-12 h-16")}
+        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-2xl p-3.5 shadow-2xs hover:shadow transition flex items-center justify-between cursor-pointer">
+          <div class="flex items-center gap-3.5 min-w-0">
+            ${renderBookCoverHTML(book, "w-14 h-20")}
             <div class="min-w-0">
-              <span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">${book.genre}</span>
-              <h4 class="font-bold text-xs text-slate-900 truncate leading-tight mt-0.5">${book.title}</h4>
-              <p class="text-[10px] text-slate-400 truncate">${book.author}</p>
-              <div class="flex items-center gap-2 text-[10px] mt-1 font-bold">
-                <span class="text-rose-600">왓챠 ★ ${book.watcha.score}</span>
+              <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">${book.genre}</span>
+              <h4 class="font-extrabold text-sm text-slate-900 truncate leading-snug mt-1">${book.title}</h4>
+              <p class="text-xs text-slate-500 truncate">${book.author}</p>
+              <div class="flex items-center gap-2.5 text-xs mt-1.5 font-bold">
                 <span class="text-emerald-700">교보 ★ ${book.kyobo.score}</span>
+                <span class="text-rose-600">왓챠 ★ ${book.watcha.score}</span>
               </div>
             </div>
           </div>
-          <button onclick="removeBookFromLibrary(${book.id}, event)" class="p-1.5 text-slate-300 hover:text-rose-500 transition" title="서재에서 삭제">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          <button onclick="removeBookFromLibrary(${book.id}, event)" class="p-2 text-slate-400 hover:text-rose-600 transition" title="서재에서 삭제">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
           </button>
         </div>
       `).join('');
@@ -1348,6 +1477,7 @@
       document.getElementById('statDoneCount').innerText = (userLibrary.done || []).length;
     }
 
+    // 12. Book Detail Modal & Dual Ratings Deep Comparison
     function openBookModal(bookId) {
       currentActiveBookId = bookId;
       const book = BOOKS_DATABASE.find(b => b.id === bookId);
@@ -1359,94 +1489,94 @@
 
       modalContent.innerHTML = `
         <div class="flex gap-4">
-          ${renderBookCoverHTML(book, "w-24 h-36")}
+          ${renderBookCoverHTML(book, "w-28 h-40")}
           <div class="flex-1 flex flex-col justify-between">
             <div>
-              <div class="flex items-center gap-1.5 mb-1">
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-900 text-white">${book.genre}</span>
-                ${book.hasEbook ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">eBook 지원</span>' : ''}
+              <div class="flex items-center gap-1.5 mb-1.5">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-900 text-white">${book.genre}</span>
+                ${book.hasEbook ? '<span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">eBook 지원</span>' : ''}
               </div>
-              <h2 class="text-base font-black text-slate-900 leading-tight">${book.title}</h2>
-              <p class="text-xs text-slate-600 mt-0.5 font-medium">${book.author}</p>
-              <p class="text-[11px] text-slate-400">${book.publisher} · ${book.pubYear} · ${book.pages}쪽</p>
+              <h2 class="text-lg font-black text-slate-900 leading-snug">${book.title}</h2>
+              <p class="text-sm text-slate-700 mt-0.5 font-bold">${book.author}</p>
+              <p class="text-xs text-slate-500 mt-1">${book.publisher} · ${book.pubYear} · ${book.pages}쪽</p>
             </div>
             
-            <div class="flex items-center gap-1.5 mt-2">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-xs font-extrabold px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                 베스트 ${book.rank}위
               </span>
-              ${book.isSteady ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">스테디셀러</span>' : ''}
+              ${book.isSteady ? '<span class="text-xs font-extrabold px-2.5 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200">스테디셀러</span>' : ''}
             </div>
           </div>
         </div>
 
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
-            <span class="text-xs font-extrabold text-slate-900 flex items-center gap-1">
-              ⚖️ 왓챠피디아 vs 교보문고 평점 분석
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3.5">
+          <div class="flex items-center justify-between border-b border-slate-200/80 pb-2.5">
+            <span class="text-sm font-black text-slate-900 flex items-center gap-1.5">
+              ⚖️ 교보문고 vs 왓챠피디아 평점 분석
             </span>
-            <span class="text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded-full border border-slate-200">
+            <span class="text-xs font-extrabold text-slate-700 bg-white px-2.5 py-0.5 rounded-full border border-slate-200 shadow-2xs">
               만족도 ${( (watchaPercent + kyoboPercent) / 2 ).toFixed(1)}%
             </span>
           </div>
 
-          <div class="grid grid-cols-2 gap-2.5">
-            <div class="bg-white rounded-xl p-2.5 border border-rose-100 shadow-2xs">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white rounded-xl p-3 border border-emerald-100 shadow-2xs">
               <div class="flex items-center justify-between mb-1">
-                <span class="text-[11px] font-black text-rose-600">왓챠피디아</span>
-                <span class="text-[10px] text-slate-400 font-medium">${(book.watcha.raters / 1000).toFixed(1)}k명</span>
+                <span class="text-xs font-black text-emerald-700">교보문고</span>
+                <span class="text-xs text-slate-400 font-medium">${(book.kyobo.reviews / 1000).toFixed(1)}k 리뷰</span>
               </div>
               <div class="flex items-baseline gap-1">
-                <span class="text-lg font-black text-rose-600">★ ${book.watcha.score}</span>
-                <span class="text-[10px] text-slate-400">/ 5.0</span>
+                <span class="text-xl font-black text-emerald-700">★ ${book.kyobo.score}</span>
+                <span class="text-xs text-slate-400">/ 10.0</span>
               </div>
-              <div class="w-full bg-rose-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
-                <div class="bg-rose-500 h-full rounded-full" style="width: ${watchaPercent}%"></div>
-              </div>
-              <p class="text-[10px] text-slate-500 mt-2 font-medium line-clamp-1">"${book.watcha.keyword}"</p>
-            </div>
-
-            <div class="bg-white rounded-xl p-2.5 border border-emerald-100 shadow-2xs">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-[11px] font-black text-emerald-700">교보문고</span>
-                <span class="text-[10px] text-slate-400 font-medium">${(book.kyobo.reviews / 1000).toFixed(1)}k 리뷰</span>
-              </div>
-              <div class="flex items-baseline gap-1">
-                <span class="text-lg font-black text-emerald-700">★ ${book.kyobo.score}</span>
-                <span class="text-[10px] text-slate-400">/ 10.0</span>
-              </div>
-              <div class="w-full bg-emerald-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+              <div class="w-full bg-emerald-100 h-2 rounded-full mt-2 overflow-hidden">
                 <div class="bg-emerald-600 h-full rounded-full" style="width: ${kyoboPercent}%"></div>
               </div>
-              <p class="text-[10px] text-slate-500 mt-2 font-medium line-clamp-1">"${book.kyobo.keyword}"</p>
+              <p class="text-xs text-slate-600 mt-2 font-medium line-clamp-1">"${book.kyobo.keyword}"</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-3 border border-rose-100 shadow-2xs">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-black text-rose-600">왓챠피디아</span>
+                <span class="text-xs text-slate-400 font-medium">${(book.watcha.raters / 1000).toFixed(1)}k명</span>
+              </div>
+              <div class="flex items-baseline gap-1">
+                <span class="text-xl font-black text-rose-600">★ ${book.watcha.score}</span>
+                <span class="text-xs text-slate-400">/ 5.0</span>
+              </div>
+              <div class="w-full bg-rose-100 h-2 rounded-full mt-2 overflow-hidden">
+                <div class="bg-rose-500 h-full rounded-full" style="width: ${watchaPercent}%"></div>
+              </div>
+              <p class="text-xs text-slate-600 mt-2 font-medium line-clamp-1">"${book.watcha.keyword}"</p>
             </div>
           </div>
 
-          <div class="flex flex-wrap gap-1 pt-1">
-            ${book.watcha.tags.map(t => `<span class="text-[10px] bg-rose-50/80 text-rose-700 font-semibold px-2 py-0.5 rounded-md border border-rose-100">${t}</span>`).join('')}
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            ${book.watcha.tags.map(t => `<span class="text-xs bg-rose-50 text-rose-700 font-bold px-2.5 py-1 rounded-md border border-rose-100">${t}</span>`).join('')}
           </div>
         </div>
 
-        <div class="bg-amber-50/70 border-l-4 border-amber-400 p-3 rounded-r-xl">
-          <p class="text-[10px] font-bold text-amber-800 uppercase tracking-wide mb-0.5">책 속의 한 문장</p>
-          <p class="text-xs font-serif italic text-slate-700 leading-relaxed">"${book.quote}"</p>
+        <div class="bg-amber-50/80 border-l-4 border-amber-400 p-3.5 rounded-r-xl">
+          <p class="text-xs font-bold text-amber-800 uppercase tracking-wide mb-1">책 속의 인상 깊은 한 문장</p>
+          <p class="text-sm font-serif italic text-slate-800 leading-relaxed">"${book.quote}"</p>
         </div>
 
         <div>
-          <h3 class="text-xs font-bold text-slate-900 mb-1.5">간단 책 소개</h3>
-          <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line">${book.summary}</p>
+          <h3 class="text-sm font-extrabold text-slate-900 mb-2">간단 책 소개</h3>
+          <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">${book.summary}</p>
         </div>
 
-        <div class="pt-2 border-t border-slate-100">
-          <span class="text-xs font-bold text-slate-900 block mb-2">내 독서 상태 설정</span>
-          <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <button onclick="setBookStatus(${book.id}, 'wish')" class="status-pick-btn py-2 rounded-xl border ${userLibrary.wish.includes(book.id) ? 'bg-rose-500 text-white font-bold border-rose-500' : 'bg-slate-50 text-slate-600 border-slate-200'}">
+        <div class="pt-3 border-t border-slate-100">
+          <span class="text-sm font-bold text-slate-900 block mb-2.5">내 독서 상태 설정</span>
+          <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold">
+            <button onclick="setBookStatus(${book.id}, 'wish')" class="status-pick-btn py-2.5 rounded-xl border ${userLibrary.wish.includes(book.id) ? 'bg-rose-500 text-white border-rose-500 shadow-sm' : 'bg-slate-50 text-slate-700 border-slate-200'}">
               읽고 싶어요
             </button>
-            <button onclick="setBookStatus(${book.id}, 'reading')" class="status-pick-btn py-2 rounded-xl border ${userLibrary.reading.includes(book.id) ? 'bg-amber-500 text-white font-bold border-amber-500' : 'bg-slate-50 text-slate-600 border-slate-200'}">
+            <button onclick="setBookStatus(${book.id}, 'reading')" class="status-pick-btn py-2.5 rounded-xl border ${userLibrary.reading.includes(book.id) ? 'bg-amber-500 text-white border-amber-500 shadow-sm' : 'bg-slate-50 text-slate-700 border-slate-200'}">
               읽는 중
             </button>
-            <button onclick="setBookStatus(${book.id}, 'done')" class="status-pick-btn py-2 rounded-xl border ${userLibrary.done.includes(book.id) ? 'bg-emerald-600 text-white font-bold border-emerald-600' : 'bg-slate-50 text-slate-600 border-slate-200'}">
+            <button onclick="setBookStatus(${book.id}, 'done')" class="status-pick-btn py-2.5 rounded-xl border ${userLibrary.done.includes(book.id) ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-slate-50 text-slate-700 border-slate-200'}">
               완독
             </button>
           </div>
@@ -1466,10 +1596,10 @@
       const btn = document.getElementById('modalWishBtn');
       if (isWish) {
         textElem.innerText = "서재에 담김 (찜)";
-        btn.className = "flex-1 py-2.5 px-3 rounded-xl border border-rose-500 bg-rose-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition";
+        btn.className = "flex-1 py-3 px-3 rounded-xl border border-rose-500 bg-rose-500 text-white text-sm font-bold flex items-center justify-center gap-1.5 transition";
       } else {
         textElem.innerText = "읽고 싶어요";
-        btn.className = "flex-1 py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-xs font-bold flex items-center justify-center gap-1.5 transition";
+        btn.className = "flex-1 py-3 px-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-sm font-bold flex items-center justify-center gap-1.5 transition";
       }
     }
 
@@ -1525,7 +1655,7 @@
       const q = query.trim().toLowerCase();
       const resultsContainer = document.getElementById('searchResults');
       if (!q) {
-        resultsContainer.innerHTML = '<p class="text-slate-400 text-center py-4">검색어를 입력하면 실시간으로 도서를 찾아드립니다.</p>';
+        resultsContainer.innerHTML = '<p class="text-slate-400 text-center py-6">검색어를 입력하시면 교보문고 및 왓챠 추천 도서를 찾아드립니다.</p>';
         return;
       }
 
@@ -1538,22 +1668,22 @@
       );
 
       if (matches.length === 0) {
-        resultsContainer.innerHTML = '<p class="text-slate-400 text-center py-4">일치하는 책을 찾지 못했습니다.</p>';
+        resultsContainer.innerHTML = '<p class="text-slate-400 text-center py-6">일치하는 책을 찾지 못했습니다.</p>';
         return;
       }
 
       resultsContainer.innerHTML = matches.map(book => `
-        <div onclick="openBookModal(${book.id}); closeSearchModalDirect();" class="p-2 hover:bg-slate-50 rounded-xl flex items-center justify-between cursor-pointer border-b border-slate-100 last:border-none">
-          <div class="flex items-center gap-2.5 min-w-0">
-            ${renderBookCoverHTML(book, "w-10 h-14")}
+        <div onclick="openBookModal(${book.id}); closeSearchModalDirect();" class="p-2.5 hover:bg-slate-50 rounded-xl flex items-center justify-between cursor-pointer border-b border-slate-100 last:border-none">
+          <div class="flex items-center gap-3 min-w-0">
+            ${renderBookCoverHTML(book, "w-12 h-16")}
             <div class="min-w-0">
-              <h4 class="font-bold text-xs text-slate-900 truncate">${book.title}</h4>
-              <p class="text-[10px] text-slate-400 truncate">${book.author} · ${book.genre}</p>
+              <h4 class="font-extrabold text-sm text-slate-900 truncate">${book.title}</h4>
+              <p class="text-xs text-slate-500 truncate">${book.author} · ${book.genre}</p>
             </div>
           </div>
-          <div class="text-right flex-shrink-0 text-[10px] font-bold">
-            <div class="text-rose-600">왓챠 ★ ${book.watcha.score}</div>
+          <div class="text-right flex-shrink-0 text-xs font-black">
             <div class="text-emerald-700">교보 ★ ${book.kyobo.score}</div>
+            <div class="text-rose-600">왓챠 ★ ${book.watcha.score}</div>
           </div>
         </div>
       `).join('');
@@ -1567,9 +1697,9 @@
 
       document.querySelectorAll('.nav-tab-item').forEach(item => {
         if (item.dataset.target === tabId) {
-          item.className = "nav-tab-item active flex flex-col items-center gap-0.5 py-1 px-3 text-rose-500";
+          item.className = "nav-tab-item active flex flex-col items-center gap-1 py-1 px-3 text-rose-500";
         } else {
-          item.className = "nav-tab-item flex flex-col items-center gap-0.5 py-1 px-3 text-slate-400 hover:text-slate-600";
+          item.className = "nav-tab-item flex flex-col items-center gap-1 py-1 px-3 text-slate-400 hover:text-slate-600";
         }
       });
 
@@ -1580,9 +1710,9 @@
       currentFilterCategory = category;
       document.querySelectorAll('.category-chip').forEach(chip => {
         if (chip.dataset.cat === category) {
-          chip.className = "category-chip px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-900 text-white";
+          chip.className = "category-chip px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition bg-slate-900 text-white";
         } else {
-          chip.className = "category-chip px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition bg-slate-100 text-slate-600 hover:bg-slate-200";
+          chip.className = "category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200";
         }
       });
 
@@ -1609,9 +1739,9 @@
       currentScoreFilter = filterType;
       document.querySelectorAll('.score-filter-btn').forEach(btn => {
         if (btn.dataset.filter === filterType) {
-          btn.className = "score-filter-btn px-2 py-0.5 rounded-full text-[11px] bg-slate-800 text-white font-medium";
+          btn.className = "score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-800 text-white font-bold";
         } else {
-          btn.className = "score-filter-btn px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-600 hover:bg-slate-200";
+          btn.className = "score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium";
         }
       });
       renderGenreExplorer();
