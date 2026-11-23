@@ -27,11 +27,29 @@
       --kyobo-bg: #EAF4EE;
       --book-paper: #FBF9F5;
     }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+      background-color: #0F172A;
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
       font-size: 15px; /* 전반적인 폰트 크기 2pt 상향 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    input, textarea {
+      user-select: text;
     }
     .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -41,18 +59,50 @@
       scrollbar-width: none;
     }
     .phone-container {
+      width: 100%;
       max-width: 440px;
+      height: 100%;
+      height: 100dvh;
       margin: 0 auto;
-      min-height: 100vh;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       position: relative;
       background: #FFFFFF;
-      overflow-x: hidden;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+    @media (max-width: 767px) {
+      body {
+        padding: 0 !important;
+        background-color: #FFFFFF !important;
+      }
+      .phone-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+    }
+    @media (min-width: 768px) {
+      body {
+        padding: 1rem 0;
+      }
+      .phone-container {
+        height: min(890px, calc(100vh - 60px));
+        max-height: 890px;
+        border-radius: 44px;
+        border: 10px solid #1E293B;
+      }
     }
     .phone-full-width {
+      width: 100% !important;
       max-width: 100% !important;
+      height: 100% !important;
+      height: 100dvh !important;
+      max-height: 100dvh !important;
       box-shadow: none !important;
       border: none !important;
       border-radius: 0 !important;
@@ -130,21 +180,21 @@
     }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col justify-center items-center p-0 md:py-6">
+<body class="bg-slate-900 text-slate-800 antialiased">
 
   <!-- Desktop Floating Control: Frame Toggle & Quick Guide -->
-  <div id="desktopFrameBar" class="hidden md:flex items-center justify-between w-full max-w-[440px] mb-3 px-2 text-sm text-slate-600">
-    <div class="flex items-center gap-1.5 font-semibold">
-      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+  <div id="desktopFrameBar" class="hidden md:flex items-center justify-between w-full max-w-[440px] mb-2 px-2 text-sm text-slate-300 flex-shrink-0">
+    <div class="flex items-center gap-1.5 font-semibold text-slate-300">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
       <span id="desktopStatusBarText">2026년 11월 4주차 실시간 모드</span>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="installPWA()" class="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-lg shadow-xs hover:bg-rose-100 transition font-bold flex items-center gap-1.5 text-xs">
+      <button onclick="installPWA()" class="px-3 py-1.5 bg-rose-500 text-white rounded-lg shadow-xs hover:bg-rose-600 transition font-bold flex items-center gap-1.5 text-xs">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
         <span>앱 설치</span>
       </button>
-      <button id="toggleFrameBtn" onclick="toggleScreenMode()" class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg shadow-sm hover:bg-slate-50 transition flex items-center gap-1.5 text-xs font-semibold">
-        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+      <button id="toggleFrameBtn" onclick="toggleScreenMode()" class="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-200 rounded-lg shadow-sm hover:bg-slate-700 transition flex items-center gap-1.5 text-xs font-semibold">
+        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
         <span id="frameToggleText">전체 화면으로 보기</span>
       </button>
     </div>
@@ -154,7 +204,7 @@
   <div id="phoneShell" class="phone-container md:rounded-[44px] md:border-[10px] md:border-slate-800 md:shadow-2xl">
     
     <!-- PWA Install Prompt Banner (Visible on mobile/browser when installable) -->
-    <div id="pwaInstallBanner" class="hidden bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-700 text-white px-4 py-3 flex items-center justify-between text-sm sticky top-0 z-50 shadow-md">
+    <div id="pwaInstallBanner" class="hidden bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-700 text-white px-4 py-3 flex items-center justify-between text-sm flex-shrink-0 z-50 shadow-md">
       <div class="flex items-center gap-3">
         <img src="./icon-192.png" alt="ReadPick Icon" class="w-8 h-8 rounded-xl shadow-sm border border-white/20">
         <div>
@@ -171,7 +221,7 @@
     </div>
 
     <!-- Phone Top Status Bar (Clock, Island & Battery) -->
-    <div id="phoneStatusBar" class="bg-white/95 backdrop-blur sticky top-0 z-40 px-5 pt-3 pb-2 flex items-center justify-between text-xs font-semibold text-slate-800 border-b border-slate-100">
+    <div id="phoneStatusBar" class="bg-white/95 backdrop-blur flex-shrink-0 z-40 px-5 pt-3 pb-2 flex items-center justify-between text-xs font-semibold text-slate-800 border-b border-slate-100">
       <span id="currentTime" class="font-bold">18:20</span>
       <!-- Dynamic Island Mockup -->
       <div class="w-24 h-4 bg-slate-900 rounded-full mx-auto hidden md:block"></div>
@@ -183,7 +233,7 @@
     </div>
 
     <!-- App Top Bar (Brand, Search & Filter & Realtime Date) -->
-    <header class="bg-white px-4 py-3 sticky top-[37px] z-30 border-b border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
+    <header class="bg-white px-4 py-3 flex-shrink-0 z-30 border-b border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-500 via-pink-500 to-emerald-600 flex items-center justify-center text-white font-black text-base shadow-md shadow-pink-200">
@@ -224,7 +274,7 @@
     </header>
 
     <!-- Genre & Category Scrollable Chip Bar -->
-    <nav class="bg-white/90 backdrop-blur px-3 py-2.5 border-b border-slate-100 overflow-x-auto no-scrollbar flex items-center gap-2 sticky top-[91px] z-20">
+    <nav class="bg-white/90 backdrop-blur px-3 py-2.5 border-b border-slate-100 overflow-x-auto no-scrollbar flex items-center gap-2 flex-shrink-0 z-20">
       <button onclick="setCategoryFilter('all')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition bg-slate-900 text-white" data-cat="all">전체보기</button>
       <button onclick="setCategoryFilter('bestseller')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="bestseller">🔥 교보 베스트</button>
       <button onclick="setCategoryFilter('steady')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="steady">🏛️ 스테디셀러</button>
@@ -241,8 +291,8 @@
       <span id="refreshToastText">2026년 11월 4주차 실시간 교보 순위로 갱신되었습니다.</span>
     </div>
 
-    <!-- Main Content Area: Tab Views -->
-    <main class="flex-1 pb-24 overflow-y-auto bg-slate-50 relative overscroll-y-contain">
+    <!-- Main Content Area: Tab Views (Independent scroll container) -->
+    <main class="flex-1 min-h-0 overflow-y-auto bg-slate-50 relative overscroll-y-contain">
 
       <!-- Mobile Pull-to-Refresh UI Indicator -->
       <div id="pullRefreshIndicator" class="overflow-hidden transition-all duration-150 flex items-center justify-center bg-slate-100 border-b border-slate-200 text-xs font-bold text-slate-600 gap-2 h-0 opacity-0 pointer-events-none">
@@ -253,7 +303,7 @@
       </div>
 
       <!-- ================= TAB 1: HOME ================= -->
-      <section id="tabHome" class="tab-pane active">
+      <section id="tabHome" class="tab-pane active pb-8">
         
         <!-- Hero Spotlight Banner (2026.11 기준) -->
         <div class="p-4">
@@ -365,7 +415,7 @@
       </section>
 
       <!-- ================= TAB 2: RANKING ================= -->
-      <section id="tabRanking" class="tab-pane hidden p-4">
+      <section id="tabRanking" class="tab-pane hidden p-4 pb-8">
         <div class="mb-3.5">
           <div class="flex items-center justify-between">
             <h2 id="rankingTabTitle" class="text-lg font-black text-slate-900">2026년 11월 4주차 종합 랭킹</h2>
@@ -398,7 +448,7 @@
       </section>
 
       <!-- ================= TAB 3: GENRE EXPLORER ================= -->
-      <section id="tabGenre" class="tab-pane hidden p-4">
+      <section id="tabGenre" class="tab-pane hidden p-4 pb-8">
         <div class="mb-3">
           <h2 class="text-lg font-black text-slate-900">장르별 탐색 & 큐레이션</h2>
           <p class="text-xs text-slate-500 mt-0.5">선호하는 분야와 맞춤 평점으로 최적의 책을 찾아보세요</p>
@@ -435,7 +485,7 @@
       </section>
 
       <!-- ================= TAB 4: MY LIBRARY ================= -->
-      <section id="tabLibrary" class="tab-pane hidden p-4">
+      <section id="tabLibrary" class="tab-pane hidden p-4 pb-8">
         <div class="mb-4">
           <h2 class="text-lg font-black text-slate-900">내 서재</h2>
           <p class="text-xs text-slate-500 mt-0.5">내가 찜한 도서와 읽고 있는 전자책 목록</p>
@@ -490,8 +540,8 @@
 
     </main>
 
-    <!-- Bottom Navigation Bar (Mobile Native Style) -->
-    <nav class="bg-white/95 backdrop-blur border-t border-slate-200 fixed bottom-0 left-0 right-0 max-w-[440px] mx-auto z-40 px-3 py-2 flex items-center justify-around text-slate-500">
+    <!-- Bottom Navigation Bar (Mobile Native Style - Pinned to bottom of phone container) -->
+    <nav class="bg-white/95 backdrop-blur border-t border-slate-200 flex-shrink-0 z-40 px-3 py-2 flex items-center justify-around text-slate-500 shadow-[0_-2px_8px_rgba(0,0,0,0.03)]">
       <button onclick="switchTab('tabHome')" class="nav-tab-item active flex flex-col items-center gap-1 py-1 px-3 text-rose-500" data-target="tabHome">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         <span class="text-xs font-bold">홈</span>
@@ -514,7 +564,9 @@
     </nav>
 
     <!-- Home Bar Indicator for Smartphone Simulator -->
-    <div class="fixed bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-300 rounded-full z-50 pointer-events-none md:block hidden"></div>
+    <div class="flex-shrink-0 py-1.5 bg-white flex justify-center items-center md:block hidden">
+      <div class="w-28 h-1 bg-slate-300 rounded-full mx-auto"></div>
+    </div>
   </div>
 
   <!-- ================= BOOK DETAIL MODAL / BOTTOM SHEET ================= -->
@@ -1290,7 +1342,7 @@
       }
     }
 
-    // Touch-based Native Pull-to-Refresh
+    // Touch-based Native Pull-to-Refresh (Zero interference with normal vertical scrolling)
     function initPullToRefresh() {
       const mainElem = document.querySelector('main');
       const pullIndicator = document.getElementById('pullRefreshIndicator');
@@ -1301,10 +1353,11 @@
       let touchStartY = 0;
       let isPulling = false;
       let pullDist = 0;
-      const MAX_PULL = 72;
+      const MAX_PULL = 68;
 
       mainElem.addEventListener('touchstart', (e) => {
-        if (mainElem.scrollTop <= 2) {
+        // Only trigger pull-to-refresh when touching at the exact top
+        if (mainElem.scrollTop <= 1) {
           touchStartY = e.touches[0].clientY;
           isPulling = true;
         } else {
@@ -1317,12 +1370,21 @@
         const currentY = e.touches[0].clientY;
         const diff = currentY - touchStartY;
         
-        if (diff > 0 && mainElem.scrollTop <= 2) {
-          pullDist = Math.min(diff * 0.45, MAX_PULL);
+        // If user is swiping UP to scroll down into the list, immediately exit pull mode
+        if (diff < 0) {
+          isPulling = false;
+          pullDist = 0;
+          pullIndicator.style.height = '0px';
+          pullIndicator.style.opacity = '0';
+          return;
+        }
+
+        if (diff > 0 && mainElem.scrollTop <= 1) {
+          pullDist = Math.min(diff * 0.42, MAX_PULL);
           pullIndicator.style.height = `${pullDist}px`;
-          pullIndicator.style.opacity = `${Math.min(pullDist / 35, 1)}`;
+          pullIndicator.style.opacity = `${Math.min(pullDist / 30, 1)}`;
           
-          if (pullDist > 46) {
+          if (pullDist > 44) {
             pullText.innerText = "손을 놓으면 최신 순위로 새로고침됩니다!";
             pullIcon.style.transform = "rotate(180deg)";
           } else {
@@ -1336,8 +1398,8 @@
         if (!isPulling) return;
         isPulling = false;
         
-        if (pullDist > 46) {
-          pullIndicator.style.height = '42px';
+        if (pullDist > 44) {
+          pullIndicator.style.height = '40px';
           pullText.innerText = "2026년 11월 4주차 순위 실시간 갱신 중...";
           pullIcon.classList.add('animate-spin');
           
@@ -1346,11 +1408,13 @@
             pullIndicator.style.height = '0px';
             pullIndicator.style.opacity = '0';
             pullIcon.classList.remove('animate-spin');
+            pullIcon.style.transform = "rotate(0deg)";
             pullDist = 0;
           }, 600);
         } else {
           pullIndicator.style.height = '0px';
           pullIndicator.style.opacity = '0';
+          pullIcon.style.transform = "rotate(0deg)";
           pullDist = 0;
         }
       }, { passive: true });
@@ -1983,7 +2047,7 @@
 
     function closeBookModalDirect() {
       document.getElementById('bookModalBackdrop').classList.add('hidden');
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     }
 
     function openSearchModal() {
