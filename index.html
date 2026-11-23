@@ -246,20 +246,20 @@
           <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-4 shadow-lg">
             <div class="relative z-10">
               <span id="heroLiveBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-rose-500 text-xs font-bold tracking-wider uppercase mb-2">
-                🏆 2026년 11월 교보문고 종합 1위 & 노벨문학상 대표작
+                🏆 2026년 11월 교보문고 종합 1위 화제작
               </span>
               <h2 class="text-lg font-black leading-snug text-white mb-1.5">
-                지금 전 세계가 주목하는<br/>한강 작가의 기념비적 대표작 《소년이 온다》
+                무라카미 하루키 최신작 《가호》<br/>2026년 11월 교보문고 종합 1위 등극!
               </h2>
               <p class="text-xs text-slate-300 line-clamp-2 mb-3.5 leading-relaxed font-normal">
-                교보문고 평점 9.9점(3,400+ 리뷰) & 왓챠피디아 4.5점! 2026년 11월 현재 온·오프라인 서점가에서 만장일치로 입증된 필독 도서입니다.
+                교보문고 평점 9.8점 & 왓챠피디아 4.3점! 2026년 10월 말 출간 직후 온·오프라인 서점가 종합 1위를 휩쓴 하루키의 새로운 대표작을 만나보세요.
               </p>
               <div class="flex items-center gap-2.5">
                 <button onclick="openBookModal(1)" class="px-3.5 py-2 bg-white text-slate-900 text-xs font-extrabold rounded-xl shadow-sm hover:bg-slate-100 transition flex items-center gap-1.5">
                   <span>작품 상세 & 별점 보기</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                 </button>
-                <a href="https://search.kyobobook.co.kr/search?keyword=%EC%86%8C%EB%85%84%EC%9D%B4%20%EC%98%A8%EB%8B%A4%20%ED%95%9C%EA%B0%95" target="_blank" rel="noopener" class="px-3.5 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl hover:bg-emerald-700 transition flex items-center gap-1.5">
+                <a href="https://search.kyobobook.co.kr/search?keyword=%EA%B0%80%ED%98%B8%20%ED%95%98%EB%A3%A8%ED%82%A4" target="_blank" rel="noopener" class="px-3.5 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl hover:bg-emerald-700 transition flex items-center gap-1.5">
                   <span>교보문고 바로가기</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
@@ -267,7 +267,7 @@
             </div>
             <div class="absolute -right-6 -bottom-8 w-36 h-36 bg-rose-500/20 rounded-full blur-2xl pointer-events-none"></div>
             <div class="absolute right-3 top-3 opacity-15 pointer-events-none text-white font-serif text-7xl font-black">
-              漢
+              加
             </div>
           </div>
         </div>
@@ -403,7 +403,7 @@
 
         <!-- Sort Control -->
         <div class="flex items-center justify-between text-xs text-slate-600 mb-3 px-1 font-medium">
-          <span id="genreBookCount" class="font-bold">총 14권 도서</span>
+          <span id="genreBookCount" class="font-bold">총 16권 도서</span>
           <div class="flex items-center gap-2">
             <span>정렬:</span>
             <select id="genreSortSelect" onchange="applyGenreSort()" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-semibold focus:outline-none shadow-2xs">
@@ -685,163 +685,163 @@
     const BOOKS_DATABASE = [
       {
         id: 1,
-        title: "소년이 온다",
-        author: "한강",
-        publisher: "창비",
-        isbn: "9788936434120",
-        pubYear: "2014 (2026 누적 150만부 돌파)",
-        pages: 216,
+        title: "가호",
+        author: "무라카미 하루키",
+        publisher: "문학동네",
+        isbn: "9791141691370",
+        pubYear: "2026년 10월",
+        pages: 368,
         genre: "소설",
         isBestseller: true,
-        isSteady: true,
+        isSteady: false,
         rank: 1,
-        rankDiff: "-",
+        rankDiff: "NEW",
         hasEbook: true,
-        coverGradient: "from-slate-900 to-stone-700",
+        coverGradient: "from-stone-900 via-amber-950 to-neutral-900",
         coverTextColor: "text-amber-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%86%8C%EB%85%84%EC%9D%B4%20%EC%98%A8%EB%8B%A4%20%ED%95%9C%EA%B0%95",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EA%B0%80%ED%98%B8%20%ED%95%98%EB%A3%A8%ED%82%A4",
         watcha: {
-          score: 4.5,
-          raters: 42100,
-          keyword: "가슴을 쥐어짜는 여운, 비극 속 존엄",
-          tags: ["#역사적비극", "#문체미", "#인생책", "#노벨문학상"]
+          score: 4.3,
+          raters: 18400,
+          keyword: "삶의 균열을 어루만지는 하루키 문학의 새로운 정점",
+          tags: ["#하루키신작", "#문학동네", "#2026종합1위", "#상실과회복"]
         },
         kyobo: {
-          score: 9.9,
-          reviews: 3450,
-          recommendRate: 99,
-          keyword: "우리가 반드시 기억해야 할 우리들의 역사"
+          score: 9.8,
+          reviews: 2900,
+          recommendRate: 98,
+          keyword: "2026년 10월 출간 직후 교보문고 종합 1위 석권"
         },
-        summary: "1980년 5월 18일 광주민주화운동 당시의 비극을 여섯 사람의 내면과 시선으로 복원해 낸 한강 작가의 대표 걸작. 2026년 현재까지도 서점가 종합 1위를 굳건히 지키고 있는 필독서입니다.",
-        quote: "네가 죽은 뒤 장례식을 치르지 못해, 내 삶이 장례식이 되었다."
+        summary: "무라카미 하루키가 2026년 가을 새롭게 선보인 신작 장편 소설. 일상의 미세한 틈새에서 피어나는 신비로운 만남과 상실의 상처를 치유하는 온기 어린 가호(加護)의 이야기를 섬세하게 담아냈습니다.",
+        quote: "어둠이 깊어질 때 비로소 우리 곁을 지키는 보이지 않는 가호가 드러난다."
       },
       {
         id: 2,
-        title: "작별하지 않는다",
-        author: "한강",
-        publisher: "문학동네",
-        isbn: "9788954682152",
-        pubYear: "2021",
-        pages: 332,
-        genre: "소설",
-        isBestseller: true,
-        isSteady: false,
-        rank: 2,
-        rankDiff: "-",
-        hasEbook: true,
-        coverGradient: "from-cyan-900 via-slate-800 to-indigo-950",
-        coverTextColor: "text-cyan-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9E%91%EB%B3%84%ED%95%98%EC%A7%80%20%EC%95%8A%EB%8A%94%EB%8B%A4%20%ED%95%9C%EA%B0%95",
-        watcha: {
-          score: 4.4,
-          raters: 28900,
-          keyword: "눈보라 속 타오르는 사랑의 불꽃",
-          tags: ["#제주43", "#지극한사랑", "#메디치상", "#문학동네"]
-        },
-        kyobo: {
-          score: 9.8,
-          reviews: 2120,
-          recommendRate: 98,
-          keyword: "인간의 가장 깊은 어둠에서 피어난 빛"
-        },
-        summary: "제주 4·3 사건이라는 거대한 비극의 심연을 지극한 사랑과 애도의 숨결로 밝혀낸 소설. 프랑스 메디치 외국문학상 수상작으로, 한강 문학의 정점이자 눈부신 생명의 언어를 보여줍니다.",
-        quote: "바다 밑바닥 같은 정적 속에서, 우리는 아직 살아 있다."
-      },
-      {
-        id: 3,
-        title: "채식주의자",
-        author: "한강",
-        publisher: "창비",
-        isbn: "9788936434595",
-        pubYear: "2022 (개정판)",
-        pages: 248,
-        genre: "소설",
-        isBestseller: true,
-        isSteady: true,
-        rank: 3,
-        rankDiff: "▲1",
-        hasEbook: true,
-        coverGradient: "from-emerald-950 via-teal-900 to-slate-900",
-        coverTextColor: "text-emerald-200",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%B1%84%EC%8B%9D%EC%A3%BC%EC%9D%98%EC%9E%90%20%ED%95%9C%EA%B0%95",
-        watcha: {
-          score: 4.3,
-          raters: 58000,
-          keyword: "인간 폭력성에 대한 전율 돋는 고발",
-          tags: ["#부커상수상작", "#강렬한서사", "#인간본성", "#한국문학"]
-        },
-        kyobo: {
-          score: 9.8,
-          reviews: 4300,
-          recommendRate: 98,
-          keyword: "한국인 최초 부커상 수상에 빛나는 전설적 소설"
-        },
-        summary: "어느 날 갑자기 육식을 거부하고 스스로 나무가 되어간다고 믿는 영혜와 그녀를 둘러싼 가족들의 시선을 통해, 인간의 본원적 폭력성과 억압된 욕망을 탐구한 세계적 걸작.",
-        quote: "내가 믿는 건 내 가슴뿐이야. 난 내 젖가슴이 좋아. 아무것도 죽일 수 없는 가슴이니까."
-      },
-      {
-        id: 4,
         title: "트렌드 코리아 2027",
-        author: "김난도 외",
+        author: "김난도, 전미영, 최지혜 외",
         publisher: "미래의창",
-        isbn: "9788959897223",
+        isbn: "9791124073483",
         pubYear: "2026년 10월",
-        pages: 448,
+        pages: 456,
         genre: "경제경영",
         isBestseller: true,
         isSteady: false,
-        rank: 4,
-        rankDiff: "NEW",
+        rank: 2,
+        rankDiff: "▲1",
         hasEbook: true,
-        coverGradient: "from-blue-900 via-indigo-900 to-slate-900",
+        coverGradient: "from-blue-900 via-indigo-950 to-slate-900",
         coverTextColor: "text-blue-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%8A%B8%EB%A0%8C%EB%93%9C%20%EC%BD%94%EB%A6%AC%EC%95%84",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%8A%B8%EB%A0%8C%EB%93%9C%20%EC%BD%94%EB%A6%AC%EC%95%84%202027",
         watcha: {
-          score: 3.9,
-          raters: 12000,
-          keyword: "2027년 대한민국을 관통할 핵심 트렌드 전망",
-          tags: ["#트렌드분석", "#미래전망", "#소비패턴", "#비즈니스"]
+          score: 4.0,
+          raters: 14200,
+          keyword: "2027년 대한민국 소비 트렌드의 핵심 키워드",
+          tags: ["#트렌드코리아2027", "#알파쉽", "#미래전망", "#경제경영"]
         },
         kyobo: {
           score: 9.7,
-          reviews: 3500,
+          reviews: 3600,
           recommendRate: 97,
-          keyword: "2026년 연말 서점가 종합 베스트셀러 진입"
+          keyword: "연말 비즈니스와 기획의 필수 나침반"
         },
-        summary: "2026년 4분기 출간 직후 교보문고 상위권에 직행한 트렌드 코리아 최신판. AI 일상화와 새로운 사회적 연결 방식을 짚어내며 미래 사회의 변화를 통찰합니다.",
-        quote: "변화의 속도가 빨라질수록 트렌드의 맥락을 짚는 안목이 성공을 가른다."
+        summary: "2026년 10월 출간된 트렌드 코리아의 최신 결정판. 급변하는 초개인화 AI 사회와 새로운 공동체 연대를 상징하는 'ALPHA SHEEP' 등 2027년을 주도할 10대 소비 트렌드를 심층 분석합니다.",
+        quote: "변화의 파도를 읽는 자만이 새로운 시대의 기회를 선점한다."
       },
       {
-        id: 5,
-        title: "마흔에 읽는 쇼펜하우어",
-        author: "강용수",
-        publisher: "유노북스",
-        isbn: "9791192300818",
-        pubYear: "2023 (2026년 최신 인문 1위)",
+        id: 3,
+        title: "세네카, 오늘을 빼앗기고 있는 당신에게",
+        author: "루키우스 세네카 (하와이 대저택 편역)",
+        publisher: "논픽션",
+        isbn: "9791199489561",
+        pubYear: "2026년 07월",
         pages: 288,
         genre: "인문",
         isBestseller: true,
-        isSteady: true,
-        rank: 5,
-        rankDiff: "-",
+        isSteady: false,
+        rank: 3,
+        rankDiff: "▲2",
         hasEbook: true,
-        coverGradient: "from-slate-800 via-slate-900 to-indigo-900",
-        coverTextColor: "text-slate-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%A7%88%ED%9D%94%EC%97%90%20%EC%9D%BD%EB%8A%94%20%EC%87%BC%ED%8E%9C%ED%95%98%EC%9A%B0%EC%96%B4",
+        coverGradient: "from-slate-800 via-stone-900 to-indigo-950",
+        coverTextColor: "text-amber-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%84%B8%EB%84%A4%EC%89%AC%20%EC%98%A4%EB%8A%98%EC%9D%84%20%EB%89%BC%EC%95%97%EA%B8%B0%EA%B3%A0%20%EC%9E%88%EB%8A%94%20%EB%8B%B9%EC%8B%A0%EC%97%90%EA%B2%8C",
         watcha: {
-          score: 4.0,
-          raters: 19200,
-          keyword: "현실적인 고통을 위로하는 차가운 지혜",
-          tags: ["#철학입문", "#중년의위기", "#자아성찰", "#고독의힘"]
+          score: 4.2,
+          raters: 16500,
+          keyword: "시간의 소중함과 주체적인 삶을 깨우치는 스토아 철학",
+          tags: ["#세네카", "#스토아철학", "#시간관리", "#인생의지혜"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 4100,
+          recommendRate: 98,
+          keyword: "타인에게 휘둘리지 않고 내 삶의 주인으로 서는 법"
+        },
+        summary: "고대 로마 스토아학파 거두 세네카의 통찰을 80만 구독자 하와이 대저택의 현대적 언어로 재해석한 책. 바쁜 일상 속에서 오늘 하루를 무의미하게 빼앗기지 않고 스스로 삶을 지켜내는 철학적 지혜를 제시합니다.",
+        quote: "인생은 짧은 것이 아니라, 우리가 너무 많은 시간을 낭비하고 있을 뿐이다."
+      },
+      {
+        id: 4,
+        title: "한국사 이상현상 연구원",
+        author: "최인서",
+        publisher: "다이브",
+        isbn: "9791124137635",
+        pubYear: "2026년 09월",
+        pages: 352,
+        genre: "소설",
+        isBestseller: true,
+        isSteady: false,
+        rank: 4,
+        rankDiff: "▲3",
+        hasEbook: true,
+        coverGradient: "from-purple-950 via-slate-900 to-stone-900",
+        coverTextColor: "text-purple-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%95%9C%EA%B5%AD%EC%82%AC%20%EC%9D%B4%EC%83%81%ED%98%84%EC%83%81%20%EC%97%B0%EA%B5%AC%EC%9B%90",
+        watcha: {
+          score: 4.3,
+          raters: 13800,
+          keyword: "조선왕조실록과 현대 미스터리의 기막힌 결합",
+          tags: ["#한국형미스터리", "#이상현상", "#흡인력최고", "#소설베스트"]
         },
         kyobo: {
           score: 9.7,
-          reviews: 4800,
+          reviews: 2450,
           recommendRate: 97,
-          keyword: "마음의 방황을 멈추게 한 철학 처방전"
+          keyword: "한 번 펼치면 밤새 읽게 되는 압도적 서사"
         },
-        summary: "삶의 무게에 짓눌려 마음이 흔들리는 현대인들을 위해 염세주의 철학자 쇼펜하우어의 정수를 알기 쉽게 정리한 책. 남과의 비교를 멈추고 온전한 자아를 회복하도록 돕습니다.",
-        quote: "인생은 고통과 무료함 사이를 오가는 시계추와 같다. 그렇기에 혼자 있는 법을 배워야 한다."
+        summary: "조선 역사 속 기이한 괴이 기록들을 추적하는 가상의 비밀 연구소를 배경으로 펼쳐지는 한국형 오컬트 미스터리 소설. 탄탄한 역사적 고증과 반전을 거듭하는 몰입감으로 2026년 하반기 서점가 돌풍을 일으키고 있습니다.",
+        quote: "역사가 기록하지 못한 진실은 언제나 그림자 속에서 꿈틀거린다."
+      },
+      {
+        id: 5,
+        title: "가짜 돈 진짜 부",
+        author: "박종훈",
+        publisher: "글로퍼스",
+        isbn: "9791198987679",
+        pubYear: "2026년 10월",
+        pages: 344,
+        genre: "경제경영",
+        isBestseller: true,
+        isSteady: false,
+        rank: 5,
+        rankDiff: "NEW",
+        hasEbook: true,
+        coverGradient: "from-amber-950 via-yellow-950 to-slate-900",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EA%B0%80%EC%A7%9C%20%EB%8F%88%20%EC%A7%84%EC%A7%9C%20%EB%B6%80%20%EB%B0%95%EC%A2%85%ED%9B%88",
+        watcha: {
+          score: 4.1,
+          raters: 11200,
+          keyword: "인플레이션과 화폐 몰락의 시대에서 진짜 자산을 지키는 법",
+          tags: ["#경제전망", "#화폐의역사", "#진짜부", "#재테크필독"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 3100,
+          recommendRate: 98,
+          keyword: "2026년 10월 출간 즉시 경제경영 1위 등극"
+        },
+        summary: "대표 경제 전문기자 박종훈이 화폐 가치 하락과 전 세계적 부채 위기 속에서 어떻게 '진짜 부'를 구축할 것인지 명쾌하게 짚어낸 2026년 최신 경제 필독서. 유동성의 함정을 파헤치고 실질 자산의 본질을 밝힙니다.",
+        quote: "숫자에 불과한 가짜 돈을 쫓지 말고, 가치가 사라지지 않는 진짜 부를 축적하라."
       },
       {
         id: 6,
@@ -855,20 +855,20 @@
         isBestseller: true,
         isSteady: true,
         rank: 6,
-        rankDiff: "▲1",
+        rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-emerald-900 via-teal-900 to-slate-900",
         coverTextColor: "text-emerald-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%AA%A8%EC%88%9C%20%EC%96%91%EA%B7%80%EC%9E%90",
         watcha: {
           score: 4.4,
-          raters: 65000,
+          raters: 68000,
           keyword: "청춘의 방황과 인생의 양면성을 꿰뚫는 문장",
           tags: ["#스테디셀러", "#명작소설", "#사랑과인생", "#재발견"]
         },
         kyobo: {
           score: 9.8,
-          reviews: 7400,
+          reviews: 7800,
           recommendRate: 98,
           keyword: "2026년 2030 세대 최다 공감 소설"
         },
@@ -877,102 +877,166 @@
       },
       {
         id: 7,
-        title: "사피엔스",
-        author: "유발 하라리",
-        publisher: "김영사",
-        isbn: "9788934972464",
-        pubYear: "2015",
-        pages: 636,
+        title: "쇼펜하우어 인생수업",
+        author: "아르투어 쇼펜하우어 (김욱 편역)",
+        publisher: "하이스트",
+        isbn: "9791193282045",
+        pubYear: "2024 (2026년 30만 부 기념판)",
+        pages: 256,
         genre: "인문",
         isBestseller: true,
         isSteady: true,
         rank: 7,
-        rankDiff: "-",
+        rankDiff: "▲1",
         hasEbook: true,
-        coverGradient: "from-amber-900 via-stone-800 to-neutral-900",
-        coverTextColor: "text-amber-200",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%82%AC%ED%94%BC%EC%97%94%EC%8A%A4%20%EC%9C%A0%EB%B0%9C%20%ED%95%98%EB%9D%BC%EB%A6%AC",
-        watcha: {
-          score: 4.4,
-          raters: 110000,
-          keyword: "세계관을 송두리째 뒤흔드는 통찰",
-          tags: ["#빅히스토리", "#시야확장", "#인지혁명", "#인류문명"]
-        },
-        kyobo: {
-          score: 9.8,
-          reviews: 12000,
-          recommendRate: 98,
-          keyword: "현대인의 사고를 넓히는 인문학 바이블"
-        },
-        summary: "변방의 왜소한 유인원에 불과했던 사피엔스가 어떻게 지구의 지배자가 되었는가를 인지혁명, 농업혁명, 과학혁명 3대 축으로 명쾌하게 짚어낸 21세기 최고 인문서.",
-        quote: "허구를 믿는 능력이 바로 사피엔스가 세상을 정복하게 만든 결정적 무기였다."
-      },
-      {
-        id: 8,
-        title: "불편한 편의점",
-        author: "김호연",
-        publisher: "나무옆의자",
-        isbn: "9791161571188",
-        pubYear: "2021",
-        pages: 268,
-        genre: "소설",
-        isBestseller: false,
-        isSteady: true,
-        rank: 8,
-        rankDiff: "-",
-        hasEbook: true,
-        coverGradient: "from-amber-700 via-orange-800 to-stone-900",
-        coverTextColor: "text-amber-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%B6%88%ED%8E%B8%ED%95%9C%20%ED%8E%B8%EC%9D%98%EC%A0%90%20%EA%B9%80%ED%98%B8%EC%97%B0",
+        coverGradient: "from-slate-800 via-slate-900 to-indigo-900",
+        coverTextColor: "text-slate-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%87%BC%ED%8E%9C%ED%95%98%EC%9A%B0%EC%96%B4%20%EC%9D%B8%EC%83%9D%EC%88%98%EC%97%85",
         watcha: {
           score: 4.1,
-          raters: 89000,
-          keyword: "팍팍한 일상에 스며드는 따스한 온기",
-          tags: ["#따뜻한위로", "#골목길힐링", "#K소설", "#밀리언셀러"]
+          raters: 22000,
+          keyword: "남들의 눈치를 보지 않고 혼자서도 온전해지는 법",
+          tags: ["#쇼펜하우어", "#인생수업", "#고독과자유", "#철학처방전"]
         },
         kyobo: {
           score: 9.7,
-          reviews: 8500,
+          reviews: 5200,
           recommendRate: 97,
-          keyword: "지친 하루 끝에 만나는 작은 쉼터"
+          keyword: "인생의 외로움을 가장 단단한 힘으로 바꾸는 문장"
         },
-        summary: "서울 청파동 골목길 작은 편의점 Always를 배경으로, 기억을 잃은 노숙인 야간 알바생 '독고'와 저마다의 사연을 품고 편의점을 찾는 이웃들이 서로를 위로하는 힐링 드라마.",
-        quote: "결국 삶이란 관계였고 관계는 소통이었다. 행복은 멀리 있지 않다."
+        summary: "독일의 대철학자 쇼펜하우어가 고독과 불안에 지친 현대인에게 건네는 명쾌한 충고. 타인과의 비교에서 벗어나 자신의 내면을 풍요롭게 채우는 단단한 지혜를 선물합니다.",
+        quote: "인간은 혼자 있을 때만 온전히 자기 자신일 수 있다."
+      },
+      {
+        id: 8,
+        title: "빨강의 자서전",
+        author: "앤 카슨",
+        publisher: "한겨레출판",
+        isbn: "9791172131784",
+        pubYear: "2026년 10월 (개정증보판)",
+        pages: 260,
+        genre: "소설",
+        isBestseller: true,
+        isSteady: false,
+        rank: 8,
+        rankDiff: "NEW",
+        hasEbook: true,
+        coverGradient: "from-rose-950 via-red-950 to-neutral-900",
+        coverTextColor: "text-rose-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%B9%A8%EA%B0%95%EC%9D%98%20%EC%9E%90%EC%84%9C%EC%A0%84%20%EC%95%A4%20%EC%B9%B4%EC%8A%A8",
+        watcha: {
+          score: 4.4,
+          raters: 9500,
+          keyword: "괴물 게리온의 슬프도록 눈부신 붉은빛 사랑",
+          tags: ["#앤카슨", "#시소설", "#문학성최고", "#2026화제작"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 1800,
+          recommendRate: 98,
+          keyword: "시와 소설의 경계를 허문 세계적 문학 걸작"
+        },
+        summary: "노벨문학상 유력 후보 앤 카슨의 대표 시소설. 붉은 날개를 가진 괴물 소년 게리온과 헤라클레스의 치명적인 사랑과 성장을 신화적 상상력과 압도적 문장으로 그려내 2026년 가을 서점가에 큰 반향을 일으켰습니다.",
+        quote: "붉은 날개를 펼치는 순간, 상처는 날아오르는 날개가 된다."
       },
       {
         id: 9,
-        title: "도둑맞은 집중력",
-        author: "요한 하리",
-        publisher: "어크로스",
-        isbn: "9791167740984",
-        pubYear: "2023",
-        pages: 456,
-        genre: "인문",
-        isBestseller: false,
+        title: "소년이 온다",
+        author: "한강",
+        publisher: "창비",
+        isbn: "9788936434120",
+        pubYear: "2014 (노벨문학상 기념 스테디 1위)",
+        pages: 216,
+        genre: "소설",
+        isBestseller: true,
         isSteady: true,
         rank: 9,
         rankDiff: "-",
         hasEbook: true,
-        coverGradient: "from-blue-900 via-indigo-950 to-slate-900",
-        coverTextColor: "text-blue-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%8F%84%EB%91%91%EB%A7%9E%EC%9D%80%20%EC%A7%91%EC%A4%91%EB%A0%A5",
+        coverGradient: "from-slate-900 to-stone-700",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%86%8C%EB%85%84%EC%9D%B4%20%EC%98%A8%EB%8B%A4%20%ED%95%9C%EA%B0%95",
         watcha: {
-          score: 4.2,
-          raters: 31000,
-          keyword: "스마트폰을 쥐고 있는 현대인에게 울리는 경종",
-          tags: ["#집중력위기", "#디지털디톡스", "#도파민중독", "#사회비판"]
+          score: 4.5,
+          raters: 45000,
+          keyword: "가슴을 쥐어짜는 여운, 비극 속 존엄",
+          tags: ["#역사적비극", "#문체미", "#인생책", "#노벨문학상"]
         },
         kyobo: {
-          score: 9.6,
+          score: 9.9,
           reviews: 3900,
-          recommendRate: 96,
-          keyword: "왜 우리가 산만해졌는지 체계적으로 밝힌 책"
+          recommendRate: 99,
+          keyword: "우리가 반드시 기억해야 할 우리들의 역사"
         },
-        summary: "개인의 의지 문제가 아니라 거대 테크 기업과 현대 사회 시스템이 설계한 '집중력 강탈' 메커니즘을 전 세계 석학들을 인터뷰하며 집요하게 파헤친 흥미진진한 르포르타주.",
-        quote: "우리의 집중력은 고장 난 것이 아니라, 철저하게 도둑맞은 것이다."
+        summary: "1980년 5월 18일 광주민주화운동 당시의 비극을 여섯 사람의 내면과 시선으로 복원해 낸 한강 작가의 대표 걸작. 노벨문학상 수상 이후 꾸준히 스테디셀러 최상위권을 지키고 있는 필독서입니다.",
+        quote: "네가 죽은 뒤 장례식을 치르지 못해, 내 삶이 장례식이 되었다."
       },
       {
         id: 10,
+        title: "작별하지 않는다",
+        author: "한강",
+        publisher: "문학동네",
+        isbn: "9788954682152",
+        pubYear: "2021",
+        pages: 332,
+        genre: "소설",
+        isBestseller: true,
+        isSteady: true,
+        rank: 10,
+        rankDiff: "-",
+        hasEbook: true,
+        coverGradient: "from-cyan-900 via-slate-800 to-indigo-950",
+        coverTextColor: "text-cyan-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9E%91%EB%B3%84%ED%95%98%EC%A7%80%20%EC%95%8A%EB%8A%94%EB%8B%A4%20%ED%95%9C%EA%B0%95",
+        watcha: {
+          score: 4.4,
+          raters: 31000,
+          keyword: "눈보라 속 타오르는 사랑의 불꽃",
+          tags: ["#제주43", "#지극한사랑", "#메디치상", "#문학동네"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 2400,
+          recommendRate: 98,
+          keyword: "인간의 가장 깊은 어둠에서 피어난 빛"
+        },
+        summary: "제주 4·3 사건이라는 거대한 비극의 심연을 지극한 사랑과 애도의 숨결로 밝혀낸 소설. 프랑스 메디치 외국문학상 수상작으로, 한강 문학의 정점이자 눈부신 생명의 언어를 보여줍니다.",
+        quote: "바다 밑바닥 같은 정적 속에서, 우리는 아직 살아 있다."
+      },
+      {
+        id: 11,
+        title: "채식주의자",
+        author: "한강",
+        publisher: "창비",
+        isbn: "9788936434595",
+        pubYear: "2022 (개정판)",
+        pages: 248,
+        genre: "소설",
+        isBestseller: false,
+        isSteady: true,
+        rank: 11,
+        rankDiff: "-",
+        hasEbook: true,
+        coverGradient: "from-emerald-950 via-teal-900 to-slate-900",
+        coverTextColor: "text-emerald-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%B1%84%EC%8B%9D%EC%A3%BC%EC%9D%98%EC%9E%90%20%ED%95%9C%EA%B0%95",
+        watcha: {
+          score: 4.3,
+          raters: 61000,
+          keyword: "인간 폭력성에 대한 전율 돋는 고발",
+          tags: ["#부커상수상작", "#강렬한서사", "#인간본성", "#한국문학"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 4600,
+          recommendRate: 98,
+          keyword: "한국인 최초 부커상 수상에 빛나는 전설적 소설"
+        },
+        summary: "어느 날 갑자기 육식을 거부하고 스스로 나무가 되어간다고 믿는 영혜와 그녀를 둘러싼 가족들의 시선을 통해, 인간의 본원적 폭력성과 억압된 욕망을 탐구한 세계적 걸작.",
+        quote: "내가 믿는 건 내 가슴뿐이야. 난 내 젖가슴이 좋아. 아무것도 죽일 수 없는 가슴이니까."
+      },
+      {
+        id: 12,
         title: "물고기는 존재하지 않는다",
         author: "룰루 밀러",
         publisher: "곰출판",
@@ -982,7 +1046,7 @@
         genre: "과학",
         isBestseller: false,
         isSteady: true,
-        rank: 10,
+        rank: 12,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-teal-800 via-cyan-900 to-slate-900",
@@ -1004,7 +1068,7 @@
         quote: "우리는 중요하지 않다. 하지만 바로 그렇기 때문에 우리는 자유롭다."
       },
       {
-        id: 11,
+        id: 13,
         title: "코스모스",
         author: "칼 세이건",
         publisher: "사이언스북스",
@@ -1014,7 +1078,7 @@
         genre: "과학",
         isBestseller: false,
         isSteady: true,
-        rank: 11,
+        rank: 13,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-indigo-950 via-purple-950 to-slate-950",
@@ -1036,7 +1100,7 @@
         quote: "우리는 모두 별에서 만들어진 먼지이며, 우주가 스스로를 이해하기 위해 만들어낸 존재다."
       },
       {
-        id: 12,
+        id: 14,
         title: "생각이 너무 많은 어른들을 위한 심리학",
         author: "김혜남",
         publisher: "메이븐",
@@ -1046,7 +1110,7 @@
         genre: "에세이",
         isBestseller: false,
         isSteady: true,
-        rank: 12,
+        rank: 14,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-stone-700 via-rose-900/60 to-stone-900",
@@ -1068,7 +1132,7 @@
         quote: "삶은 정답을 맞히는 시험이 아니다. 그저 오늘을 온전히 살아내면 된다."
       },
       {
-        id: 13,
+        id: 15,
         title: "원씽 (The ONE Thing)",
         author: "게리 켈러",
         publisher: "비즈니스북스",
@@ -1078,7 +1142,7 @@
         genre: "자기계발",
         isBestseller: false,
         isSteady: true,
-        rank: 13,
+        rank: 15,
         rankDiff: "-",
         hasEbook: true,
         coverGradient: "from-rose-900 via-stone-900 to-black",
@@ -1100,40 +1164,40 @@
         quote: "성공의 핵심은 모든 일을 다 잘하는 것이 아니라, 오직 단 하나를 제대로 해내는 것이다."
       },
       {
-        id: 14,
-        title: "돈의 속성",
-        author: "김승호",
-        publisher: "스노우폭스북스",
-        isbn: "9791188331796",
-        pubYear: "2020",
-        pages: 392,
-        genre: "경제경영",
+        id: 16,
+        title: "사피엔스",
+        author: "유발 하라리",
+        publisher: "김영사",
+        isbn: "9788934972464",
+        pubYear: "2015",
+        pages: 636,
+        genre: "인문",
         isBestseller: false,
         isSteady: true,
-        rank: 14,
+        rank: 16,
         rankDiff: "-",
         hasEbook: true,
-        coverGradient: "from-amber-950 via-yellow-950 to-neutral-900",
-        coverTextColor: "text-amber-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%8F%88%EC%9D%98%20%EC%86%8D%EC%84%B1%20%EA%B9%80%EC%8A%B9%ED%98%B8",
+        coverGradient: "from-amber-900 via-stone-800 to-neutral-900",
+        coverTextColor: "text-amber-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%82%AC%ED%94%BC%EC%97%94%EC%8A%A4%20%EC%9C%A0%EB%B0%9C%20%ED%95%98%EB%9D%BC%EB%A6%AC",
         watcha: {
-          score: 3.9,
-          raters: 35000,
-          keyword: "돈을 인격체로 바라보는 남다른 경제 철학",
-          tags: ["#재테크기초", "#자본주의원리", "#경제철학", "#부자의태도"]
+          score: 4.4,
+          raters: 112000,
+          keyword: "세계관을 송두리째 뒤흔드는 통찰",
+          tags: ["#빅히스토리", "#시야확장", "#인지혁명", "#인류문명"]
         },
         kyobo: {
-          score: 9.7,
-          reviews: 11000,
-          recommendRate: 97,
-          keyword: "돈에 대한 근본적인 태도를 바꿔준 책"
+          score: 9.8,
+          reviews: 12500,
+          recommendRate: 98,
+          keyword: "현대인의 사고를 넓히는 인문학 바이블"
         },
-        summary: "자수성가한 슈퍼리치가 밝히는 돈에 대한 깊은 철학과 부의 원리. 돈을 인격체로 대하며 작은 돈을 소중히 여기고 현명하게 다루는 법을 생생하게 설명합니다.",
-        quote: "돈은 인격체다. 돈을 존중하고 아끼는 사람 곁에 돈도 머무른다."
+        summary: "변방의 왜소한 유인원에 불과했던 사피엔스가 어떻게 지구의 지배자가 되었는가를 인지혁명, 농업혁명, 과학혁명 3대 축으로 명쾌하게 짚어낸 21세기 최고 인문서.",
+        quote: "허구를 믿는 능력이 바로 사피엔스가 세상을 정복하게 만든 결정적 무기였다."
       }
     ];
 
-    let userLibrary = JSON.parse(localStorage.getItem('readpick_library') || '{"wish":[1, 3, 5], "reading":[6], "done":[8]}');
+    let userLibrary = JSON.parse(localStorage.getItem('readpick_library') || '{"wish":[1, 2, 4], "reading":[6], "done":[9]}');
     let currentActiveBookId = 1;
     let currentFilterCategory = 'all';
     let currentScoreFilter = 'all';
@@ -1195,7 +1259,7 @@
       if (desktopStatus) desktopStatus.innerText = `${d.weekText} 실시간 모드`;
 
       const heroBadge = document.getElementById('heroLiveBadge');
-      if (heroBadge) heroBadge.innerText = `🏆 ${d.year}년 ${d.month}월 교보문고 종합 1위 & 노벨문학상 대표작`;
+      if (heroBadge) heroBadge.innerText = `🏆 ${d.year}년 ${d.month}월 교보문고 종합 1위 화제작`;
 
       const homeBestTitle = document.getElementById('homeBestsellerTitle');
       if (homeBestTitle) homeBestTitle.innerHTML = `<span class="text-rose-500">🔥</span> ${d.year}년 ${d.month}월 교보문고 베스트셀러 TOP`;
