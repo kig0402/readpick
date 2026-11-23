@@ -218,7 +218,7 @@
           <button onclick="applyScoreFilter('all')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-800 text-white font-bold" data-filter="all">전체</button>
           <button onclick="applyScoreFilter('watcha4')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 hover:bg-rose-50 font-medium" data-filter="watcha4">왓챠 4.2★↑</button>
           <button onclick="applyScoreFilter('kyobo97')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 hover:bg-emerald-50 font-medium" data-filter="kyobo97">교보 9.7★↑</button>
-          <button onclick="applyScoreFilter('ebook')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 font-medium" data-filter="ebook">eBook</button>
+          <button onclick="applyScoreFilter('topscore')" class="score-filter-btn px-2.5 py-1 rounded-full text-xs bg-slate-100 text-slate-600 hover:bg-amber-50 font-medium" data-filter="topscore">평점 9.8★↑</button>
         </div>
       </div>
     </header>
@@ -235,8 +235,22 @@
       <button onclick="setCategoryFilter('경제경영')" class="category-chip px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-cat="경제경영">경제/경영</button>
     </nav>
 
+    <!-- Refresh Toast Notification -->
+    <div id="refreshToast" class="fixed top-24 left-1/2 -translate-x-1/2 bg-slate-900/95 text-white px-4 py-2.5 rounded-full text-xs font-bold shadow-xl flex items-center gap-2 z-50 transition-all duration-300 pointer-events-none opacity-0 -translate-y-4">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span id="refreshToastText">2026년 11월 4주차 실시간 교보 순위로 갱신되었습니다.</span>
+    </div>
+
     <!-- Main Content Area: Tab Views -->
-    <main class="flex-1 pb-24 overflow-y-auto bg-slate-50">
+    <main class="flex-1 pb-24 overflow-y-auto bg-slate-50 relative overscroll-y-contain">
+
+      <!-- Mobile Pull-to-Refresh UI Indicator -->
+      <div id="pullRefreshIndicator" class="overflow-hidden transition-all duration-150 flex items-center justify-center bg-slate-100 border-b border-slate-200 text-xs font-bold text-slate-600 gap-2 h-0 opacity-0 pointer-events-none">
+        <svg id="pullRefreshIcon" class="w-4 h-4 text-rose-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+        <span id="pullRefreshText">아래로 당겨서 최신 교보 순위 새로고침...</span>
+      </div>
 
       <!-- ================= TAB 1: HOME ================= -->
       <section id="tabHome" class="tab-pane active">
@@ -403,7 +417,7 @@
 
         <!-- Sort Control -->
         <div class="flex items-center justify-between text-xs text-slate-600 mb-3 px-1 font-medium">
-          <span id="genreBookCount" class="font-bold">총 16권 도서</span>
+          <span id="genreBookCount" class="font-bold">총 15권 도서</span>
           <div class="flex items-center gap-2">
             <span>정렬:</span>
             <select id="genreSortSelect" onchange="applyGenreSort()" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-semibold focus:outline-none shadow-2xs">
@@ -695,8 +709,8 @@
         isBestseller: true,
         isSteady: false,
         rank: 1,
+        steadyRank: null,
         rankDiff: "NEW",
-        hasEbook: true,
         coverGradient: "from-stone-900 via-amber-950 to-neutral-900",
         coverTextColor: "text-amber-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EA%B0%80%ED%98%B8%20%ED%95%98%EB%A3%A8%ED%82%A4",
@@ -707,10 +721,10 @@
           tags: ["#하루키신작", "#문학동네", "#2026종합1위", "#상실과회복"]
         },
         kyobo: {
-          score: 9.8,
-          reviews: 2900,
-          recommendRate: 98,
-          keyword: "2026년 10월 출간 직후 교보문고 종합 1위 석권"
+          score: 9.9,
+          reviews: 5400,
+          recommendRate: 99,
+          keyword: "출간 즉시 온·오프라인 서점가 4주 연속 종합 1위 석권"
         },
         summary: "무라카미 하루키가 2026년 가을 새롭게 선보인 신작 장편 소설. 일상의 미세한 틈새에서 피어나는 신비로운 만남과 상실의 상처를 치유하는 온기 어린 가호(加護)의 이야기를 섬세하게 담아냈습니다.",
         quote: "어둠이 깊어질 때 비로소 우리 곁을 지키는 보이지 않는 가호가 드러난다."
@@ -727,8 +741,8 @@
         isBestseller: true,
         isSteady: false,
         rank: 2,
+        steadyRank: null,
         rankDiff: "▲1",
-        hasEbook: true,
         coverGradient: "from-blue-900 via-indigo-950 to-slate-900",
         coverTextColor: "text-blue-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%8A%B8%EB%A0%8C%EB%93%9C%20%EC%BD%94%EB%A6%AC%EC%95%84%202027",
@@ -759,8 +773,8 @@
         isBestseller: true,
         isSteady: false,
         rank: 3,
+        steadyRank: null,
         rankDiff: "▲2",
-        hasEbook: true,
         coverGradient: "from-slate-800 via-stone-900 to-indigo-950",
         coverTextColor: "text-amber-200",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%84%B8%EB%84%A4%EC%89%AC%20%EC%98%A4%EB%8A%98%EC%9D%84%20%EB%89%BC%EC%95%97%EA%B8%B0%EA%B3%A0%20%EC%9E%88%EB%8A%94%20%EB%8B%B9%EC%8B%A0%EC%97%90%EA%B2%8C",
@@ -781,6 +795,38 @@
       },
       {
         id: 4,
+        title: "싯다르타",
+        author: "헤르만 헤세",
+        publisher: "민음사",
+        isbn: "9788937460586",
+        pubYear: "2002 (민음사 세계문학전집)",
+        pages: 224,
+        genre: "인문",
+        isBestseller: true,
+        isSteady: true,
+        rank: 4,
+        steadyRank: 2,
+        rankDiff: "▲3",
+        coverGradient: "from-amber-800 via-orange-900 to-stone-900",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%8B%AF%EB%8B%A4%EB%A5%B4%ED%83%80%20%ED%97%A4%EB%A5%B4%EB%A7%8C%20%ED%97%A4%EC%84%B8",
+        watcha: {
+          score: 4.4,
+          raters: 38000,
+          keyword: "강물처럼 흐르는 삶 속에서 찾는 진정한 깨달음",
+          tags: ["#헤르만헤세", "#인생의의미", "#영혼의순례", "#고전명작"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 6200,
+          recommendRate: 98,
+          keyword: "불안한 청춘을 위한 영원한 치유의 고전"
+        },
+        summary: "진리를 찾아 떠난 싯다르타의 평생에 걸친 방황과 깨달음의 여정. 강물의 소리를 들으며 지혜는 가르쳐질 수 없고 오직 스스로 체험해야 한다는 헤세 문학의 최고봉.",
+        quote: "지식은 전달될 수 있지만, 지혜는 오직 스스로 체득할 뿐이다."
+      },
+      {
+        id: 5,
         title: "한국사 이상현상 연구원",
         author: "최인서",
         publisher: "다이브",
@@ -790,9 +836,9 @@
         genre: "소설",
         isBestseller: true,
         isSteady: false,
-        rank: 4,
-        rankDiff: "▲3",
-        hasEbook: true,
+        rank: 5,
+        steadyRank: null,
+        rankDiff: "▲2",
         coverGradient: "from-purple-950 via-slate-900 to-stone-900",
         coverTextColor: "text-purple-200",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%95%9C%EA%B5%AD%EC%82%AC%20%EC%9D%B4%EC%83%81%ED%98%84%EC%83%81%20%EC%97%B0%EA%B5%AC%EC%9B%90",
@@ -812,38 +858,6 @@
         quote: "역사가 기록하지 못한 진실은 언제나 그림자 속에서 꿈틀거린다."
       },
       {
-        id: 5,
-        title: "가짜 돈 진짜 부",
-        author: "박종훈",
-        publisher: "글로퍼스",
-        isbn: "9791198987679",
-        pubYear: "2026년 10월",
-        pages: 344,
-        genre: "경제경영",
-        isBestseller: true,
-        isSteady: false,
-        rank: 5,
-        rankDiff: "NEW",
-        hasEbook: true,
-        coverGradient: "from-amber-950 via-yellow-950 to-slate-900",
-        coverTextColor: "text-amber-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EA%B0%80%EC%A7%9C%20%EB%8F%88%20%EC%A7%84%EC%A7%9C%20%EB%B6%80%20%EB%B0%95%EC%A2%85%ED%9B%88",
-        watcha: {
-          score: 4.1,
-          raters: 11200,
-          keyword: "인플레이션과 화폐 몰락의 시대에서 진짜 자산을 지키는 법",
-          tags: ["#경제전망", "#화폐의역사", "#진짜부", "#재테크필독"]
-        },
-        kyobo: {
-          score: 9.8,
-          reviews: 3100,
-          recommendRate: 98,
-          keyword: "2026년 10월 출간 즉시 경제경영 1위 등극"
-        },
-        summary: "대표 경제 전문기자 박종훈이 화폐 가치 하락과 전 세계적 부채 위기 속에서 어떻게 '진짜 부'를 구축할 것인지 명쾌하게 짚어낸 2026년 최신 경제 필독서. 유동성의 함정을 파헤치고 실질 자산의 본질을 밝힙니다.",
-        quote: "숫자에 불과한 가짜 돈을 쫓지 말고, 가치가 사라지지 않는 진짜 부를 축적하라."
-      },
-      {
         id: 6,
         title: "모순",
         author: "양귀자",
@@ -855,8 +869,8 @@
         isBestseller: true,
         isSteady: true,
         rank: 6,
+        steadyRank: 1,
         rankDiff: "-",
-        hasEbook: true,
         coverGradient: "from-emerald-900 via-teal-900 to-slate-900",
         coverTextColor: "text-emerald-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%AA%A8%EC%88%9C%20%EC%96%91%EA%B7%80%EC%9E%90",
@@ -877,6 +891,38 @@
       },
       {
         id: 7,
+        title: "가짜 돈 진짜 부",
+        author: "박종훈",
+        publisher: "글로퍼스",
+        isbn: "9791198987679",
+        pubYear: "2026년 10월",
+        pages: 344,
+        genre: "경제경영",
+        isBestseller: true,
+        isSteady: false,
+        rank: 7,
+        steadyRank: null,
+        rankDiff: "NEW",
+        coverGradient: "from-amber-950 via-yellow-950 to-slate-900",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EA%B0%80%EC%A7%9C%20%EB%8F%88%20%EC%A7%84%EC%A7%9C%20%EB%B6%80%20%EB%B0%95%EC%A2%85%ED%9B%88",
+        watcha: {
+          score: 4.1,
+          raters: 11200,
+          keyword: "인플레이션과 화폐 몰락의 시대에서 진짜 자산을 지키는 법",
+          tags: ["#경제전망", "#화폐의역사", "#진짜부", "#재테크필독"]
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 3100,
+          recommendRate: 98,
+          keyword: "2026년 10월 출간 즉시 경제경영 1위 등극"
+        },
+        summary: "대표 경제 전문기자 박종훈이 화폐 가치 하락과 전 세계적 부채 위기 속에서 어떻게 '진짜 부'를 구축할 것인지 명쾌하게 짚어낸 2026년 최신 경제 필독서. 유동성의 함정을 파헤치고 실질 자산의 본질을 밝힙니다.",
+        quote: "숫자에 불과한 가짜 돈을 쫓지 말고, 가치가 사라지지 않는 진짜 부를 축적하라."
+      },
+      {
+        id: 8,
         title: "쇼펜하우어 인생수업",
         author: "아르투어 쇼펜하우어 (김욱 편역)",
         publisher: "하이스트",
@@ -886,9 +932,9 @@
         genre: "인문",
         isBestseller: true,
         isSteady: true,
-        rank: 7,
+        rank: 8,
+        steadyRank: 3,
         rankDiff: "▲1",
-        hasEbook: true,
         coverGradient: "from-slate-800 via-slate-900 to-indigo-900",
         coverTextColor: "text-slate-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%87%BC%ED%8E%9C%ED%95%98%EC%9A%B0%EC%96%B4%20%EC%9D%B8%EC%83%9D%EC%88%98%EC%97%85",
@@ -908,7 +954,7 @@
         quote: "인간은 혼자 있을 때만 온전히 자기 자신일 수 있다."
       },
       {
-        id: 8,
+        id: 9,
         title: "빨강의 자서전",
         author: "앤 카슨",
         publisher: "한겨레출판",
@@ -918,9 +964,9 @@
         genre: "소설",
         isBestseller: true,
         isSteady: false,
-        rank: 8,
+        rank: 9,
+        steadyRank: null,
         rankDiff: "NEW",
-        hasEbook: true,
         coverGradient: "from-rose-950 via-red-950 to-neutral-900",
         coverTextColor: "text-rose-200",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%B9%A8%EA%B0%95%EC%9D%98%20%EC%9E%90%EC%84%9C%EC%A0%84%20%EC%95%A4%20%EC%B9%B4%EC%8A%A8",
@@ -940,103 +986,39 @@
         quote: "붉은 날개를 펼치는 순간, 상처는 날아오르는 날개가 된다."
       },
       {
-        id: 9,
-        title: "소년이 온다",
-        author: "한강",
-        publisher: "창비",
-        isbn: "9788936434120",
-        pubYear: "2014 (노벨문학상 기념 스테디 1위)",
-        pages: 216,
-        genre: "소설",
-        isBestseller: true,
-        isSteady: true,
-        rank: 9,
-        rankDiff: "-",
-        hasEbook: true,
-        coverGradient: "from-slate-900 to-stone-700",
-        coverTextColor: "text-amber-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%86%8C%EB%85%84%EC%9D%B4%20%EC%98%A8%EB%8B%A4%20%ED%95%9C%EA%B0%95",
-        watcha: {
-          score: 4.5,
-          raters: 45000,
-          keyword: "가슴을 쥐어짜는 여운, 비극 속 존엄",
-          tags: ["#역사적비극", "#문체미", "#인생책", "#노벨문학상"]
-        },
-        kyobo: {
-          score: 9.9,
-          reviews: 3900,
-          recommendRate: 99,
-          keyword: "우리가 반드시 기억해야 할 우리들의 역사"
-        },
-        summary: "1980년 5월 18일 광주민주화운동 당시의 비극을 여섯 사람의 내면과 시선으로 복원해 낸 한강 작가의 대표 걸작. 노벨문학상 수상 이후 꾸준히 스테디셀러 최상위권을 지키고 있는 필독서입니다.",
-        quote: "네가 죽은 뒤 장례식을 치르지 못해, 내 삶이 장례식이 되었다."
-      },
-      {
         id: 10,
-        title: "작별하지 않는다",
-        author: "한강",
-        publisher: "문학동네",
-        isbn: "9788954682152",
-        pubYear: "2021",
-        pages: 332,
+        title: "급류",
+        author: "정대건",
+        publisher: "민음사",
+        isbn: "9788937473401",
+        pubYear: "2023",
+        pages: 304,
         genre: "소설",
         isBestseller: true,
-        isSteady: true,
+        isSteady: false,
         rank: 10,
-        rankDiff: "-",
-        hasEbook: true,
-        coverGradient: "from-cyan-900 via-slate-800 to-indigo-950",
-        coverTextColor: "text-cyan-100",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9E%91%EB%B3%84%ED%95%98%EC%A7%80%20%EC%95%8A%EB%8A%94%EB%8B%A4%20%ED%95%9C%EA%B0%95",
+        steadyRank: null,
+        rankDiff: "▲1",
+        coverGradient: "from-sky-950 via-cyan-900 to-slate-900",
+        coverTextColor: "text-cyan-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EA%B8%89%EB%A5%98%20%EC%A0%95%EB%8C%80%EA%B1%B4",
         watcha: {
-          score: 4.4,
-          raters: 31000,
-          keyword: "눈보라 속 타오르는 사랑의 불꽃",
-          tags: ["#제주43", "#지극한사랑", "#메디치상", "#문학동네"]
+          score: 4.2,
+          raters: 15400,
+          keyword: "삶의 물살 속에서 온몸으로 마주하는 사랑의 흔적",
+          tags: ["#한국소설", "#오늘의젊은작가", "#성장과사랑", "#몰입감"]
         },
         kyobo: {
-          score: 9.8,
-          reviews: 2400,
-          recommendRate: 98,
-          keyword: "인간의 가장 깊은 어둠에서 피어난 빛"
+          score: 9.7,
+          reviews: 2100,
+          recommendRate: 97,
+          keyword: "거센 급류를 통과하는 두 청춘의 이야기"
         },
-        summary: "제주 4·3 사건이라는 거대한 비극의 심연을 지극한 사랑과 애도의 숨결로 밝혀낸 소설. 프랑스 메디치 외국문학상 수상작으로, 한강 문학의 정점이자 눈부신 생명의 언어를 보여줍니다.",
-        quote: "바다 밑바닥 같은 정적 속에서, 우리는 아직 살아 있다."
+        summary: "충주호의 푸른 물살과 거센 강물을 배경으로, 열일곱 살 여름에 만나 엇갈린 두 남녀의 사랑과 치유를 서정적이고 단단한 문장으로 그려낸 정대건 작가의 감동적 장편소설.",
+        quote: "어떤 사랑은 삶 전체를 통과하는 거센 급류와 같다."
       },
       {
         id: 11,
-        title: "채식주의자",
-        author: "한강",
-        publisher: "창비",
-        isbn: "9788936434595",
-        pubYear: "2022 (개정판)",
-        pages: 248,
-        genre: "소설",
-        isBestseller: false,
-        isSteady: true,
-        rank: 11,
-        rankDiff: "-",
-        hasEbook: true,
-        coverGradient: "from-emerald-950 via-teal-900 to-slate-900",
-        coverTextColor: "text-emerald-200",
-        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%B1%84%EC%8B%9D%EC%A3%BC%EC%9D%98%EC%9E%90%20%ED%95%9C%EA%B0%95",
-        watcha: {
-          score: 4.3,
-          raters: 61000,
-          keyword: "인간 폭력성에 대한 전율 돋는 고발",
-          tags: ["#부커상수상작", "#강렬한서사", "#인간본성", "#한국문학"]
-        },
-        kyobo: {
-          score: 9.8,
-          reviews: 4600,
-          recommendRate: 98,
-          keyword: "한국인 최초 부커상 수상에 빛나는 전설적 소설"
-        },
-        summary: "어느 날 갑자기 육식을 거부하고 스스로 나무가 되어간다고 믿는 영혜와 그녀를 둘러싼 가족들의 시선을 통해, 인간의 본원적 폭력성과 억압된 욕망을 탐구한 세계적 걸작.",
-        quote: "내가 믿는 건 내 가슴뿐이야. 난 내 젖가슴이 좋아. 아무것도 죽일 수 없는 가슴이니까."
-      },
-      {
-        id: 12,
         title: "물고기는 존재하지 않는다",
         author: "룰루 밀러",
         publisher: "곰출판",
@@ -1046,9 +1028,9 @@
         genre: "과학",
         isBestseller: false,
         isSteady: true,
-        rank: 12,
+        rank: 11,
+        steadyRank: 4,
         rankDiff: "-",
-        hasEbook: true,
         coverGradient: "from-teal-800 via-cyan-900 to-slate-900",
         coverTextColor: "text-teal-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%AC%BC%EA%B3%A0%EA%B8%B0%EB%8A%94%20%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80%20%EC%95%8A%EB%8A%94%EB%8B%A4",
@@ -1068,7 +1050,7 @@
         quote: "우리는 중요하지 않다. 하지만 바로 그렇기 때문에 우리는 자유롭다."
       },
       {
-        id: 13,
+        id: 12,
         title: "코스모스",
         author: "칼 세이건",
         publisher: "사이언스북스",
@@ -1078,9 +1060,9 @@
         genre: "과학",
         isBestseller: false,
         isSteady: true,
-        rank: 13,
+        rank: 12,
+        steadyRank: 5,
         rankDiff: "-",
-        hasEbook: true,
         coverGradient: "from-indigo-950 via-purple-950 to-slate-950",
         coverTextColor: "text-indigo-200",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%BD%94%EC%8A%A4%EB%AA%A8%EC%8A%A4%20%EC%B5%9C%EC%8B%A0%ED%8C%90",
@@ -1100,7 +1082,7 @@
         quote: "우리는 모두 별에서 만들어진 먼지이며, 우주가 스스로를 이해하기 위해 만들어낸 존재다."
       },
       {
-        id: 14,
+        id: 13,
         title: "생각이 너무 많은 어른들을 위한 심리학",
         author: "김혜남",
         publisher: "메이븐",
@@ -1110,9 +1092,9 @@
         genre: "에세이",
         isBestseller: false,
         isSteady: true,
-        rank: 14,
+        rank: 13,
+        steadyRank: 6,
         rankDiff: "-",
-        hasEbook: true,
         coverGradient: "from-stone-700 via-rose-900/60 to-stone-900",
         coverTextColor: "text-stone-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%83%9D%EA%B0%81%EC%9D%B4%20%EB%84%88%EB%AC%B4%20%EB%A7%8E%EC%9D%80%20%EC%96%B4%EB%A5%B8%EB%93%A4%EC%9D%84%20%EC%9C%84%ED%95%9C%20%EC%8B%AC%EB%A6%AC%ED%95%99",
@@ -1132,7 +1114,7 @@
         quote: "삶은 정답을 맞히는 시험이 아니다. 그저 오늘을 온전히 살아내면 된다."
       },
       {
-        id: 15,
+        id: 14,
         title: "원씽 (The ONE Thing)",
         author: "게리 켈러",
         publisher: "비즈니스북스",
@@ -1142,9 +1124,9 @@
         genre: "자기계발",
         isBestseller: false,
         isSteady: true,
-        rank: 15,
+        rank: 14,
+        steadyRank: 7,
         rankDiff: "-",
-        hasEbook: true,
         coverGradient: "from-rose-900 via-stone-900 to-black",
         coverTextColor: "text-rose-100",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9B%90%EC%84%B1%20%EA%B2%8C%EB%A6%AC%20%EC%BC%88%EB%9F%AC",
@@ -1164,7 +1146,7 @@
         quote: "성공의 핵심은 모든 일을 다 잘하는 것이 아니라, 오직 단 하나를 제대로 해내는 것이다."
       },
       {
-        id: 16,
+        id: 15,
         title: "사피엔스",
         author: "유발 하라리",
         publisher: "김영사",
@@ -1174,9 +1156,9 @@
         genre: "인문",
         isBestseller: false,
         isSteady: true,
-        rank: 16,
+        rank: 15,
+        steadyRank: 8,
         rankDiff: "-",
-        hasEbook: true,
         coverGradient: "from-amber-900 via-stone-800 to-neutral-900",
         coverTextColor: "text-amber-200",
         kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%82%AC%ED%94%BC%EC%97%94%EC%8A%A4%20%EC%9C%A0%EB%B0%9C%20%ED%95%98%EB%9D%BC%EB%A6%AC",
@@ -1197,7 +1179,7 @@
       }
     ];
 
-    let userLibrary = JSON.parse(localStorage.getItem('readpick_library') || '{"wish":[1, 2, 4], "reading":[6], "done":[9]}');
+    let userLibrary = JSON.parse(localStorage.getItem('readpick_library') || '{"wish":[1, 2, 4], "reading":[6], "done":[12]}');
     let currentActiveBookId = 1;
     let currentFilterCategory = 'all';
     let currentScoreFilter = 'all';
@@ -1229,13 +1211,13 @@
               ${book.author}
             </div>
           </div>
-          ${book.hasEbook ? '<span class="absolute top-1 right-1 text-[10px] font-bold bg-slate-900/80 text-white px-1.5 py-0.5 rounded shadow z-10">eBook</span>' : ''}
         </div>
       `;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       initDynamicDateUI();
+      initPullToRefresh();
       renderBestsellerCarousel();
       renderDoubleCrownList();
       filterGenreTop('소설');
@@ -1274,14 +1256,104 @@
       if (rankSub) rankSub.innerText = `${d.dateString} 실시간 집계 기준 · 왓챠 & 교보 통합 평점 비교`;
     }
 
-    function refreshDataTimestamp() {
+    let currentRankingFilter = 'bestseller';
+
+    function refreshDataTimestamp(showToastNotification = true) {
       const icon = document.getElementById('refreshSpinIcon');
       if (icon) icon.classList.add('animate-spin');
       setTimeout(() => {
         if (icon) icon.classList.remove('animate-spin');
         initDynamicDateUI();
-        renderRankingList('bestseller');
+        renderBestsellerCarousel();
+        renderDoubleCrownList();
+        filterGenreTop('소설');
+        renderSteadysellerGrid();
+        renderRankingList(currentRankingFilter);
+        renderGenreExplorer();
+        if (showToastNotification) {
+          showToast(`✨ ${getLiveDateDetails().weekText} 실시간 교보 순위로 갱신되었습니다!`);
+        }
       }, 500);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('refreshToast');
+      const text = document.getElementById('refreshToastText');
+      if (toast && text) {
+        text.innerText = message || "최신 교보문고 순위가 반영되었습니다.";
+        toast.classList.remove('opacity-0', '-translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toast.classList.add('opacity-0', '-translate-y-4');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2500);
+      }
+    }
+
+    // Touch-based Native Pull-to-Refresh
+    function initPullToRefresh() {
+      const mainElem = document.querySelector('main');
+      const pullIndicator = document.getElementById('pullRefreshIndicator');
+      const pullText = document.getElementById('pullRefreshText');
+      const pullIcon = document.getElementById('pullRefreshIcon');
+      if (!mainElem || !pullIndicator || !pullText || !pullIcon) return;
+
+      let touchStartY = 0;
+      let isPulling = false;
+      let pullDist = 0;
+      const MAX_PULL = 72;
+
+      mainElem.addEventListener('touchstart', (e) => {
+        if (mainElem.scrollTop <= 2) {
+          touchStartY = e.touches[0].clientY;
+          isPulling = true;
+        } else {
+          isPulling = false;
+        }
+      }, { passive: true });
+
+      mainElem.addEventListener('touchmove', (e) => {
+        if (!isPulling) return;
+        const currentY = e.touches[0].clientY;
+        const diff = currentY - touchStartY;
+        
+        if (diff > 0 && mainElem.scrollTop <= 2) {
+          pullDist = Math.min(diff * 0.45, MAX_PULL);
+          pullIndicator.style.height = `${pullDist}px`;
+          pullIndicator.style.opacity = `${Math.min(pullDist / 35, 1)}`;
+          
+          if (pullDist > 46) {
+            pullText.innerText = "손을 놓으면 최신 순위로 새로고침됩니다!";
+            pullIcon.style.transform = "rotate(180deg)";
+          } else {
+            pullText.innerText = "아래로 당겨서 최신 교보 순위 새로고침...";
+            pullIcon.style.transform = "rotate(0deg)";
+          }
+        }
+      }, { passive: true });
+
+      mainElem.addEventListener('touchend', () => {
+        if (!isPulling) return;
+        isPulling = false;
+        
+        if (pullDist > 46) {
+          pullIndicator.style.height = '42px';
+          pullText.innerText = "2026년 11월 4주차 순위 실시간 갱신 중...";
+          pullIcon.classList.add('animate-spin');
+          
+          setTimeout(() => {
+            refreshDataTimestamp(true);
+            pullIndicator.style.height = '0px';
+            pullIndicator.style.opacity = '0';
+            pullIcon.classList.remove('animate-spin');
+            pullDist = 0;
+          }, 600);
+        } else {
+          pullIndicator.style.height = '0px';
+          pullIndicator.style.opacity = '0';
+          pullDist = 0;
+        }
+      }, { passive: true });
     }
 
     function updateClock() {
@@ -1423,47 +1495,82 @@
 
     // 9. Tab 2: Ranking View (ALL book covers strictly sized to .cover-thumb-standard)
     function renderRankingList(filterType = 'bestseller') {
+      currentRankingFilter = filterType;
+
+      const tabMeta = {
+        'bestseller': {
+          titleSuffix: '교보 종합 베스트셀러 TOP',
+          sub: '교보문고 공식 주간 종합 판매량 1위~10위 차트',
+          activeClass: 'bg-amber-500 text-white shadow-sm font-extrabold',
+          badgeTheme: 'bestseller'
+        },
+        'steady': {
+          titleSuffix: '독자 검증 인생 스테디셀러',
+          sub: '오랜 세월 수많은 독자들에게 사랑받은 영원한 스테디셀러',
+          activeClass: 'bg-blue-600 text-white shadow-sm font-extrabold',
+          badgeTheme: 'steady'
+        },
+        'watcha': {
+          titleSuffix: '왓챠피디아 최고 평점 TOP',
+          sub: '왓챠피디아 독서광들의 엄격한 별점 & 평가자 수 기준 순위',
+          activeClass: 'bg-rose-500 text-white shadow-sm font-extrabold',
+          badgeTheme: 'watcha'
+        },
+        'kyobo': {
+          titleSuffix: '교보문고 독자 만족도 TOP',
+          sub: '교보문고 실구매 독자 평점 & 누적 리뷰 만족도 기준 순위',
+          activeClass: 'bg-emerald-600 text-white shadow-sm font-extrabold',
+          badgeTheme: 'kyobo'
+        }
+      };
+
+      const meta = tabMeta[filterType] || tabMeta['bestseller'];
+
       ['bestseller', 'steady', 'watcha', 'kyobo'].forEach(type => {
         const btn = document.getElementById(`rankBtn-${type}`);
+        if (!btn) return;
         if (type === filterType) {
-          btn.className = "flex-1 py-2 rounded-lg bg-white text-slate-900 shadow-sm font-extrabold text-center text-xs";
+          btn.className = `flex-1 py-2 rounded-lg text-center text-xs ${tabMeta[type].activeClass}`;
         } else {
-          btn.className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 font-semibold text-center text-xs";
+          btn.className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 font-semibold text-center text-xs bg-transparent";
         }
       });
 
-      let list = [...BOOKS_DATABASE];
+      const d = getLiveDateDetails();
+      const rankTitle = document.getElementById('rankingTabTitle');
+      if (rankTitle) rankTitle.innerText = `${d.weekText} ${meta.titleSuffix}`;
+
+      const rankSub = document.getElementById('rankingTabSubtitle');
+      if (rankSub) rankSub.innerText = `${d.dateString} 실시간 집계 · ${meta.sub}`;
+
+      let list = [];
+
       if (filterType === 'bestseller') {
-        list.sort((a,b) => a.rank - b.rank);
+        list = BOOKS_DATABASE.filter(b => b.isBestseller).sort((a,b) => a.rank - b.rank);
       } else if (filterType === 'steady') {
-        list = list.filter(b => b.isSteady).sort((a,b) => b.watcha.score - a.watcha.score);
+        list = BOOKS_DATABASE.filter(b => b.isSteady).sort((a,b) => a.steadyRank - b.steadyRank);
       } else if (filterType === 'watcha') {
-        list.sort((a,b) => b.watcha.score - a.watcha.score);
+        list = [...BOOKS_DATABASE].sort((a,b) => (b.watcha.score - a.watcha.score) || (b.watcha.raters - a.watcha.raters));
       } else if (filterType === 'kyobo') {
-        list.sort((a,b) => b.kyobo.score - a.kyobo.score);
+        list = [...BOOKS_DATABASE].sort((a,b) => (b.kyobo.score - a.kyobo.score) || (b.kyobo.reviews - a.kyobo.reviews));
       }
 
       const container = document.getElementById('fullRankingList');
-      container.innerHTML = list.map((book, idx) => `
-        <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-2xl p-3 shadow-2xs hover:shadow-md transition flex items-center gap-3 cursor-pointer">
-          <div class="flex flex-col items-center justify-center w-7 flex-shrink-0">
-            <span class="text-base font-black ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">${idx + 1}</span>
-            <span class="text-xs font-bold ${book.rankDiff === 'NEW' ? 'text-rose-500' : book.rankDiff.startsWith('▲') ? 'text-emerald-600' : 'text-slate-400'}">
-              ${book.rankDiff}
-            </span>
-          </div>
+      container.innerHTML = list.map((book, idx) => {
+        const rankNum = idx + 1;
+        let rankBadgeHTML = '';
+        let scorePillsHTML = '';
 
-          <!-- UNIFORM 64px x 94px THUMBNAIL COVER -->
-          ${renderBookCoverHTML(book, "cover-thumb-standard")}
-
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1.5 mb-1">
-              <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">${book.genre}</span>
-              ${book.hasEbook ? '<span class="text-xs text-blue-700 font-bold bg-blue-50 px-1.5 py-0.5 rounded">eBook</span>' : ''}
-              <h4 class="font-extrabold text-sm text-slate-900 truncate">${book.title}</h4>
+        if (filterType === 'bestseller') {
+          const rankColor = rankNum === 1 ? 'text-amber-500' : rankNum <= 3 ? 'text-amber-600' : 'text-slate-400';
+          const diffColor = book.rankDiff === 'NEW' ? 'text-rose-500' : book.rankDiff.startsWith('▲') ? 'text-emerald-600' : 'text-slate-400';
+          rankBadgeHTML = `
+            <div class="flex flex-col items-center justify-center w-7 flex-shrink-0">
+              <span class="text-base font-black ${rankColor}">${rankNum}</span>
+              <span class="text-xs font-bold ${diffColor}">${book.rankDiff}</span>
             </div>
-            <p class="text-xs text-slate-500 truncate mb-1.5">${book.author} · ${book.publisher}</p>
-            
+          `;
+          scorePillsHTML = `
             <div class="flex items-center gap-2 mb-1.5">
               <div class="flex items-center gap-1 text-xs bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md font-black text-emerald-800">
                 <span>교보</span>
@@ -1474,11 +1581,82 @@
                 <span>★ ${book.watcha.score}</span>
               </div>
             </div>
+          `;
+        } else if (filterType === 'steady') {
+          const rankColor = rankNum <= 3 ? 'text-blue-600' : 'text-slate-400';
+          rankBadgeHTML = `
+            <div class="flex flex-col items-center justify-center w-7 flex-shrink-0">
+              <span class="text-base font-black ${rankColor}">${rankNum}</span>
+              <span class="text-[10px] font-bold text-blue-600 uppercase">스테디</span>
+            </div>
+          `;
+          scorePillsHTML = `
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs bg-blue-50 border border-blue-200 text-blue-700 font-extrabold px-2 py-0.5 rounded-md">
+                🏛️ 스테디셀러 ${rankNum}위
+              </span>
+              <span class="text-xs text-slate-500 font-medium">교보 ★${book.kyobo.score} · 왓챠 ★${book.watcha.score}</span>
+            </div>
+          `;
+        } else if (filterType === 'watcha') {
+          const rankColor = rankNum <= 3 ? 'text-rose-500' : 'text-slate-400';
+          rankBadgeHTML = `
+            <div class="flex flex-col items-center justify-center w-7 flex-shrink-0">
+              <span class="text-base font-black ${rankColor}">${rankNum}</span>
+              <span class="text-[10px] font-bold text-rose-500 uppercase">왓챠</span>
+            </div>
+          `;
+          scorePillsHTML = `
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="flex items-center gap-1 text-xs bg-rose-500 text-white px-2.5 py-0.5 rounded-md font-black shadow-2xs">
+                <span>왓챠피디아</span>
+                <span>★ ${book.watcha.score}</span>
+                <span class="text-[10px] text-rose-100 font-normal">(${(book.watcha.raters / 1000).toFixed(1)}k명)</span>
+              </div>
+              <span class="text-xs font-bold text-slate-500">교보 ★${book.kyobo.score}</span>
+            </div>
+          `;
+        } else if (filterType === 'kyobo') {
+          const rankColor = rankNum <= 3 ? 'text-emerald-600' : 'text-slate-400';
+          rankBadgeHTML = `
+            <div class="flex flex-col items-center justify-center w-7 flex-shrink-0">
+              <span class="text-base font-black ${rankColor}">${rankNum}</span>
+              <span class="text-[10px] font-bold text-emerald-600 uppercase">교보</span>
+            </div>
+          `;
+          scorePillsHTML = `
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="flex items-center gap-1 text-xs bg-emerald-700 text-white px-2.5 py-0.5 rounded-md font-black shadow-2xs">
+                <span>교보문고</span>
+                <span>★ ${book.kyobo.score}</span>
+                <span class="text-[10px] text-emerald-100 font-normal">(${(book.kyobo.reviews / 1000).toFixed(1)}k 리뷰)</span>
+              </div>
+              <span class="text-xs font-bold text-slate-500">왓챠 ★${book.watcha.score}</span>
+            </div>
+          `;
+        }
 
-            <p class="text-xs text-slate-600 truncate italic">"${book.quote}"</p>
+        return `
+          <div onclick="openBookModal(${book.id})" class="bg-white border border-slate-200 rounded-2xl p-3 shadow-2xs hover:shadow-md transition flex items-center gap-3 cursor-pointer">
+            ${rankBadgeHTML}
+
+            <!-- UNIFORM 64px x 94px THUMBNAIL COVER (NO EBOOK BADGE) -->
+            ${renderBookCoverHTML(book, "cover-thumb-standard")}
+
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1.5 mb-1">
+                <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">${book.genre}</span>
+                <h4 class="font-extrabold text-sm text-slate-900 truncate">${book.title}</h4>
+              </div>
+              <p class="text-xs text-slate-500 truncate mb-1.5">${book.author} · ${book.publisher}</p>
+              
+              ${scorePillsHTML}
+
+              <p class="text-xs text-slate-600 truncate italic">"${book.quote}"</p>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     // 10. Tab 3: Genre Explorer View (ALL book covers strictly sized to .cover-thumb-standard)
@@ -1510,8 +1688,8 @@
         filtered = filtered.filter(b => b.watcha.score >= 4.2);
       } else if (currentScoreFilter === 'kyobo97') {
         filtered = filtered.filter(b => b.kyobo.score >= 9.7);
-      } else if (currentScoreFilter === 'ebook') {
-        filtered = filtered.filter(b => b.hasEbook);
+      } else if (currentScoreFilter === 'topscore') {
+        filtered = filtered.filter(b => b.kyobo.score >= 9.8);
       }
 
       if (sortVal === 'score') {
@@ -1667,7 +1845,6 @@
             <div>
               <div class="flex items-center gap-1.5 mb-1.5">
                 <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-900 text-white">${book.genre}</span>
-                ${book.hasEbook ? '<span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">eBook 지원</span>' : ''}
               </div>
               <h2 class="text-lg font-black text-slate-900 leading-snug">${book.title}</h2>
               <p class="text-sm text-slate-700 mt-0.5 font-bold">${book.author}</p>
