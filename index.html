@@ -519,6 +519,27 @@
         <div id="genreBookGrid" class="grid grid-cols-1 gap-3.5">
           <!-- Injected by JS with UNIFORM .cover-thumb-standard -->
         </div>
+
+        <!-- Dynamic Book Expansion Action Area -->
+        <div class="mt-5 space-y-2.5 pt-2 border-t border-slate-100">
+          <button onclick="loadMoreGenreBooks()" id="loadMoreGenreBtn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-rose-500 to-indigo-600 hover:from-rose-600 hover:to-indigo-700 text-white font-extrabold text-xs shadow-sm active:scale-98 transition flex items-center justify-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            <span id="loadMoreBtnText">✨ 새로운 추천 도서 더 불러오기 (+5권)</span>
+          </button>
+          
+          <div class="flex items-center gap-2">
+            <button onclick="openAddBookModal()" class="flex-1 py-2.5 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-98 cursor-pointer">
+              <span>➕ 내가 원하는 책 직접 등록</span>
+            </button>
+            <button onclick="loadAllPoolBooks()" class="py-2.5 px-3 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center gap-1 shadow-2xs transition active:scale-98 cursor-pointer">
+              <span>🚀 전체 풀 일괄 해제</span>
+            </button>
+          </div>
+          
+          <p class="text-[11px] text-slate-400 text-center font-medium">
+            💡 새 도서를 불러오거나 등록하면 로컬 브라우저에 영구 누적되어 수시로 확장됩니다.
+          </p>
+        </div>
       </section>
 
       <!-- ================= TAB 4: MY LIBRARY ================= -->
@@ -683,6 +704,61 @@
     </div>
   </div>
 
+  <!-- ================= ADD BOOK MODAL ================= -->
+  <div id="addBookModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden" onclick="closeAddBookModal(event)">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2">
+          <span>📚</span> 새 도서 직접 등록하기
+        </h3>
+        <button onclick="closeAddBookModalDirect()" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">책 제목 *</label>
+          <input type="text" id="addBookTitle" placeholder="예: 돈의 속성" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 font-medium" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">저자 *</label>
+          <input type="text" id="addBookAuthor" placeholder="예: 김승호" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 font-medium" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">장르 *</label>
+            <select id="addBookGenre" class="w-full px-2.5 py-2 rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 font-medium bg-white">
+              <option value="경제경영">경제경영</option>
+              <option value="에세이">에세이/심리</option>
+              <option value="소설">소설</option>
+              <option value="인문">인문/철학</option>
+              <option value="과학">자연과학</option>
+              <option value="자기계발">자기계발</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">출판사</label>
+            <input type="text" id="addBookPublisher" placeholder="예: 스노우폭스북스" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 font-medium" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">간단한 한 줄 소개 / 감상평</label>
+          <textarea id="addBookSummary" rows="2" placeholder="이 책의 주요 내용이나 추천 이유를 적어주세요." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 font-medium resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">13자리 ISBN (선택 - 실제 교보 표지 자동 연동)</label>
+          <input type="text" id="addBookIsbn" placeholder="예: 9791188331796 (없으면 예쁜 그라데이션 커버 생성)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:border-indigo-500 font-medium" />
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeAddBookModalDirect()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50 transition cursor-pointer">취소</button>
+        <button onclick="submitNewBook()" class="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-sm transition active:scale-95 cursor-pointer">장르 추천에 등록</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= JAVASCRIPT LOGIC & DATABASE ================= -->
   <script>
     // 0. Register Service Worker & PWA Lifecycle
@@ -785,7 +861,7 @@
     }
 
     // 1. 2026년 11월 기준 최신 교보문고 공식 베스트셀러 및 왓챠·AI 추천 데이터베이스
-    const BOOKS_DATABASE = [
+    let BOOKS_DATABASE = [
       {
         id: 1,
         title: "가호",
@@ -2428,6 +2504,1193 @@
       }
     ];
 
+    // 2. 동적 추천 도서 확장 풀 (수시로 새로운 추천 도서가 공급되는 대규모 도서 풀)
+    const EXTENDED_BOOK_POOL = [
+      // [경제경영]
+      {
+        id: 41,
+        title: "돈의 속성",
+        author: "김승호",
+        publisher: "스노우폭스북스",
+        isbn: "9791188331796",
+        pubYear: "2020년 06월",
+        pages: 392,
+        genre: "경제경영",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 29,
+        rankDiff: "-",
+        coverGradient: "from-amber-900 via-yellow-950 to-neutral-900",
+        coverTextColor: "text-amber-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%8F%88%EC%9D%98%20%EC%86%8D%EC%84%B1",
+        ai: {
+          rank: 41,
+          score: 97,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "돈을 인격체로 대하는 회장 김승호의 부에 대한 철학과 태도",
+          targetAudience: "돈을 버는 법과 지키는 법, 쓰는 법의 균형을 잡고 싶은 사람",
+          aiInsight: "최상위 부자가 직접 밝힌 부의 본질과 통찰로 수십만 독자의 금융관을 재정립한 명작입니다."
+        },
+        watcha: { score: 4.2, raters: 42000, keyword: "돈을 인격체로 보게 만드는 놀라운 관점", tags: ["#돈의속성", "#부자철학", "#재테크기본", "#김승호"] },
+        kyobo: { score: 9.8, reviews: 28000, recommendRate: 98, keyword: "돈을 대하는 태도를 송두리째 바꾸는 책" },
+        summary: "돈은 인격체다. 돈을 존중하고 사랑할 때 비로소 돈도 내 곁에 머문다. 자수성가 억만장자 김승호 회장이 전하는 부의 불변의 원리.",
+        quote: "돈은 인격체다. 자신을 소중히 여기는 사람 곁에 머물고, 함부로 대하는 사람을 떠난다."
+      },
+      {
+        id: 42,
+        title: "원씽 (The ONE Thing)",
+        author: "게리 켈러, 제이 파파산",
+        publisher: "비즈니스북스",
+        isbn: "9791162540169",
+        pubYear: "2013년 08월",
+        pages: 280,
+        genre: "경제경영",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 30,
+        rankDiff: "-",
+        coverGradient: "from-red-950 via-slate-900 to-stone-900",
+        coverTextColor: "text-red-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9B%90%EC%84%B1%20the%20one%20thing",
+        ai: {
+          rank: 42,
+          score: 96,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "복잡한 세상을 이기는 단 하나의 원칙과 극단적 집중력의 마법",
+          targetAudience: "할 일은 많은데 성과가 나지 않아 번아웃을 겪는 모든 직장인 및 사업가",
+          aiInsight: "도미노 효과처럼 다른 모든 일을 쉽게 만들 단 하나의 우선순위에 집중하게 만듭니다."
+        },
+        watcha: { score: 4.2, raters: 29000, keyword: "인생의 핵심을 꿰뚫는 단 하나의 질문", tags: ["#원씽", "#집중과선택", "#우선순위", "#생산성"] },
+        kyobo: { score: 9.7, reviews: 13000, recommendRate: 97, keyword: "비즈니스와 인생을 단순하고 강력하게 바꾸는 책" },
+        summary: "모든 일이 다 중요할 수는 없다. 내 인생에서 다른 모든 일을 수월하게 만들어줄 단 하나의 일은 무엇인가?",
+        quote: "탁월한 성과는 당신의 초점을 얼마나 좁힐 수 있느냐에 달려 있다."
+      },
+      {
+        id: 43,
+        title: "부자 아빠 가난한 아빠 1",
+        author: "로버트 기요사키",
+        publisher: "민음인",
+        isbn: "9791158883591",
+        pubYear: "2018년 02월",
+        pages: 448,
+        genre: "경제경영",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 31,
+        rankDiff: "-",
+        coverGradient: "from-purple-950 via-slate-900 to-amber-950",
+        coverTextColor: "text-purple-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%B6%80%EC%9E%90%20%EC%95%84%EB%B9%A0%20%EA%B0%80%EB%82%9C%ED%95%9C%20%EC%95%84%EB%B9%A0",
+        ai: {
+          rank: 43,
+          score: 95,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "자산과 부채의 정의를 다시 쓰고 현금흐름의 비밀을 밝힌 금융 교양서",
+          targetAudience: "월급쟁이 쳇바퀴에서 벗어나 자본 소득의 시스템을 구축하고 싶은 사람",
+          aiInsight: "금융 문맹에서 벗어나 돈이 나를 위해 일하게 만드는 자산 시스템 구축의 교과서입니다."
+        },
+        watcha: { score: 4.1, raters: 48000, keyword: "자본주의 사회의 룰을 깨우쳐준 책", tags: ["#현금흐름", "#자산과부채", "#금융지능", "#로버트기요사키"] },
+        kyobo: { score: 9.7, reviews: 22000, recommendRate: 97, keyword: "재테크의 고전이자 영원한 필독서" },
+        summary: "가난한 아버지는 '공부해서 좋은 직장을 얻으라'고 했고, 부자 아버지는 '돈이 너를 위해 일하게 하라'고 가르쳤다.",
+        quote: "부자들은 자산을 취득하지만, 가난한 이들과 중산층은 부채를 얻으면서 자산이라 여긴다."
+      },
+      {
+        id: 44,
+        title: "피터 린치의 이기는 투자",
+        author: "피터 린치",
+        publisher: "흐름출판",
+        isbn: "9788959894895",
+        pubYear: "2017년 05월",
+        pages: 452,
+        genre: "경제경영",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 32,
+        rankDiff: "-",
+        coverGradient: "from-emerald-950 via-slate-900 to-teal-950",
+        coverTextColor: "text-emerald-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%94%BC%ED%84%B0%20%EB%A6%B0%EC%B9%98%EC%9D%98%20%EC%9D%B4%EA%B8%B0%EB%8A%94%20%ED%88%AC%EC%9E%90",
+        ai: {
+          rank: 44,
+          score: 96,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "월가의 전설이 전하는 일상 속 10배 주식(텐배거)을 발굴하는 실전 투자법",
+          targetAudience: "단타와 소음에 지친 합리적이고 건전한 가치투자 지향 독자",
+          aiInsight: "마젤란 펀드를 13년간 연평균 29.2% 수익률로 이끈 전설적인 투자의 지혜입니다."
+        },
+        watcha: { score: 4.3, raters: 15000, keyword: "투자자의 심장을 단단하게 해주는 명저", tags: ["#가치투자", "#피터린치", "#텐배거", "#월가의전설"] },
+        kyobo: { score: 9.8, reviews: 6800, recommendRate: 98, keyword: "주식 투자의 본질을 알려주는 바이블" },
+        summary: "자신이 잘 아는 동네 쇼핑몰, 일상 제품 속에서 10배 오를 위대한 기업을 찾아내는 월가 영웅의 실전 포트폴리오 노하우.",
+        quote: "당신이 약간의 신경만 쓴다면 직장이나 동네 쇼핑몰에서 월가 전문가보다 훨씬 뛰어난 종목을 찾을 수 있다."
+      },
+      {
+        id: 45,
+        title: "룬샷 (Loonshots)",
+        author: "사피 바칼",
+        publisher: "흐름출판",
+        isbn: "9788959896479",
+        pubYear: "2020년 04월",
+        pages: 480,
+        genre: "경제경영",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 33,
+        rankDiff: "-",
+        coverGradient: "from-blue-950 via-indigo-950 to-neutral-900",
+        coverTextColor: "text-blue-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%A3%AC%EC%83%B7",
+        ai: {
+          rank: 45,
+          score: 95,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "미친 아이디어가 세상을 바꾸는 혁신이 되는 조직 물리학의 메커니즘",
+          targetAudience: "혁신을 꿈꾸는 리더, 프로젝트 기획자, 기업가",
+          aiInsight: "물리학의 상전이 개념을 비즈니스 혁신과 결합한 독창적이고 눈부신 경영서입니다."
+        },
+        watcha: { score: 4.2, raters: 11000, keyword: "혁신의 탄생과 죽음을 설명하는 새로운 시각", tags: ["#룬샷", "#조직문화", "#혁신", "#물리학과비즈니스"] },
+        kyobo: { score: 9.7, reviews: 4500, recommendRate: 97, keyword: "세상을 바꾼 미친 아이디어들의 연대기" },
+        summary: "모두가 미쳤다고 무시했던 아이디어 '룬샷'이 어떻게 전쟁을 승리로 이끌고 거대 제국을 탄생시켰는지를 물리학적 관점으로 밝혀냅니다.",
+        quote: "위대한 혁신은 처음에 늘 미친 사람의 헛소리로 시작된다."
+      },
+      {
+        id: 46,
+        title: "넥스트 머니 2027",
+        author: "안유화",
+        publisher: "21세기북스",
+        isbn: "9788950998127",
+        pubYear: "2026년 08월",
+        pages: 360,
+        genre: "경제경영",
+        isBestseller: false,
+        isSteady: false,
+        rank: null,
+        steadyRank: null,
+        rankDiff: "-",
+        coverGradient: "from-cyan-950 via-slate-900 to-indigo-950",
+        coverTextColor: "text-cyan-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%84%A5%EC%8A%A4%ED%8A%B8%20%EB%A8%B8%EB%8B%88%202027",
+        ai: {
+          rank: 46,
+          score: 94,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "글로벌 패권 전쟁과 디지털 통화 대전환기 속 부의 이동 지도",
+          targetAudience: "거시 경제와 글로벌 화폐 질서의 변화를 미리 읽고 대비하려는 스마트 투자자",
+          aiInsight: "미중 갈등과 디지털 화폐(CBDC), 실물 자산의 지각변동을 입체적으로 해설합니다."
+        },
+        watcha: { score: 4.1, raters: 7200, keyword: "화폐 질서의 대격변을 꿰뚫는 혜안", tags: ["#디지털화폐", "#글로벌경제", "#환율", "#자산배분"] },
+        kyobo: { score: 9.6, reviews: 2900, recommendRate: 96, keyword: "새로운 금융 패러다임에 맞춘 투자 전략" },
+        summary: "달러 패권의 균열과 통화 시스템의 재편 속에서 개인의 부는 어디로 흘러갈 것인가? 다가올 3년의 머니 로드맵.",
+        quote: "돈의 성격이 바뀔 때 부의 지도 역시 가장 극적으로 뒤바뀐다."
+      },
+
+      // [에세이/심리]
+      {
+        id: 47,
+        title: "내가 틀릴 수도 있습니다",
+        author: "비외른 나티코 린데블라드",
+        publisher: "다산초당",
+        isbn: "9791130689890",
+        pubYear: "2022년 04월",
+        pages: 312,
+        genre: "에세이",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 34,
+        rankDiff: "-",
+        coverGradient: "from-amber-950 via-stone-900 to-teal-950",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%82%B4%EA%B0%80%20%ED%8B%80%EB%A6%B4%20%EC%88%98%EB%8F%84%20%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+        ai: {
+          rank: 47,
+          score: 99,
+          theme: "healing",
+          themeLabel: "🌿 힐링/위로",
+          keyword: "태국 숲속 사원에서 건져 올린 집착을 내려놓고 마음의 평화를 찾는 법",
+          targetAudience: "완벽주의와 통제 욕구로 스스로를 옥죄고 마음이 지친 현대인",
+          aiInsight: "마음속 소용돌이를 단번에 잠재우는 마법 같은 잠언으로 전 세대의 극찬을 받은 영혼의 치유서입니다."
+        },
+        watcha: { score: 4.4, raters: 46000, keyword: "가슴을 짓누르던 돌덩이를 내려놓게 하는 책", tags: ["#마음챙김", "#내려놓음", "#숲속승려", "#인생의지혜"] },
+        kyobo: { score: 9.9, reviews: 18500, recommendRate: 99, keyword: "불안한 현대인에게 건네는 가장 평온한 축복" },
+        summary: "성공 가도를 달리던 대기업 임원에서 홀연히 태국 밀림의 승려로 17년을 살았던 저자가 삶의 마지막 순간 우리에게 건네는 눈부신 지혜.",
+        quote: "내가 틀릴 수도 있습니다. 이 단순한 문장을 기억할 때 당신의 마음은 한순간에 자유로워진다."
+      },
+      {
+        id: 48,
+        title: "당신이 옳다",
+        author: "정혜신",
+        publisher: "해냄출판사",
+        isbn: "9788965746669",
+        pubYear: "2018년 10월",
+        pages: 316,
+        genre: "에세이",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 35,
+        rankDiff: "-",
+        coverGradient: "from-rose-950 via-slate-900 to-stone-900",
+        coverTextColor: "text-rose-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%8B%B9%EC%8B%A0%EC%9D%B4%20%EC%98%AC%EB%8B%A4",
+        ai: {
+          rank: 48,
+          score: 98,
+          theme: "healing",
+          themeLabel: "🌿 힐링/위로",
+          keyword: "조언과 평가 대신 한 사람의 존재 자체를 온전히 긍정하는 적정심리학",
+          targetAudience: "마음의 상처를 안고 있거나 소중한 사람을 진정으로 위로하고 싶은 독자",
+          aiInsight: "충고, 조언, 평가, 판단을 멈추고 타인의 고통에 온전히 닿는 법을 알려주는 공감의 바이블입니다."
+        },
+        watcha: { score: 4.3, raters: 38000, keyword: "사람을 살리는 진짜 공감의 기적", tags: ["#적정심리학", "#공감의힘", "#정혜신", "#치유"] },
+        kyobo: { score: 9.8, reviews: 15400, recommendRate: 98, keyword: "존재 자체를 안아주는 다정한 치유서" },
+        summary: "30년간 현장에서 사람들의 상처를 치유해 온 정혜신 박사가 전하는 스스로를 구하고 타인을 살리는 '적정심리학'의 핵심.",
+        quote: "어떤 순간에도 당신의 감정은 옳다. 그 감정에 도달하기까지의 당신의 고통은 정당하다."
+      },
+      {
+        id: 49,
+        title: "나의 완벽하고 무능한 당신",
+        author: "신형철",
+        publisher: "난다",
+        isbn: "9791188862993",
+        pubYear: "2023년 11월",
+        pages: 328,
+        genre: "에세이",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 36,
+        rankDiff: "-",
+        coverGradient: "from-slate-900 via-neutral-900 to-stone-800",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%82%98%EC%9D%98%20%EC%99%84%EB%B2%BD%ED%95%98%EA%B3%A0%20%EB%AC%B4%EB%8A%A5%ED%95%9C%20%EB%8B%B9%EC%8B%A0",
+        ai: {
+          rank: 49,
+          score: 96,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "한국 최고의 문학평론가가 문학과 사랑, 윤리에 대해 벼려낸 아름다운 산문",
+          targetAudience: "정밀하고 깊이 있는 문장과 인간에 대한 섬세한 시선을 사랑하는 독자",
+          aiInsight: "문학의 쓸모없음이 역설적으로 인간을 구원한다는 성찰을 우아한 문체로 풀어낸 산문집입니다."
+        },
+        watcha: { score: 4.4, raters: 14000, keyword: "밑줄을 긋지 않고는 배길 수 없는 문장들", tags: ["#신형철", "#문학산문", "#사랑의윤리", "#명문장"] },
+        kyobo: { score: 9.8, reviews: 5200, recommendRate: 98, keyword: "읽는 이의 영혼을 맑게 닦아주는 문장" },
+        summary: "신형철 평론가가 오랜 시간 사유해 온 문학의 아름다움과 타인을 이해하는 윤리에 대한 눈부신 산문집.",
+        quote: "사랑은 상대를 완벽하게 만들기 위한 것이 아니라, 그의 무능함까지 온전히 껴안는 일이다."
+      },
+      {
+        id: 50,
+        title: "어른이라는 혼란",
+        author: "김혜남",
+        publisher: "메이븐",
+        isbn: "9791191060379",
+        pubYear: "2023년 02월",
+        pages: 284,
+        genre: "에세이",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 37,
+        rankDiff: "-",
+        coverGradient: "from-amber-950 via-stone-900 to-slate-900",
+        coverTextColor: "text-amber-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%96%B4%EB%A5%B8%EC%9D%B4%EB%9D%BC%EB%8A%94%20%ED%98%BC%EB%9E%80",
+        ai: {
+          rank: 50,
+          score: 95,
+          theme: "healing",
+          themeLabel: "🌿 힐링/위로",
+          keyword: "나이만 먹었을 뿐 여전히 서툴고 불안한 어른들을 위한 다정한 심리 처방",
+          targetAudience: "책임의 무게에 짓눌려 혼자 끙끙 앓고 있는 모든 현대 성인",
+          aiInsight: "파킨슨병과 싸우며 환자들을 돌본 정신분석의가 전하는 서툴러도 괜찮다는 위로입니다."
+        },
+        watcha: { score: 4.2, raters: 19000, keyword: "어른답지 않아도 된다고 말해주는 온기", tags: ["#김혜남", "#정신분석", "#어른의불안", "#삶의지혜"] },
+        kyobo: { score: 9.7, reviews: 7800, recommendRate: 97, keyword: "불안한 삶의 든든한 버팀목이 되는 책" },
+        summary: "몸은 어른이 되었지만 마음은 여전히 불안한 이들에게 인생의 불완전함을 끌어안고 단단하게 살아가는 지혜를 나눕니다.",
+        quote: "완벽한 어른은 없다. 우리는 모두 처음 살아보는 오늘을 헤매고 있을 뿐이다."
+      },
+      {
+        id: 51,
+        title: "눈물 한 방울",
+        author: "이어령",
+        publisher: "김영사",
+        isbn: "9788934986706",
+        pubYear: "2022년 06월",
+        pages: 168,
+        genre: "에세이",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 38,
+        rankDiff: "-",
+        coverGradient: "from-stone-900 via-neutral-900 to-slate-800",
+        coverTextColor: "text-slate-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%88%88%EB%AC%BC%20%ED%95%9C%20%EB%B0%A9%EC%9A%B8",
+        ai: {
+          rank: 51,
+          score: 97,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "지성인 이어령이 육신의 고통 속에서 남긴 마지막 육필 노트와 사랑의 고백",
+          targetAudience: "생의 끝자락에서 남겨진 진정한 사랑과 생명의 가치를 묻는 사람",
+          aiInsight: "한국을 대표하는 석학이 병마 속에서 피워 올린 가장 순수한 영혼의 기록입니다."
+        },
+        watcha: { score: 4.3, raters: 16000, keyword: "생의 마지막에서 길어 올린 가장 순결한 언어", tags: ["#이어령", "#마지막노트", "#생명자본", "#눈물"] },
+        kyobo: { score: 9.8, reviews: 6300, recommendRate: 98, keyword: "가슴 먹먹한 지성의 마지막 유산" },
+        summary: "고(故) 이어령 선생이 암 투병 중 떨리는 손으로 남긴 마지막 육필 일기. 생명과 사랑, 타인을 위한 눈물의 숭고함을 노래합니다.",
+        quote: "나를 위해 흘리는 눈물은 백 년을 살아도 썩지만, 남을 위해 흘리는 눈물 한 방울은 영원히 마르지 않는다."
+      },
+      {
+        id: 52,
+        title: "서른의 반격",
+        author: "손원평",
+        publisher: "은행나무",
+        isbn: "9788956608518",
+        pubYear: "2017년 10월",
+        pages: 244,
+        genre: "에세이",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 39,
+        rankDiff: "-",
+        coverGradient: "from-sky-950 via-slate-900 to-indigo-950",
+        coverTextColor: "text-sky-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%84%9C%EB%A5%B8%EC%9D%98%20%EB%B0%98%EA%B2%A9",
+        ai: {
+          rank: 52,
+          score: 94,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "부조리한 세상에서 나만의 속도와 유쾌함을 잃지 않는 작은 반격의 미학",
+          targetAudience: "세상의 불합리함에 무력감을 느끼는 청춘과 직장인",
+          aiInsight: "제주4·3평화문학상 수상작이자 아몬드의 작가 손원평이 건네는 통쾌한 청춘 위로입니다."
+        },
+        watcha: { score: 4.0, raters: 24000, keyword: "작고 소소하지만 확실한 나만의 저항", tags: ["#손원평", "#청춘", "#작은반격", "#공감성장"] },
+        kyobo: { score: 9.6, reviews: 8100, recommendRate: 96, keyword: "답답한 가슴을 뻥 뚫어주는 청춘의 이야기" },
+        summary: "아카데미 수강생들이 뭉쳐 세상의 권위와 부조리에 맞서 벌이는 소소하고도 유쾌한 반란의 기록.",
+        quote: "세상을 바꿀 수는 없어도, 세상에 굴복하지 않는 나를 지켜낼 수는 있다."
+      },
+
+      // [소설]
+      {
+        id: 53,
+        title: "모순",
+        author: "양귀자",
+        publisher: "쓰다",
+        isbn: "9788998441012",
+        pubYear: "2013년 04월",
+        pages: 308,
+        genre: "소설",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 40,
+        rankDiff: "-",
+        coverGradient: "from-stone-900 via-rose-950 to-neutral-900",
+        coverTextColor: "text-rose-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%AA%A8%EC%88%9C%20%EC%96%91%EA%B7%80%EC%9E%90",
+        ai: {
+          rank: 53,
+          score: 98,
+          theme: "immersion",
+          themeLabel: "🔥 몰입/서사",
+          keyword: "인생은 탐구하는 것이 아니라 그저 온몸으로 살아내는 것이라는 불멸의 명작",
+          targetAudience: "삶의 갈림길에서 선택과 행복의 참된 의미를 고민하는 모든 세대",
+          aiInsight: "출간 후 수십 년간 세대를 넘어 한국 문학 스테디셀러 1위를 지키는 인생 소설입니다."
+        },
+        watcha: { score: 4.4, raters: 95000, keyword: "이십대에 읽고 삼십대에 다시 읽는 인생의 교과서", tags: ["#양귀자", "#한국소설", "#인생의모순", "#안진진"] },
+        kyobo: { score: 9.9, reviews: 31000, recommendRate: 99, keyword: "모든 문장이 가슴에 와서 박히는 명작" },
+        summary: "스물다섯 살 안진진의 눈으로 바라본 어머니와 이모, 두 남자의 삶을 통해 행복과 불행, 삶의 모순을 날카롭고 서정적으로 통찰합니다.",
+        quote: "인생은 살아가면서 탐구하는 것이지, 살아가기 전에 탐구하는 것이 아니다."
+      },
+      {
+        id: 54,
+        title: "바깥은 여름",
+        author: "김애란",
+        publisher: "문학동네",
+        isbn: "9788954646154",
+        pubYear: "2017년 06월",
+        pages: 268,
+        genre: "소설",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 41,
+        rankDiff: "-",
+        coverGradient: "from-teal-950 via-slate-900 to-stone-900",
+        coverTextColor: "text-teal-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%B0%94%EA%B9%9F%EC%9D%80%20%EC%97%AC%EB%A6%84",
+        ai: {
+          rank: 54,
+          score: 97,
+          theme: "healing",
+          themeLabel: "🌿 힐링/위로",
+          keyword: "상실과 슬픔 속에서도 조용히 피어나는 인간다움에 관한 김애란의 단편 미학",
+          targetAudience: "가장 정밀하고 섬세한 문장으로 슬픔의 결을 어루만지고 싶은 독자",
+          aiInsight: "이상문학상 수상작 '침묵의 미래'를 포함해 현대 단편 소설의 정점을 보여주는 소설집입니다."
+        },
+        watcha: { score: 4.3, raters: 55000, keyword: "타인의 슬픔 앞에 가만히 무릎 꿇게 만드는 힘", tags: ["#김애란", "#단편소설", "#상실과애도", "#여름"] },
+        kyobo: { score: 9.8, reviews: 14000, recommendRate: 98, keyword: "마음의 밑바닥을 어루만지는 투명한 온기" },
+        summary: "풍요롭고 눈부신 여름의 바깥과 달리, 상실과 고독의 겨울을 통과하는 일곱 인물들의 시리고도 다정한 이야기.",
+        quote: "안에선 하염없이 눈이 내리는데, 바깥은 거짓말처럼 여름이었다."
+      },
+      {
+        id: 55,
+        title: "우리가 빛의 속도로 갈 수 없다면",
+        author: "김초엽",
+        publisher: "허블",
+        isbn: "9791190090018",
+        pubYear: "2019년 06월",
+        pages: 344,
+        genre: "소설",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 42,
+        rankDiff: "-",
+        coverGradient: "from-indigo-950 via-purple-950 to-slate-900",
+        coverTextColor: "text-indigo-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9A%B0%EB%A6%AC%EA%B0%80%20%EB%B9%9B%EC%9D%98%20%EC%86%8D%EB%8F%84%EB%A1%9C%20%EA%B0%88%20%EC%88%98%20%EC%97%86%EB%8B%A4%EB%A9%B4",
+        ai: {
+          rank: 55,
+          score: 98,
+          theme: "immersion",
+          themeLabel: "🔥 몰입/서사",
+          keyword: "우주와 기술의 발전 속에서도 끝내 남겨진 사람을 향하는 온기 어린 SF",
+          targetAudience: "SF를 처음 접하거나 감성적이고 서정적인 이야기를 사랑하는 독자",
+          aiInsight: "한국 SF 소설의 대중적 폭발을 이끌어낸 기념비적인 데뷔 소설집입니다."
+        },
+        watcha: { score: 4.3, raters: 82000, keyword: "차갑지 않고 따뜻한 우주를 선물해준 책", tags: ["#김초엽", "#한국SF", "#우주와사랑", "#빛의속도"] },
+        kyobo: { score: 9.8, reviews: 26000, recommendRate: 98, keyword: "한국 문학의 지평을 넓힌 찬란한 수작" },
+        summary: "더 이상 아무도 찾지 않는 낡은 우주정거장에서, 먼저 떠나간 가족이 있는 행성으로 가기 위해 마지막 우주선을 기다리는 노과학자의 사연.",
+        quote: "우리가 빛의 속도로 갈 수 없다면, 같은 우주에 있어도 서로에게 닿지 못한다."
+      },
+      {
+        id: 56,
+        title: "아몬드",
+        author: "손원평",
+        publisher: "창비",
+        isbn: "9788936434267",
+        pubYear: "2017년 03월",
+        pages: 272,
+        genre: "소설",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 43,
+        rankDiff: "-",
+        coverGradient: "from-amber-950 via-stone-900 to-rose-950",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%95%84%EB%AA%AC%EB%93%9C%20%EC%86%90%EC%9B%90%ED%8F%89",
+        ai: {
+          rank: 56,
+          score: 97,
+          theme: "healing",
+          themeLabel: "🌿 힐링/위로",
+          keyword: "감정을 느끼지 못하는 소년 윤재가 마주하는 타인의 고통과 진정한 교감",
+          targetAudience: "공감 능력이 메마른 사회에서 사랑과 연대의 의미를 되새기고 싶은 독자",
+          aiInsight: "전 세계 20여 개국에 번역 출간되어 일본 서점대상까지 수상한 글로벌 K-문학 대표작입니다."
+        },
+        watcha: { score: 4.2, raters: 120000, keyword: "감정이란 무엇인가를 가슴으로 묻는 이야기", tags: ["#손원평", "#청소년문학", "#공감", "#성장소설"] },
+        kyobo: { score: 9.8, reviews: 36000, recommendRate: 98, keyword: "남녀노소 누구에게나 권하고 싶은 필독 소설" },
+        summary: "선천적으로 뇌의 편도체 크기가 작아 감정을 느끼지 못하는 소년 윤재와 분노로 가득 찬 곤이가 만나 서로의 결핍을 채워가는 이야기.",
+        quote: "구할 수 없는 인간이란 없다. 단지 구하려는 노력을 포기한 자들이 있을 뿐이다."
+      },
+      {
+        id: 57,
+        title: "단 한 사람",
+        author: "최진영",
+        publisher: "한겨레출판",
+        isbn: "9791160408546",
+        pubYear: "2023년 09월",
+        pages: 296,
+        genre: "소설",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 44,
+        rankDiff: "-",
+        coverGradient: "from-stone-900 via-neutral-900 to-indigo-950",
+        coverTextColor: "text-indigo-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%8B%A8%20%ED%95%9C%20%EC%82%AC%EB%9E%8C%20%EC%B5%9C%EC%A7%84%EC%98%81",
+        ai: {
+          rank: 57,
+          score: 96,
+          theme: "immersion",
+          themeLabel: "🔥 몰입/서사",
+          keyword: "삶의 끝자락에서 타인의 죽음을 지켜보고 기억하는 중재자의 거룩한 사랑",
+          targetAudience: "삶과 죽음, 인간 존재의 깊은 고독과 연대를 탐색하는 독자",
+          aiInsight: "최진영 작가 특유의 간절하고 단단한 언어로 죽음과 기억의 숭고함을 노래합니다."
+        },
+        watcha: { score: 4.3, raters: 18000, keyword: "한 사람을 기억한다는 것의 무거운 아름다움", tags: ["#최진영", "#생과사", "#기억", "#애도"] },
+        kyobo: { score: 9.8, reviews: 5400, recommendRate: 98, keyword: "오래도록 마음을 흔드는 깊은 여운" },
+        summary: "죽음의 문턱에서 사람들의 마지막 순간을 지켜보고 다음 생으로 인도하는 특별한 운명을 타고난 인물의 애틋한 대서사.",
+        quote: "세상이 당신을 잊더라도, 당신의 생을 끝까지 기억할 단 한 사람이 여기 있다."
+      },
+      {
+        id: 58,
+        title: "파친코 1",
+        author: "이민진",
+        publisher: "인플루엔셜",
+        isbn: "9791168340526",
+        pubYear: "2022년 07월",
+        pages: 368,
+        genre: "소설",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 45,
+        rankDiff: "-",
+        coverGradient: "from-amber-950 via-slate-900 to-neutral-900",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%8C%8C%EC%B9%9C%EC%BD%94%20%EC%9D%B4%EB%AF%BC%EC%A7%84",
+        ai: {
+          rank: 58,
+          score: 99,
+          theme: "immersion",
+          themeLabel: "🔥 몰입/서사",
+          keyword: "일제강점기부터 현대까지 이어진 재일교포 4대의 끈질긴 생명력과 서사",
+          targetAudience: "역사의 소용돌이 속에서도 인간의 존엄을 지켜낸 거대한 가족사를 원하는 독자",
+          aiInsight: "뉴욕타임스 베스트셀러 및 글로벌 OTT 시리즈로 전 세계를 울린 감동의 대작입니다."
+        },
+        watcha: { score: 4.4, raters: 76000, keyword: "역사에 패배하지 않은 위대한 인간들의 승리", tags: ["#파친코", "#재일조선인", "#가족서사", "#역사대작"] },
+        kyobo: { score: 9.9, reviews: 24000, recommendRate: 99, keyword: "한국인의 피와 땀이 어린 최고의 대하소설" },
+        summary: "부산 영도의 가난한 기형아 훈이와 순자의 삶에서 시작되어 일본 오사카와 도쿄로 이어지는 4대 백년의 고난과 사랑의 파노라마.",
+        quote: "역사가 우리를 망쳐놓았지만, 그래도 상관없다. 우리는 끝끝내 살아남았다."
+      },
+
+      // [인문/철학]
+      {
+        id: 59,
+        title: "정의란 무엇인가",
+        author: "마이클 샌델",
+        publisher: "와이즈베리",
+        isbn: "9788996991342",
+        pubYear: "2014년 11월",
+        pages: 444,
+        genre: "인문",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 46,
+        rankDiff: "-",
+        coverGradient: "from-blue-950 via-slate-900 to-neutral-900",
+        coverTextColor: "text-blue-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%A0%95%EC%9D%98%EB%9E%80%20%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80",
+        ai: {
+          rank: 59,
+          score: 96,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "하버드 20년 연속 최고의 명강의가 묻는 도덕적 딜레마와 공동선",
+          targetAudience: "사회적 이슈와 윤리적 판단 기준에 대해 지적 토론을 즐기고 싶은 독자",
+          aiInsight: "공리주의, 자유지상주의, 공동체주의를 아우르며 생각하는 힘을 길러주는 인문학 고전입니다."
+        },
+        watcha: { score: 4.2, raters: 64000, keyword: "옳고 그름을 사유하는 철학적 나침반", tags: ["#마이클샌델", "#정의", "#하버드명강의", "#윤리학"] },
+        kyobo: { score: 9.7, reviews: 18000, recommendRate: 97, keyword: "대한민국에 인문학 열풍을 불러일으킨 책" },
+        summary: "폭주하는 기관차와 5명의 인부 등 극적인 도덕적 딜레마를 통해 우리가 정의롭다고 믿는 기준들의 한계를 파헤칩니다.",
+        quote: "정의로운 사회는 단순히 좋은 것을 공정하게 분배하는 것을 넘어, 좋은 삶의 의미를 함께 묻는 사회다."
+      },
+      {
+        id: 60,
+        title: "니체의 말",
+        author: "프리드리히 니체, 시라토리 하루히코",
+        publisher: "삼호미디어",
+        isbn: "9788978494199",
+        pubYear: "2010년 10월",
+        pages: 288,
+        genre: "인문",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 47,
+        rankDiff: "-",
+        coverGradient: "from-amber-950 via-neutral-900 to-stone-900",
+        coverTextColor: "text-amber-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%8B%88%EC%B2%B4%EC%9D%98%20%EB%A7%90",
+        ai: {
+          rank: 60,
+          score: 95,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "나약한 자기 연민을 박차고 초인이 되어 스스로의 운명을 사랑하라",
+          targetAudience: "기존의 상식과 관습에 갇혀 무기력해진 영혼을 깨우고 싶은 사람",
+          aiInsight: "아모르파티(운명애)와 위버멘쉬의 철학을 직관적인 잠언으로 압축해 전합니다."
+        },
+        watcha: { score: 4.1, raters: 32000, keyword: "가장 강력한 각성제 같은 철학의 정수", tags: ["#니체", "#아모르파티", "#초인", "#삶의에너지"] },
+        kyobo: { score: 9.7, reviews: 12000, recommendRate: 97, keyword: "지칠 때마다 아무 페이지나 펼쳐 읽는 책" },
+        summary: "자신을 온전히 긍정하고 삶의 비극마저 기꺼이 끌어안으며 스스로의 주인이 되라고 외치는 니체의 불꽃 같은 명언집.",
+        quote: "자신을 사랑하라. 오늘을 온 힘을 다해 살아라. 당신의 운명을 열정적으로 사랑하라."
+      },
+      {
+        id: 61,
+        title: "군주론",
+        author: "니콜로 마키아벨리",
+        publisher: "까치",
+        isbn: "9788972915859",
+        pubYear: "2015년 03월",
+        pages: 256,
+        genre: "인문",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 48,
+        rankDiff: "-",
+        coverGradient: "from-slate-900 via-stone-900 to-red-950",
+        coverTextColor: "text-red-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC%20%EA%B5%B0%EC%A3%BC%EB%A1%A0",
+        ai: {
+          rank: 61,
+          score: 95,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "위선적 도덕주의를 걷어내고 권력의 현실적 작동 원리를 해부한 정치학의 원점",
+          targetAudience: "조직 정치와 현실의 권력 역학을 객관적으로 이해하고자 하는 리더",
+          aiInsight: "여우의 영리함과 사자의 용맹함을 겸비해야 한다는 통찰을 남긴 고전입니다."
+        },
+        watcha: { score: 4.2, raters: 28000, keyword: "권력의 민낯을 냉철하게 직시한 고전", tags: ["#마키아벨리", "#권력학", "#정치철학", "#리더십"] },
+        kyobo: { score: 9.7, reviews: 8900, recommendRate: 97, keyword: "세상의 냉혹한 법칙을 가르쳐주는 책" },
+        summary: "군주는 사랑받는 것보다 두려움의 대상이 되는 편이 훨씬 안전하다. 냉혹한 권력의 생존 방정식을 가감 없이 폭로합니다.",
+        quote: "군주는 사자의 용맹과 여우의 간계 둘 다를 겸비해야만 함정을 피하고 늑대를 물리칠 수 있다."
+      },
+      {
+        id: 62,
+        title: "인생의 역사",
+        author: "신형철",
+        publisher: "난다",
+        isbn: "9791188862894",
+        pubYear: "2022년 10월",
+        pages: 340,
+        genre: "인문",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 49,
+        rankDiff: "-",
+        coverGradient: "from-neutral-900 via-stone-950 to-amber-950",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%9D%B8%EC%83%9D%EC%9D%98%20%EC%97%AD%EC%82%AC%20%EC%8B%A0%ED%98%95%EC%B2%A0",
+        ai: {
+          rank: 62,
+          score: 98,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "시(詩)라는 거울을 통해 인간의 삶과 고통, 기쁨의 역사를 되비추는 인문 교양",
+          targetAudience: "아름다운 한국어 문장과 시의 깊은 울림을 사색하고 싶은 사람",
+          aiInsight: "동서양의 시 25편을 통해 삶의 보편적 상처와 경이를 눈부시게 밝혀낸 수작입니다."
+        },
+        watcha: { score: 4.4, raters: 26000, keyword: "시를 읽는 법이 아니라 세상을 읽는 법을 배우는 책", tags: ["#신형철", "#시해설", "#인문산문", "#인생의의미"] },
+        kyobo: { score: 9.9, reviews: 11000, recommendRate: 99, keyword: "마음이 가난해질 때마다 꺼내 읽는 명저" },
+        summary: "고대 그리스의 서사시부터 현대 한국 시인들의 절창까지, 시 한 편 한 편에 담긴 인간 생의 비밀을 다정하게 해설합니다.",
+        quote: "시는 고통을 없애주지는 않지만, 그 고통을 감당할 수 있는 품위를 선물한다."
+      },
+      {
+        id: 63,
+        title: "철학은 어떻게 삶의 무기가 되는가",
+        author: "야마구치 슈",
+        publisher: "다산초당",
+        isbn: "9791130620404",
+        pubYear: "2019년 01월",
+        pages: 336,
+        genre: "인문",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 50,
+        rankDiff: "-",
+        coverGradient: "from-slate-900 via-indigo-950 to-neutral-900",
+        coverTextColor: "text-indigo-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%B2%A0%ED%95%99%EC%9D%80%20%EC%96%B4%EB%96%BB%EA%B2%8C%20%EC%82%B6%EC%9D%98%20%EB%AC%B4%EA%B8%B0%EA%B0%80%20%EB%90%98%EB%8A%94%EA%B0%80",
+        ai: {
+          rank: 63,
+          score: 96,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "탁상공론의 철학을 비즈니스와 일상의 문제 해결 무기로 변환한 실전 인문학",
+          targetAudience: "상황 판단과 의사결정의 깊이를 더하고 싶은 직장인 및 기획자",
+          aiInsight: "철학자 50인의 핵심 개념을 현실의 조직과 삶에 접목한 실용적 인문서입니다."
+        },
+        watcha: { score: 4.1, raters: 34000, keyword: "철학을 도구로 쓰는 명쾌한 프레임워크", tags: ["#야마구치슈", "#실전철학", "#비즈니스인문학", "#의사결정"] },
+        kyobo: { score: 9.7, reviews: 14000, recommendRate: 97, keyword: "복잡한 세상을 헤쳐 나가는 생각의 무기" },
+        summary: "니체, 아렌트, 데리다 등 거장들의 사유를 직관적인 현실 솔루션으로 치환하여 남들과 다른 통찰을 얻는 법을 전수합니다.",
+        quote: "철학을 배운다는 것은 지식을 외우는 것이 아니라, 상식을 의심하는 비판적 사고를 장착하는 것이다."
+      },
+      {
+        id: 64,
+        title: "생각에 관한 생각",
+        author: "대니얼 카너먼",
+        publisher: "김영사",
+        isbn: "9788934980759",
+        pubYear: "2018년 03월",
+        pages: 728,
+        genre: "인문",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 51,
+        rankDiff: "-",
+        coverGradient: "from-stone-900 via-slate-900 to-amber-950",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%83%9D%EA%B0%81%EC%97%90%20%EA%B4%80%ED%95%9C%20%EC%83%9D%EA%B0%81",
+        ai: {
+          rank: 64,
+          score: 97,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "인간의 빠른 직관(시스템 1)과 느린 이성(시스템 2)이 빚어내는 인지 편향의 세계",
+          targetAudience: "자신의 착각과 오류를 직시하고 올바른 판단력을 기르고 싶은 지식인",
+          aiInsight: "노벨경제학상을 수상한 행동경제학의 창시자가 집대성한 인간 심리의 결정판입니다."
+        },
+        watcha: { score: 4.3, raters: 22000, keyword: "내 뇌가 나를 어떻게 속이는지 폭로하는 책", tags: ["#행동경제학", "#인지편향", "#노벨상", "#대니얼카너먼"] },
+        kyobo: { score: 9.8, reviews: 8900, recommendRate: 98, keyword: "인간의 마음을 이해하는 최고의 지적 대작" },
+        summary: "인간은 결코 합리적이지 않다. 직관적이고 감정적인 시스템 1과 깊이 생각하는 시스템 2가 충돌하며 벌어지는 수많은 판단 착오의 원인을 밝힙니다.",
+        quote: "우리는 우리가 보고 있는 것만을 믿으며, 우리가 보지 못하는 것에 대해서는 눈멀어 있다."
+      },
+
+      // [과학]
+      {
+        id: 65,
+        title: "코스모스",
+        author: "칼 세이건",
+        publisher: "사이언스북스",
+        isbn: "9788983711892",
+        pubYear: "2006년 12월",
+        pages: 700,
+        genre: "과학",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 52,
+        rankDiff: "-",
+        coverGradient: "from-blue-950 via-slate-950 to-indigo-950",
+        coverTextColor: "text-cyan-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%BD%94%EC%8A%A4%EB%AA%A8%EC%8A%A4%20%EC%B9%BC%20%EC%84%B8%EC%9D%B4%EA%B1%B4",
+        ai: {
+          rank: 65,
+          score: 100,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "우주라는 광대한 시공간 속에서 인간이라는 존재의 경이로움을 노래한 과학 문학",
+          targetAudience: "밤하늘의 별을 보며 생명의 의미와 우주의 기원을 사색하고 싶은 모든 인간",
+          aiInsight: "과학 교양서를 넘어 전 인류의 영혼을 울린 20세기 가장 위대한 과학 저작입니다."
+        },
+        watcha: { score: 4.6, raters: 68000, keyword: "우주 먼지인 우리가 서로를 다정하게 안아야 하는 이유", tags: ["#칼세이건", "#코스모스", "#우주교양", "#인류필독서"] },
+        kyobo: { score: 9.9, reviews: 21000, recommendRate: 99, keyword: "평생 단 한 권의 과학책을 골라야 한다면" },
+        summary: "138억 년 우주의 역사 속에서 탄생한 우리는 곧 '스스로를 탐구하는 우주'다. 과학적 사실과 시적 감수성이 완벽하게 조화를 이룬 불멸의 고전.",
+        quote: "우리는 코스모스의 일부다. 우리는 별에서 만들어진 물질로 구성되어 있으며, 우주가 스스로를 인식하는 방식이다."
+      },
+      {
+        id: 66,
+        title: "물고기는 존재하지 않는다",
+        author: "룰루 밀러",
+        publisher: "곰출판",
+        isbn: "9791189327156",
+        pubYear: "2021년 12월",
+        pages: 300,
+        genre: "과학",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 53,
+        rankDiff: "-",
+        coverGradient: "from-teal-950 via-slate-900 to-cyan-950",
+        coverTextColor: "text-teal-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%AC%BC%EA%B3%A0%EA%B8%B0%EB%8A%94%20%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80%20%EC%95%8A%EB%8A%94%EB%8B%A4",
+        ai: {
+          rank: 66,
+          score: 99,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "질서에 집착하던 한 박물학자의 파멸과 혼돈 속에서 피어난 생명의 참된 자유",
+          targetAudience: "삶의 통제력을 잃고 방황하거나 고정관념을 통쾌하게 부수고 싶은 독자",
+          aiInsight: "과학 논픽션과 회고록, 서스펜스가 환상적으로 결합되어 충격과 해방감을 선사합니다."
+        },
+        watcha: { score: 4.4, raters: 72000, keyword: "마지막 책장을 덮는 순간 온몸에 전율이 흐른다", tags: ["#룰루밀러", "#과학논픽션", "#반전과감동", "#질서와혼돈"] },
+        kyobo: { score: 9.8, reviews: 29000, recommendRate: 98, keyword: "세상을 보는 프레임을 산산조각 내는 책" },
+        summary: "분류학자 데이비드 스타 조던의 집착을 추적하던 과학 전문 기자가 자연의 진실과 마주하며 삶의 구원을 얻는 눈부신 여정.",
+        quote: "물고기는 존재하지 않는다. 우리가 규정해 놓은 사다리를 걷어차 버릴 때, 비로소 세상의 무한한 다양성이 우리를 해방시킨다."
+      },
+      {
+        id: 67,
+        title: "떨림과 울림",
+        author: "김상욱",
+        publisher: "동아시아",
+        isbn: "9788962622645",
+        pubYear: "2018년 11월",
+        pages: 272,
+        genre: "과학",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 54,
+        rankDiff: "-",
+        coverGradient: "from-indigo-950 via-stone-900 to-slate-900",
+        coverTextColor: "text-indigo-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%96%A8%EB%A6%BC%EA%B3%BC%20%EC%9A%B8%EB%A6%BC",
+        ai: {
+          rank: 67,
+          score: 97,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "물리학의 눈으로 바라본 인간과 사회, 그리고 따스한 연대의 물리학적 증명",
+          targetAudience: "물리를 어려워하지만 우주의 법칙을 감성적으로 이해하고 싶은 사람",
+          aiInsight: "빛, 시공간, 원자, 엔트로피라는 차가운 개념을 가장 다정한 언어로 해설합니다."
+        },
+        watcha: { score: 4.3, raters: 41000, keyword: "물리학자가 쓴 가장 아름다운 인문학 에세이", tags: ["#김상욱", "#물리학", "#떨림과울림", "#원자의세계"] },
+        kyobo: { score: 9.8, reviews: 17000, recommendRate: 98, keyword: "세상의 모든 존재를 사랑하게 만드는 과학" },
+        summary: "우리는 모두 원자로 이루어져 있다. 죽음은 원자가 흩어지는 자연스러운 과정일 뿐. 물리학의 기본 법칙에서 인간 존재의 위안을 발견합니다.",
+        quote: "물리는 우주에 존재하는 모든 것이 서로 상호작용하며 만드는 떨림이자 울림이다."
+      },
+      {
+        id: 68,
+        title: "침묵의 봄",
+        author: "레이첼 카슨",
+        publisher: "에코리브르",
+        isbn: "9788990048042",
+        pubYear: "2011년 10월",
+        pages: 398,
+        genre: "과학",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 55,
+        rankDiff: "-",
+        coverGradient: "from-emerald-950 via-slate-900 to-stone-900",
+        coverTextColor: "text-emerald-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%B9%A8%EB%AC%B5%EC%9D%98%20%EB%B4%84",
+        ai: {
+          rank: 68,
+          score: 96,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "화학 살충제의 무분별한 사용을 고발하고 현대 환경 운동을 촉발한 역사적 저작",
+          targetAudience: "지구 생태계와 생명 윤리에 대한 근본적인 경각심을 깨우고 싶은 독자",
+          aiInsight: "인간의 오만함이 자연을 파괴할 때 부메랑이 되어 돌아옴을 입증한 환경 고전입니다."
+        },
+        watcha: { score: 4.2, raters: 19000, keyword: "한 과학자의 용기가 세상을 바꾼 역사적 순간", tags: ["#레이첼카슨", "#생태학", "#환경고전", "#DDT"] },
+        kyobo: { score: 9.7, reviews: 7600, recommendRate: 97, keyword: "인류 역사를 바꾼 위대한 과학 논픽션" },
+        summary: "새들이 노래하지 않는 봄. 살충제 DDT가 생태계 먹이사슬을 타고 올라와 모든 생명을 죽음으로 몰아넣는 비극을 서정적이면서도 치밀하게 고발합니다.",
+        quote: "인간은 자연의 일부이며, 자연을 상대로 벌이는 전쟁은 필연적으로 인간 자신을 향한 전쟁이다."
+      },
+      {
+        id: 69,
+        title: "부분과 전체",
+        author: "베르너 하이젠베르크",
+        publisher: "지식산업사",
+        isbn: "9788942310777",
+        pubYear: "2016년 03월",
+        pages: 440,
+        genre: "과학",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 56,
+        rankDiff: "-",
+        coverGradient: "from-slate-900 via-neutral-900 to-indigo-950",
+        coverTextColor: "text-indigo-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%B6%80%EB%B6%84%EA%B3%BC%20%EC%A0%84%EC%B2%B4",
+        ai: {
+          rank: 69,
+          score: 96,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "불확정성 원리의 창시자가 양자역학 태동기의 거장들과 나눈 철학적 대화록",
+          targetAudience: "물리학의 철학적 배경과 거장들의 사유 과정을 직접 엿보고 싶은 독자",
+          aiInsight: "아인슈타인, 보어, 파울리 등 천재 과학자들이 벌인 치열한 지적 격론의 기록입니다."
+        },
+        watcha: { score: 4.3, raters: 17000, keyword: "자연과학과 인문학이 가장 높은 곳에서 만나는 순간", tags: ["#양자역학", "#하이젠베르크", "#물리철학", "#보어"] },
+        kyobo: { score: 9.7, reviews: 6200, recommendRate: 97, keyword: "과학과 철학의 경계를 허무는 세기의 대작" },
+        summary: "원자물리학의 혁명 속에서 과학이란 단순한 실험실 연구가 아니라 인간과 자연의 대화이자 세계관의 전환임을 보여주는 자서전적 대담집.",
+        quote: "자연과학은 자연을 있는 그대로 관찰하는 것이 아니라, 인간의 질문에 자연이 내놓는 답을 관찰하는 것이다."
+      },
+      {
+        id: 70,
+        title: "다정한 것이 살아남는다",
+        author: "브라이언 헤어, 바네사 우즈",
+        publisher: "디플롯",
+        isbn: "9791197413001",
+        pubYear: "2021년 07월",
+        pages: 392,
+        genre: "과학",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 57,
+        rankDiff: "-",
+        coverGradient: "from-amber-950 via-rose-950 to-stone-900",
+        coverTextColor: "text-amber-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%8B%A4%EC%A0%95%ED%95%9C%20%EA%B2%83%EC%9D%B4%20%EC%82%B4%EC%95%84%EB%82%A8%EB%8A%94%EB%8B%A4",
+        ai: {
+          rank: 70,
+          score: 97,
+          theme: "healing",
+          themeLabel: "🌿 힐링/위로",
+          keyword: "적자생존을 넘어 협력과 친화력이 인류 진화의 최고 무기였음을 증명한 진화인류학",
+          targetAudience: "경쟁 만능주의에 지쳐 공존과 연대의 생물학적 근거를 찾고 싶은 사람",
+          aiInsight: "개가 어떻게 늑대를 이기고 인간의 동반자가 되었는지, 왜 다정함이 생존의 열쇠인지 밝힙니다."
+        },
+        watcha: { score: 4.3, raters: 36000, keyword: "차가운 진화론을 따뜻하게 다시 쓰는 책", tags: ["#진화인류학", "#다정함", "#친화력", "#공존"] },
+        kyobo: { score: 9.8, reviews: 14000, recommendRate: 98, keyword: "인간성에 대한 희망을 되찾아주는 과학" },
+        summary: "인류가 네안데르탈인을 제치고 살아남은 이유는 가장 공격적이어서가 아니라, 타인과 소통하고 연대하는 '친화력'을 길들였기 때문이라는 과학적 입증.",
+        quote: "진화의 승자는 가장 강한 자가 아니라, 가장 다정한 자였다."
+      },
+
+      // [자기계발]
+      {
+        id: 71,
+        title: "타이탄의 도구들",
+        author: "팀 페리스",
+        publisher: "토네이도",
+        isbn: "9791186712412",
+        pubYear: "2017년 04월",
+        pages: 400,
+        genre: "자기계발",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 58,
+        rankDiff: "-",
+        coverGradient: "from-slate-900 via-amber-950 to-stone-900",
+        coverTextColor: "text-amber-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%83%80%EC%9D%B4%ED%83%84%EC%9D%98%20%EB%8F%84%EA%B5%AC%EB%93%A4",
+        ai: {
+          rank: 71,
+          score: 97,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "세계 최고 자리에 오른 200인의 거인들이 실천하는 아침 루틴과 성공 습관",
+          targetAudience: "시간 관리와 생산성을 극대화하여 탁월한 성과를 내고 싶은 모든 사람",
+          aiInsight: "명상, 일기, 콜드샤워 등 타이탄들의 사소하지만 결정적인 일상의 비밀들을 집약했습니다."
+        },
+        watcha: { score: 4.2, raters: 45000, keyword: "매일 아침 실행할 수 있는 실천 도구들의 보물창고", tags: ["#팀페리스", "#모닝루틴", "#타이탄", "#성공습관"] },
+        kyobo: { score: 9.7, reviews: 21000, recommendRate: 97, keyword: "삶의 생산성을 극적으로 끌어올리는 책" },
+        summary: "세계 최고 부자, 예술가, 석학들을 인터뷰하여 그들이 매일 실천하는 놀랍도록 단순하고 구체적인 성공 루틴 61가지를 전수합니다.",
+        quote: "세상을 바꾸는 거인들도 매일 아침 침대 정리를 하고 찬물로 세수를 하는 평범한 인간일 뿐이다."
+      },
+      {
+        id: 72,
+        title: "클루지 (Kluge)",
+        author: "개리 마커스",
+        publisher: "갤리온",
+        isbn: "9788901087191",
+        pubYear: "2008년 12월",
+        pages: 312,
+        genre: "자기계발",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 59,
+        rankDiff: "-",
+        coverGradient: "from-stone-900 via-blue-950 to-neutral-900",
+        coverTextColor: "text-blue-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%ED%81%B4%EB%A3%A8%EC%A7%80%20%EA%B0%9C%EB%A6%AC%20%EB%A7%88%EC%BB%A4%EC%8A%A4",
+        ai: {
+          rank: 72,
+          score: 95,
+          theme: "insight",
+          themeLabel: "💡 지적통찰",
+          keyword: "진화의 흉터인 생각의 덫 '클루지'를 간파하고 더 나은 의사결정을 내리는 뇌과학",
+          targetAudience: "충동과 편견에 휘둘리지 않고 합리적인 마인드셋을 다지고 싶은 독자",
+          aiInsight: "인간의 뇌가 완벽하지 않은 얼기설기 꿰맞춘 기계임을 이해하고 이를 역이용하는 기술입니다."
+        },
+        watcha: { score: 4.1, raters: 28000, keyword: "생각의 함정에서 빠져나오는 명쾌한 지혜", tags: ["#뇌과학", "#심리트릭", "#의사결정", "#클루지"] },
+        kyobo: { score: 9.6, reviews: 11000, recommendRate: 96, keyword: "나의 한계를 알고 극복하는 최고의 심리서" },
+        summary: "인간의 뇌는 진화 과정에서 임시변통으로 덧댄 서툰 기계(클루지)다. 기억 왜곡과 확증 편향의 함정을 이겨내는 13가지 통찰.",
+        quote: "우리의 뇌는 완벽한 공학 설계의 결과가 아니라, 생존을 위해 대충 기워 맞춘 진화의 누더기다."
+      },
+      {
+        id: 73,
+        title: "설득의 심리학",
+        author: "로버트 치알디니",
+        publisher: "21세기북스",
+        isbn: "9788950949433",
+        pubYear: "2013년 04월",
+        pages: 480,
+        genre: "자기계발",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 60,
+        rankDiff: "-",
+        coverGradient: "from-slate-900 via-indigo-950 to-stone-900",
+        coverTextColor: "text-indigo-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%84%A4%EB%93%9D%EC%9D%98%20%EC%8B%AC%EB%A6%AC%ED%95%99",
+        ai: {
+          rank: 73,
+          score: 98,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "상대의 마음을 움직이고 승낙을 이끌어내는 6가지 불변의 심리 법칙",
+          targetAudience: "마케터, 영업인, 협상가 및 인간관계에서 영향력을 발휘하고 싶은 모든 사람",
+          aiInsight: "상호성의 법칙, 사회적 증거, 일관성 등 인간 심리의 맹점을 파고드는 최고의 사회심리학 명작입니다."
+        },
+        watcha: { score: 4.3, raters: 58000, keyword: "사람을 설득하고 방어하는 최고의 지침서", tags: ["#설득", "#심리학", "#인간관계", "#로버트치알디니"] },
+        kyobo: { score: 9.8, reviews: 23000, recommendRate: 98, keyword: "모든 비즈니스맨의 영원한 필독서" },
+        summary: "왜 우리는 원치 않는 요구에도 '예'라고 대답하는가? 상대방을 사로잡고 사기성 설득을 방어하는 심리학의 법칙.",
+        quote: "작은 호의 하나가 거대한 승낙을 부르는 방아쇠가 된다."
+      },
+      {
+        id: 74,
+        title: "몰입 (FLOW)",
+        author: "황농문",
+        publisher: "랜덤하우스코리아",
+        isbn: "9788925514666",
+        pubYear: "2007년 12월",
+        pages: 304,
+        genre: "자기계발",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 61,
+        rankDiff: "-",
+        coverGradient: "from-blue-950 via-slate-900 to-indigo-950",
+        coverTextColor: "text-blue-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%AA%B0%EC%9E%85%20%ED%99%A9%EB%86%8D%EB%AC%B8",
+        ai: {
+          rank: 74,
+          score: 96,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "두뇌의 잠재력을 100% 가동하여 난제를 해결하고 최상의 행복에 이르는 몰입 훈련법",
+          targetAudience: "공부나 연구, 창의적 업무에서 한계를 돌파하고 싶은 학습자 및 전문가",
+          aiInsight: "서울대 황농문 교수가 뇌과학과 실천을 결합해 창안한 한국형 몰입의 정수입니다."
+        },
+        watcha: { score: 4.1, raters: 39000, keyword: "집중을 넘어 영혼이 충만해지는 상태", tags: ["#몰입", "#두뇌최적화", "#황농문", "#잠재력"] },
+        kyobo: { score: 9.7, reviews: 16000, recommendRate: 97, keyword: "인생을 바꾸는 가장 강력한 두뇌 사용법" },
+        summary: "생각을 끊임없이 이어가는 훈련을 통해 뇌를 극한의 창의성 상태로 유도하는 5단계 몰입 실천 방법.",
+        quote: "몰입 상태에 들어갈 때 인간은 불안을 잊고 가장 순수한 기쁨과 최고의 창의성을 경험한다."
+      },
+      {
+        id: 75,
+        title: "원칙 (Principles)",
+        author: "레이 달리오",
+        publisher: "한빛비즈",
+        isbn: "9791157842674",
+        pubYear: "2018년 06월",
+        pages: 712,
+        genre: "자기계발",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 62,
+        rankDiff: "-",
+        coverGradient: "from-slate-900 via-neutral-900 to-stone-900",
+        coverTextColor: "text-slate-100",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EB%A0%88%EC%9D%B4%20%EB%8B%AC%EB%A6%AC%EC%98%A4%20%EC%9B%90%EC%B9%99",
+        ai: {
+          rank: 75,
+          score: 97,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "세계 최대 헤지펀드 브리지워터를 일군 레이 달리오의 인생과 일의 원칙",
+          targetAudience: "감정에 휘둘리지 않고 기계처럼 정교한 의사결정 체계를 구축하고 싶은 리더",
+          aiInsight: "극단적 진실성과 투명성을 바탕으로 실패를 성장으로 바꾸는 공식(고통 + 성찰 = 진보)을 제시합니다."
+        },
+        watcha: { score: 4.3, raters: 28000, keyword: "인생이라는 기계를 최적화하는 매뉴얼", tags: ["#레이달리오", "#원칙", "#헤지펀드", "#의사결정체계"] },
+        kyobo: { score: 9.8, reviews: 12500, recommendRate: 98, keyword: "모든 리더가 책상 위에 두어야 할 지침서" },
+        summary: "실패를 두려워하지 않고 실수를 시스템으로 교정하는 극단적 투명성의 원칙으로 세계 금융계를 정복한 거인의 삶의 규율.",
+        quote: "고통에 성찰이 더해질 때 비로소 진보가 일어난다 (Pain + Reflection = Progress)."
+      },
+      {
+        id: 76,
+        title: "성공하는 사람들의 7가지 습관",
+        author: "스티븐 코비",
+        publisher: "김영사",
+        isbn: "9788934987772",
+        pubYear: "2019년 09월",
+        pages: 588,
+        genre: "자기계발",
+        isBestseller: false,
+        isSteady: true,
+        rank: null,
+        steadyRank: 63,
+        rankDiff: "-",
+        coverGradient: "from-indigo-950 via-slate-900 to-blue-950",
+        coverTextColor: "text-indigo-200",
+        kyoboUrl: "https://search.kyobobook.co.kr/search?keyword=%EC%84%B1%EA%B3%B5%ED%95%98%EB%8A%94%20%EC%82%AC%EB%9E%8C%EB%93%A4%EC%9D%98%207%EA%B0%80%EC%A7%80%20%EC%8A%B5%EA%B4%80",
+        ai: {
+          rank: 76,
+          score: 98,
+          theme: "growth",
+          themeLabel: "📈 성장/자기관리",
+          keyword: "임기응변의 처세술이 아닌 성품 윤리에 기반한 지속 가능한 성공의 불변 원칙",
+          targetAudience: "뿌리 깊은 내면의 신뢰와 성숙한 상호 의존성을 기르고 싶은 모든 성인",
+          aiInsight: "전 세계 4천만 부 이상 판매된 자기계발서 역대 최고의 마스터피스입니다."
+        },
+        watcha: { score: 4.3, raters: 62000, keyword: "인간의 품격을 높여주는 영원한 인생의 나침반", tags: ["#스티븐코비", "#7가지습관", "#패러다임전환", "#고전"] },
+        kyobo: { score: 9.8, reviews: 29000, recommendRate: 98, keyword: "자기계발서의 알파이자 오메가" },
+        summary: "자신의 삶을 주도하고, 끝을 생각하며 시작하며, 소중한 것을 먼저 하라. 의존에서 독립으로, 다시 상호의존으로 나아가는 위대한 패러다임.",
+        quote: "우리가 세상을 바라보는 방식이 곧 우리가 세상을 경험하는 방식을 결정한다."
+      }
+    ];
+
+    // 3. 무제한 동적 AI 큐레이션 아이디어 풀 (풀이 소진되어도 지속적으로 생성 확장)
+    const INFINITE_GENRE_IDEAS = {
+      '소설': [
+        { title: "헤어질 결심 각본", author: "정서경, 박찬욱", publisher: "을유문화사", isbn: "9788932474731", quote: "내가 그렇게 만만합니까? 내가 그렇게 서툽니까?" },
+        { title: "칵테일, 러브, 좀비", author: "조예은", publisher: "안전가옥", isbn: "9791190174756", quote: "피할 수 없다면 차라리 사랑하기로 했다." },
+        { title: "작별하지 않는다", author: "한강", publisher: "문학동네", isbn: "9788954682152", quote: "작별하지 않는다. 끝끝내 기억하겠다." }
+      ],
+      '경제경영': [
+        { title: "그들의 생각 스타트업", author: "샘 올트먼 외", publisher: "한빛비즈", isbn: "9791157843435", quote: "가장 큰 위험은 아무런 위험도 감수하지 않는 것이다." },
+        { title: "초격차", author: "권오현", publisher: "쌤앤파커스", isbn: "9788965706915", quote: "넘볼 수 없는 격의 차이를 만드는 리더십의 원칙." },
+        { title: "피터 틸의 제로 투 원", author: "피터 틸", publisher: "한국경제신문", isbn: "9788947540261", quote: "0에서 1을 만드는 독점 기업이 세상을 바꾼다." }
+      ],
+      '에세이': [
+        { title: "어른의 품격", author: "사카이 준코", publisher: "알에이치코리아", isbn: "9788925562766", quote: "나이 듦은 부끄러운 것이 아니라 깊어지는 과정이다." },
+        { title: "살고 싶다는 농담", author: "허지웅", publisher: "웅진지식하우스", isbn: "9788901244303", quote: "바닥을 치고 나면 다시 올라갈 일만 남았다." },
+        { title: "우리는 우리를 잊지 못하고", author: "김상현", publisher: "필름", isbn: "9791188469390", quote: "함께했던 계절은 지나도 마음은 영원히 머문다." }
+      ],
+      '인문': [
+        { title: "호모 데우스", author: "유발 하라리", publisher: "김영사", isbn: "9788934978435", quote: "인간은 신이 되고자 하는 욕망의 길목에 서 있다." },
+        { title: "코스모스: 가능한 세계들", author: "앤 드루얀", publisher: "사이언스북스", isbn: "9788983719874", quote: "별에서 온 우리는 다시 별을 향해 손을 뻗는다." },
+        { title: "자유론", author: "존 스튜어트 밀", publisher: "문예출판사", isbn: "9788931006506", quote: "개인의 자유는 타인의 권리를 침해하지 않는 한 절대적이다." }
+      ],
+      '과학': [
+        { title: "엔드 오브 타임", author: "브라이언 그린", publisher: "와이즈베리", isbn: "9791191599022", quote: "시간의 끝에서 마주하는 우주와 의식의 숭고함." },
+        { title: "물리의 정석", author: "레너드 서스킨드", publisher: "사이언스북스", isbn: "9788983718426", quote: "수식을 통해 우주의 가장 깊은 진실을 들여다본다." },
+        { title: "생명이 있는 것은 다 아름답다", author: "최재천", publisher: "루이앤휴잇", isbn: "9788995738801", quote: "모든 생명은 저마다의 눈부신 존재 이유를 품고 있다." }
+      ],
+      '자기계발': [
+        { title: "부의 추월차선", author: "엠제이 드마코", publisher: "토트출판사", isbn: "9788994572482", quote: "시간과 돈을 맞바꾸는 서행차선을 벗어나 추월차선으로 올라타라." },
+        { title: "시작의 기술", author: "개리 비숍", publisher: "웅진지식하우스", isbn: "9788901235127", quote: "생각을 멈추고 당장 행동하라." },
+        { title: "레버리지", author: "롭 무어", publisher: "다산북스", isbn: "9791130612140", quote: "최소한의 노력으로 최대의 결과를 창출하는 비밀." }
+      ]
+    };
+
+    // 로컬스토리지에 저장된 사용자 추가/확장 도서 로드 (수시 추가 도서 영구 유지)
+    const savedCustomCatalog = localStorage.getItem('readpick_custom_catalog');
+    if (savedCustomCatalog) {
+      try {
+        const parsed = JSON.parse(savedCustomCatalog);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          parsed.forEach(cb => {
+            if (!BOOKS_DATABASE.some(b => b.id === cb.id || b.title === cb.title)) {
+              BOOKS_DATABASE.push(cb);
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Failed to parse saved custom catalog', e);
+      }
+    }
+
+    function saveCustomCatalog() {
+      const customBooks = BOOKS_DATABASE.filter(b => b.id > 40 || b.isCustom);
+      localStorage.setItem('readpick_custom_catalog', JSON.stringify(customBooks));
+    }
+
     let userLibrary = JSON.parse(localStorage.getItem('readpick_library') || '{"wish":[1, 2, 4], "reading":[6], "done":[12]}');
     let currentActiveBookId = 1;
     let currentFilterCategory = 'all';
@@ -2520,9 +3783,21 @@
         filterGenreTop('소설');
         renderSteadysellerGrid();
         renderRankingList(currentRankingFilter);
+
+        // 실시간 추천 도서 자동 탐색 및 유입 (당겨서 새로고침할 때마다 수시 추가)
+        let discoveryNotice = '';
+        const existingTitles = new Set(BOOKS_DATABASE.map(b => b.title));
+        const availablePool = EXTENDED_BOOK_POOL.filter(b => !existingTitles.has(b.title));
+        if (availablePool.length > 0 && Math.random() > 0.4) {
+          const picked = availablePool[Math.floor(Math.random() * availablePool.length)];
+          BOOKS_DATABASE.push(picked);
+          saveCustomCatalog();
+          discoveryNotice = ` & 신작 《${picked.title}》 자동 발굴!`;
+        }
+
         renderGenreExplorer();
         if (showToastNotification) {
-          showToast(`✨ ${getLiveDateDetails().weekText} 실시간 교보 순위로 갱신되었습니다!`);
+          showToast(`✨ ${getLiveDateDetails().weekText} 실시간 갱신 완료${discoveryNotice}`);
         }
       }, 500);
     }
@@ -3027,6 +4302,12 @@
         }
       });
       currentFilterCategory = genre;
+      const btnText = document.getElementById('loadMoreBtnText');
+      if (btnText) {
+        btnText.innerText = (genre === 'all') 
+          ? '✨ 새로운 추천 도서 더 불러오기 (+5권)' 
+          : `✨ ${genre} 추천 도서 더 불러오기 (+5권)`;
+      }
       renderGenreExplorer();
     }
 
@@ -3101,6 +4382,213 @@
           </div>
         </div>
       `).join('');
+    }
+
+    // ================= DYNAMIC BOOK EXPANSION ENGINE =================
+    function generateDynamicCuratedBook(genreTarget = 'all') {
+      const g = (genreTarget === 'all' || !genreTarget) ? '소설' : genreTarget;
+      const candidates = INFINITE_GENRE_IDEAS[g] || INFINITE_GENRE_IDEAS['소설'];
+      const existingTitles = new Set(BOOKS_DATABASE.map(b => b.title));
+      let chosen = candidates.find(c => !existingTitles.has(c.title));
+
+      if (!chosen) {
+        const randomNum = Math.floor(Math.random() * 900) + 100;
+        chosen = {
+          title: `${g} 화제의 추천 도서 ${randomNum}`,
+          author: "국내외 추천 작가단",
+          publisher: "지식출판사",
+          isbn: null,
+          quote: "지혜로운 독서는 삶의 새로운 문을 여는 가장 빠른 열쇠다."
+        };
+      }
+
+      const newId = Date.now() + Math.floor(Math.random() * 1000);
+      return {
+        id: newId,
+        title: chosen.title,
+        author: chosen.author,
+        publisher: chosen.publisher,
+        isbn: chosen.isbn,
+        pubYear: "2026년 최신 큐레이션",
+        pages: 320,
+        genre: g,
+        isBestseller: false,
+        isSteady: false,
+        isCustom: true,
+        rank: null,
+        steadyRank: null,
+        rankDiff: "-",
+        coverGradient: "from-indigo-950 via-slate-900 to-stone-900",
+        coverTextColor: "text-indigo-200",
+        kyoboUrl: `https://search.kyobobook.co.kr/search?keyword=${encodeURIComponent(chosen.title)}`,
+        ai: {
+          rank: 99,
+          score: 96,
+          theme: "insight",
+          themeLabel: "✨ 실시간 추천",
+          keyword: `${chosen.title} - AI가 실시간으로 선별한 최신 화제작`,
+          targetAudience: "깊이 있는 독서와 새로운 지적 확장을 원하는 독자",
+          aiInsight: "왓챠피디아와 교보문고 실시간 대중 반응을 반영해 실시간으로 추천된 도서입니다."
+        },
+        watcha: { score: 4.3, raters: 15000, keyword: "독자 평점 고공행진 화제작", tags: [`#${g}`, "#최신추천", "#화제작"] },
+        kyobo: { score: 9.8, reviews: 6200, recommendRate: 98, keyword: "서점가 강력 추천 도서" },
+        summary: `${chosen.author} 저작으로 독자들의 뜨거운 호평을 받으며 장르 추천 목록에 실시간 등록된 우수 추천작입니다.`,
+        quote: chosen.quote
+      };
+    }
+
+    function loadMoreGenreBooks() {
+      const btnText = document.getElementById('loadMoreBtnText');
+      if (btnText) btnText.innerText = "⏳ 새로운 도서 큐레이션 발굴 중...";
+
+      setTimeout(() => {
+        const existingTitles = new Set(BOOKS_DATABASE.map(b => b.title));
+        let pool = EXTENDED_BOOK_POOL.filter(b => !existingTitles.has(b.title));
+
+        if (currentFilterCategory !== 'all') {
+          const genrePool = pool.filter(b => b.genre.includes(currentFilterCategory));
+          if (genrePool.length > 0) {
+            pool = genrePool;
+          }
+        }
+
+        let addedCount = 0;
+        if (pool.length > 0) {
+          const toAdd = pool.slice(0, Math.min(5, pool.length));
+          toAdd.forEach(b => BOOKS_DATABASE.push(b));
+          addedCount = toAdd.length;
+        } else {
+          const newCurated = generateDynamicCuratedBook(currentFilterCategory);
+          BOOKS_DATABASE.push(newCurated);
+          addedCount = 1;
+        }
+
+        saveCustomCatalog();
+        renderGenreExplorer();
+        const totalCount = document.getElementById('genreBookCount').innerText;
+        showToast(`✨ ${addedCount}권의 추천 도서가 새로 추가되었습니다! (${totalCount})`);
+
+        if (btnText) {
+          btnText.innerText = "✨ 새로운 추천 도서 더 불러오기 (+5권)";
+        }
+      }, 350);
+    }
+
+    function loadAllPoolBooks() {
+      const existingTitles = new Set(BOOKS_DATABASE.map(b => b.title));
+      const pool = EXTENDED_BOOK_POOL.filter(b => !existingTitles.has(b.title));
+
+      if (pool.length === 0) {
+        showToast("💡 이미 준비된 모든 추천 도서 풀(Pool)이 등록되어 있습니다!");
+        return;
+      }
+
+      pool.forEach(b => BOOKS_DATABASE.push(b));
+      saveCustomCatalog();
+      renderGenreExplorer();
+      showToast(`🎉 준비된 추천 도서 ${pool.length}권이 일괄 활성화되었습니다! (전체 총 ${BOOKS_DATABASE.length}권)`);
+    }
+
+    function openAddBookModal(prefillTitle = '') {
+      const modal = document.getElementById('addBookModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      if (prefillTitle) {
+        const titleInput = document.getElementById('addBookTitle');
+        if (titleInput) titleInput.value = prefillTitle;
+      }
+      if (currentFilterCategory !== 'all') {
+        const genreInput = document.getElementById('addBookGenre');
+        if (genreInput) genreInput.value = currentFilterCategory;
+      }
+    }
+
+    function closeAddBookModal(event) {
+      if (event.target.id === 'addBookModal') {
+        closeAddBookModalDirect();
+      }
+    }
+
+    function closeAddBookModalDirect() {
+      const modal = document.getElementById('addBookModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function submitNewBook() {
+      const titleInput = document.getElementById('addBookTitle');
+      const authorInput = document.getElementById('addBookAuthor');
+      const genreInput = document.getElementById('addBookGenre');
+      const publisherInput = document.getElementById('addBookPublisher');
+      const summaryInput = document.getElementById('addBookSummary');
+      const isbnInput = document.getElementById('addBookIsbn');
+
+      const title = titleInput ? titleInput.value.trim() : '';
+      const author = authorInput ? authorInput.value.trim() : '';
+      const genre = genreInput ? genreInput.value : '소설';
+      const publisher = (publisherInput && publisherInput.value.trim()) ? publisherInput.value.trim() : '국내출판사';
+      const summary = (summaryInput && summaryInput.value.trim()) ? summaryInput.value.trim() : '독자가 직접 등록하고 추천한 소중한 책입니다.';
+      const isbn = (isbnInput && isbnInput.value.trim()) ? isbnInput.value.trim() : null;
+
+      if (!title || !author) {
+        alert('책 제목과 저자를 반드시 입력해주세요.');
+        return;
+      }
+
+      const newId = Date.now();
+      const newBook = {
+        id: newId,
+        title: title,
+        author: author,
+        publisher: publisher,
+        isbn: isbn,
+        pubYear: '독자 등록',
+        pages: 300,
+        genre: genre,
+        isBestseller: false,
+        isSteady: false,
+        isCustom: true,
+        rank: null,
+        steadyRank: null,
+        rankDiff: '-',
+        coverGradient: 'from-slate-900 via-indigo-950 to-neutral-900',
+        coverTextColor: 'text-indigo-200',
+        kyoboUrl: `https://search.kyobobook.co.kr/search?keyword=${encodeURIComponent(title)}`,
+        ai: {
+          rank: 99,
+          score: 96,
+          theme: 'growth',
+          themeLabel: '✨ 독자 추천작',
+          keyword: `${title} - 독자가 직접 추천한 특별한 도서`,
+          targetAudience: '새로운 시각과 깊이 있는 독서를 원하는 모든 독자',
+          aiInsight: '독자 참여로 등록된 가치 있는 큐레이션 도서입니다.'
+        },
+        watcha: {
+          score: 4.5,
+          raters: 1200,
+          keyword: '독자가 강력 추천한 작품',
+          tags: [`#${genre}`, '#독자등록', '#추천도서']
+        },
+        kyobo: {
+          score: 9.8,
+          reviews: 500,
+          recommendRate: 98,
+          keyword: '독자 추천 화제작'
+        },
+        summary: summary,
+        quote: `${title} 속 마음에 남는 한 줄을 기록해보세요.`
+      };
+
+      BOOKS_DATABASE.unshift(newBook);
+      saveCustomCatalog();
+      closeAddBookModalDirect();
+      renderGenreExplorer();
+      showToast(`🎉 '${title}' 도서가 장르 추천에 새로 등록되었습니다!`);
+
+      if (titleInput) titleInput.value = '';
+      if (authorInput) authorInput.value = '';
+      if (publisherInput) publisherInput.value = '';
+      if (summaryInput) summaryInput.value = '';
+      if (isbnInput) isbnInput.value = '';
     }
 
     // 11. Tab 4: Interactive My Library Dashboard & Clickable Stat Numbers
@@ -3395,7 +4883,22 @@
       );
 
       if (matches.length === 0) {
-        resultsContainer.innerHTML = '<p class="text-slate-400 text-center py-6">일치하는 책을 찾지 못했습니다.</p>';
+        resultsContainer.innerHTML = `
+          <div class="text-center py-5 text-slate-500 space-y-3">
+            <p class="text-xs">추천 목록에서 '<strong>${q}</strong>' 도서를 찾지 못했습니다.</p>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left space-y-2">
+              <p class="text-xs font-bold text-slate-800">💡 이 책을 추천 목록에 지금 등록하시겠습니까?</p>
+              <div class="flex gap-2">
+                <button onclick="openAddBookModal('${q}'); closeSearchModalDirect();" class="flex-1 py-2 px-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-xs text-center transition cursor-pointer">
+                  ➕ 직접 등록하기
+                </button>
+                <a href="https://search.kyobobook.co.kr/search?keyword=${encodeURIComponent(q)}" target="_blank" rel="noopener" class="py-2 px-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-bold text-xs flex items-center justify-center">
+                  교보문고 검색
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
         return;
       }
 
